@@ -1,0 +1,100 @@
+body {
+    height: 100%;
+    position:relative;
+}
+
+h2, h3 {
+    color: rgba(0,0,0,.54);
+    padding: 0 24px 20px;
+}
+
+
+
+.scroller::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+.scroller::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+.scroller::-webkit-scrollbar {
+    width: 6px;
+    position:absolute;
+}
+
+/*Form*/
+.scroller {
+    overflow-y: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.side-form {
+    width: 21.25%;
+    height: 100%;
+    min-width: 265px;
+    background:#fff;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    max-height: 100%;
+}
+.side-form p,
+.side-form h2 {
+    margin: 10px 15px;
+}
+
+.t-two-inline {
+    display:table;
+    width:100%;
+    padding: 5px 15px;
+}
+.t-two-inline > label {
+    display:table-cell;
+    width:50%;
+    padding-left: 10px;
+    font-size: 15px;
+}
+.t-two-inline > input,
+.t-two-inline > select {
+    display:table-cell;
+    width:100%;
+    padding: 3px;
+}
+
+/*Map*/
+.map {
+    width: 78.75%;
+    height: 100%;
+    position: absolute;
+    left: 21.25%;
+}
+#map {
+    width:100%;
+    height:100%;
+}
+
+/*Sidenav*/
+.b-header {
+    height: 75px;
+    width: 100%;
+    background: #4285F4;
+}
+.b-header h2 {
+    color:#fff;
+    margin:0;
+    line-height: 75px;
+    font-size: 21px;
+}
+
+.btn.reg {
+    margin: 15px 10px;
+    width: 100px;
+}
+.divider {
+    border-bottom-color: rgb(230, 230, 230);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    width: 100%;
+}
+.headerimg {
+    width: 100%;
+}
