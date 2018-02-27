@@ -496,19 +496,26 @@ h2, h3 {
 /*Contents*/
 body {
     display: table;
+    width: 100%;
+    height: 100%;
 }
 .contents {
     display: table-cell;
     height: 100%;
 }
+body:before {
+    content: '\A';
+    display: table-cell;
+    width: 21.25%;
+}
 .side-nav {
     width: 21.25%;
-    display: table-cell;
+    position:fixed;
+    z-index: 100;
     min-width: 265px;
     background:#fff;
-    z-index: 1;
-    position: relative;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    vertical-align: top;
+    top: 0;
+    left: 0;
     height: 100%;
 }

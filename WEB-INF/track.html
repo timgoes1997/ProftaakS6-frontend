@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name="author" content="Rowan Dings">
+    <meta name="theme-color" content="#0163AE" />
+
+    <link href='css/general.css' rel='stylesheet' type='text/css' />
+    <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
+    <link href='css/vehiclepicker.css' rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <title>Tracking</title>
+</head>
+
+<body>
+    <div class="side-nav scroller">
+        <img src="img/car.jpg" class="img-header"/>
+        <div class="b-header"><h2>Track</h2></div>
+            <h3>Home</h3>
+            <a href="profiel.html"><p class="fa fa-user"></p><p>Profiel</p></a>
+            <a href="track.html"><p class="fa fa-map-pin"></p><p>Track</p></a>
+            <div class="divider"></div>
+            <h3>Administratie</h3>    
+            <a href="voertuigen.html"><p class="fa fa-car"></p><p>Voertuigen</p></a>
+            <a href="tarieven.html"><p class="fa fa-compass"></p><p>Tarieven</p></a>
+            <a href="facturen.html"><p class="fa fa-balance-scale"></p><p>Facturen</p></a>
+            <div class="divider"></div>
+            <h3>Algemeen</h3>
+            <a href="logout.html"><p class="fa fa-power-off"></p><p>Uitloggen</p></a>
+            <a href="about.html"><p class="fa fa-info"></p><p>Over ons</p></a>
+            <div class="divider"></div>
+        <div class="divider"></div>
+        <h3>Opties</h2>
+        <div class="t-two-inline">
+            <label>Nummerplaat</label><input type="text" id="owner">
+        </div>
+        <div class="divider"></div>
+        <h3>Real-time</h2>
+        <div class="t-two-inline">
+            <label for="realtime">Real-time</label><input type="checkbox" id="realtime">
+        </div>
+        <div class="divider"></div>
+        <h3>Back-tracking</h2>
+        <div class="t-two-inline">
+            <label for="starttime">Begin-tijd</label><input type="date" name="starttime" min="2018-01-01" max="2999-01-01">
+        </div>
+        <div class="t-two-inline">
+            <label for="endtime">Eind-tijd</label><input type="date" name="endtime" min="2018-01-01" max="2999-01-01">
+        </div>
+    </div>
+    <div class="contents">
+        <div id="map"></div>
+    </div>
+    <script async type="text/javascript" src="js/map.js"></script>
+</body>
+</html>
