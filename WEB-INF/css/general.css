@@ -521,6 +521,7 @@ body:before {
     content: '\A';
     display: table-cell;
     width: 21.25%;
+    min-width: 265px;
 }
 .side-nav {
     width: 21.25%;
