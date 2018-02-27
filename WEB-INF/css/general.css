@@ -371,3 +371,137 @@ html {
 .no-markup {
 	text-decoration: none;
 }
+
+
+/*Basic stuff*/
+body {
+    height: 100%;
+    position:relative;
+}
+
+h2, h3 {
+    color: rgba(0,0,0,.54);
+    padding: 0 24px 5px;
+}
+
+/*Cool scrollbars*/
+.scroller::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+.scroller::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+.scroller::-webkit-scrollbar {
+    width: 6px;
+    position:absolute;
+}
+.scroller {
+    overflow-y: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/*Sidenav elements*/
+.t-two-inline {
+    display:table;
+    width:100%;
+    padding: 5px 15px;
+}
+.t-two-inline > label {
+    display:table-cell;
+    width:50%;
+    padding-left: 10px;
+    font-size: 15px;
+}
+.t-two-inline > input,
+.t-two-inline > select {
+    display:table-cell;
+    width:100%;
+    padding: 3px;
+}
+
+/*Sidenav links*/
+.side-nav p,
+.side-nav a,
+.side-nav a:hover,
+.side-nav a:active,
+.side-nav a:visited {
+    color: #000;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 50px;
+    margin: 0;
+}
+
+.side-nav .fa {
+    width: 50px;
+    text-align: center;
+}
+.side-nav a {
+    width: 100%;
+}
+.side-nav a:hover {
+    background:whitesmoke;
+}
+
+/*Sidenav inner urls*/
+.side-nav a:active,
+.side-nav a:focus {
+    border: 1px solid #4285F4;
+}
+.side-nav a:active + li,
+.side-nav a:focus + li,
+.side-nav li:hover {
+    height: initial;
+    visibility: visible;
+}
+.side-nav li {
+    list-style: none;
+    height: 0;
+    visibility: hidden;
+}
+.side-nav ul {
+    padding-left: 0;
+}
+.side-nav li a {
+    padding-left: 30px;
+}
+
+/*Sidenav*/
+.b-header {
+    height: 75px;
+    width: 100%;
+    background: #4285F4;
+}
+.b-header h2 {
+    color:#fff;
+    margin:0;
+    line-height: 75px;
+    font-size: 21px;
+}
+.divider {
+    border-bottom-color: rgb(230, 230, 230);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    width: 100%;
+}
+.img-header {
+    width: 100%;
+}
+.side-nav {
+    width: 21.25%;
+    height: 100%;
+    min-width: 265px;
+    background:#fff;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    max-height: 100%;
+}
+
+/*Contents*/
+.contents {
+    width: 78.75%;
+    height: 100%;
+    position: absolute;
+    left: 21.25%;
+}
