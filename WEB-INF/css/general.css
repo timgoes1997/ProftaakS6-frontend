@@ -409,6 +409,9 @@ h2, h3 {
 .t-two-inline > .t-two-inline {
     display:table-cell;
 }
+.side-nav .t-two-inline > label {
+    width: 50%;
+}
 .t-two-inline > label {
     display:table-cell;
     padding-left: 10px;
@@ -504,6 +507,7 @@ body {
     min-width: 265px;
     background:#fff;
     z-index: 1;
+    position: relative;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     vertical-align: top;
     height: 100%;
