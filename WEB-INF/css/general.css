@@ -435,6 +435,19 @@ h2, h3 {
     display: inline-block;
     line-height: 50px;
     margin: 0;
+    
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+    -webkit-user-drag:none;
+    -khtml-user-drag:none;
+    -moz-user-drag:none;
+    -ms-user-drag:none;
+    -o-user-drag:none;
+    user-drag:none;
 }
 
 .side-nav .fa {
@@ -446,6 +459,7 @@ h2, h3 {
 }
 .side-nav a:hover {
     background:whitesmoke;
+    cursor: pointer;
 }
 
 /*Sidenav inner urls*/
@@ -518,4 +532,21 @@ body:before {
     top: 0;
     left: 0;
     height: 100%;
+}
+
+.side-nav.small {
+    width: 19.25%;
+    z-index: 102;
+    min-width: 250px;
+}
+
+.darkener {
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    opacity: 0.3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 101;
 }
