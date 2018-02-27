@@ -1,7 +1,3 @@
-//window.onload = function (e) {
-//    $('signin-form').addEventListener('submit', funciton);
-//};
-
 function openMenu(menu) {
     show($('darkener'));
     if (menu instanceof HTMLElement) {

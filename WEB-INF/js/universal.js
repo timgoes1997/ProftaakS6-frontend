@@ -12,6 +12,10 @@ function show(ele, n) {
         removeClass(ele, 'hidden-space');
 }
 
+function eat(e) {
+    e.preventDefault();
+}
+
 function hasClass(ele, cls) {
     return (" " + ele.className + " ").indexOf(" " + cls + " ") > -1;
 }
@@ -66,3 +70,28 @@ function call(type, url, data, callback) {
     xmlHttp.open(type, url, true);
     xmlHttp.send(data);
 }
+function waitUntil(funcCond, readyAction, checkInterval, timeout, timeoutfunc) {
+    if (checkInterval == null) {
+        checkInterval = 100;
+    }
+    var start = +new Date();
+    if (timeout == null) {
+        timeout = Number.POSITIVE_INFINITY;
+    }
+    var checkFunc = function () {
+        var end = +new Date();
+
+        if (end - start > timeout) {
+            if (timeoutfunc) {
+                timeoutfunc();
+            }
+        } else {
+            if (funcCond()) {
+                readyAction();
+            } else {
+                setTimeout(checkFunc, checkInterval);
+            }
+        }
+    };
+    checkFunc();
+};
