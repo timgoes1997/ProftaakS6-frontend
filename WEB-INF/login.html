@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Log in op uw Autotracker</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" href="css/login.css" />
+
+        <link rel="shortcut icon" type="image/png" href="img/logo.png"/>
+    </head>
+    <body>
+        <header>
+            <div class="limit-2">
+                <div class="link"><img class="logo" src='img/logo.png' alt=''/><a href="#">Home</a></div>
+                <div class="link"><a href="/about.html">About</a></div>
+            </div>
+        </header>
+        <div class="front-card">
+            <div class="intro-card">
+                <h3>De Duitse autotracker</h3>
+                <p>Snel en gemakkelijk bij uw autofacturen. Veilig over de wegen. Het begint hier.</p>
+            </div>
+            <div class="form-card">
+                <div>
+                    <form class="form-signin" action="login" id="signin-form" method="POST">
+                        <input type="text" name="username" class="form-control ds" id="username" placeholder="Gebruikersnaam">
+                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Wachtwoord">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                        <div id="login-fail" class="fail hidden" onclick="hide(this)"><p>Incorrecte gebruikersgegevens</p></div>
+                        <div id="login-error" class="fail hidden" onclick="hide(this)"><p>Kan niet verbinden met onze servers</p></div>
+                    </form>
+                </div>
+                <h2 class="hr"><span>OR</span></h2>
+                <div>
+                    <form class="form-register" id="signup-form" action="register" method="POST">
+                        <input type="text" name="username" class="form-control ds" id="registerUsername" placeholder="Gebruikersnaam">
+                        <input type="text" name="Email" class="form-control ds" id="registerEmail" placeholder="E-mail">
+                        <input type="password" name="password" id="registerPassword" class="form-control ds" placeholder="Wachtwoord">
+                        <input type="password" name="password" id="registerPassword2" class="form-control ds" placeholder="Wachtwoord">
+                        <button class="btn btn-lg btn-primary btn-block full-width" type="submit">Registreer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
