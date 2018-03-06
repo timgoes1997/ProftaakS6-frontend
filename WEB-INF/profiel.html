@@ -10,6 +10,8 @@
     <meta name="theme-color" content="#0163AE" />
 
     <link href='css/general.css' rel='stylesheet' type='text/css' />
+    <link href='css/management.css' rel='stylesheet' type='text/css' />
+    <link href='css/profiel.css' rel='stylesheet' type='text/css' />
     <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
     <title>Autotracker - Uw profiel</title>
 </head>
@@ -33,8 +35,96 @@
         <div class="divider"></div>
     </div>
     <div class="contents">
-        <h3>Welkom, Mrs. Anderson</h3>
+        <div class="header small-contents"><h3>Welkom, Mrs. Ms. Anderson</h3></div>
         <div class="divider"></div>
+        <div id="dynamic-table" class="small-contents">
+            <!-- example content -->
+            <h3>Facturen</h3>
+            <table>
+                    <tr>
+                      <th>FactuurNr</th>
+                      <th>Cartracker</th>
+                      <th>TotaalBedrag</th>
+                      <th>BetaalStatus</th>
+                      <th>Maand</th>
+                      <th>Acties</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>7777</td>
+                        <td>€ 100,-</td>
+                        <td>Betaald</td>
+                        <td>Januari</td>
+                        <td class="actions"><div class="btn">Details</div></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>7777</td>
+                        <td>€ 150,-</td>
+                        <td>Open</td>
+                        <td>Februari</td>
+                        <td class="actions"><div class="btn">Details</div></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>7777</td>
+                        <td>€ 175,-</td>
+                        <td>Geannuleerd</td>
+                        <td>Maart</td>
+                        <td class="actions"><div class="btn">Details</div></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>7777</td>
+                        <td>€ 200,-</td>
+                        <td>Betaald</td>
+                        <td>April</td>
+                        <td class="actions"><div class="btn">Details</div></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>7777</td>
+                        <td>€ 250,-</td>
+                        <td>Open</td>
+                        <td>Mei</td>
+                        <td class="actions"><div class="btn">Details</div></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>7777</td>
+                        <td>€ 300,-</td>
+                        <td>Geannuleerd</td>
+                        <td>Juni</td>
+                        <td class="actions"><div class="btn">Details</div></td>
+                    </tr>
+                  </table>
+        </div>
+        <div class="flex small-contents">
+            <div class="auto-box">
+                <h4>Auto 1</h4>
+                <div class="inline-block"><img src="img/carimage.png"></div>
+                <div class="inline-block">
+                    <p>Merk:</p>
+                    <p>Model:</p>
+                    <p>Nummerplaat:</p>
+                    <p>Bouwdatum:</p>
+                    <a class="btn">Facturen</a>
+                    <a class="btn">Track</a>
+                </div>
+            </div>
+            <div class="auto-box">
+                    <h4>Auto 2</h4>
+                    <div class="inline-block"><img src="img/carimage.png"></div>
+                    <div class="inline-block">
+                        <p>Merk:</p>
+                        <p>Model:</p>
+                        <p>Nummerplaat:</p>
+                        <p>Bouwdatum:</p>
+                        <a class="btn">Facturen</a>
+                        <a class="btn">Track</a>
+                    </div>
+                </div>
+        </div>
     </div>
 </body>
 </html>
