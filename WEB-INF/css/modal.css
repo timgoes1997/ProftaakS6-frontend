@@ -1,0 +1,46 @@
+.modal {
+    background: white;
+    margin: auto;
+    width: 75%;
+    max-width: 750px;
+    min-width: 400px;
+    padding: 1px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.darkener {
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    opacity: 1;
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+}
+
+.modal .t-two-inline label {
+    width:150px;
+}
+.modal .t-two-inline input {
+    width:250px;
+}
+
+.modal .t-two-inline {
+    width: initial;
+    margin: auto;
+}
+
+.modal .btn {
+    margin: 10px;
+    margin-left: 0;
+    width: 120px;
+    float:right;
+}
+
+.modal::after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: "\A";
+    clear: both;
+    height: 0;
+}

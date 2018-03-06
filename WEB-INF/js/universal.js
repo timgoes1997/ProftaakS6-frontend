@@ -1,3 +1,9 @@
+function addEvent(element, eventName, fn) {
+    if (element.addEventListener)
+        element.addEventListener(eventName, fn, false);
+    else if (element.attachEvent)
+        element.attachEvent('on' + eventName, fn);
+}
 
 function hide(ele, n) {
     if (!n) {
@@ -60,8 +66,7 @@ function $(id) {
 function call(type, url, data, callback) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
-        {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             callback(xmlHttp.responseText, true);
         } else if (xmlHttp.readyState === 4 && xmlHttp.status !== 200) {
             callback('ERROR: ' + xmlHttp.responseText, false);
@@ -70,6 +75,7 @@ function call(type, url, data, callback) {
     xmlHttp.open(type, url, true);
     xmlHttp.send(data);
 }
+
 function waitUntil(funcCond, readyAction, checkInterval, timeout, timeoutfunc) {
     if (checkInterval == null) {
         checkInterval = 100;
@@ -95,3 +101,33 @@ function waitUntil(funcCond, readyAction, checkInterval, timeout, timeoutfunc) {
     };
     checkFunc();
 };
+
+/* ##############################
+		 ASYNC LOADING
+############################## */
+function loadScript(url, ignore) {
+    var r = window.location.hostname === '' ? '' : '/';
+    if (ignore) r = '';
+    var resource = document.createElement("script");
+    resource.async = "true";
+    resource.src = r + url;
+    var script = document.getElementsByTagName("script")[0];
+    script.parentNode.insertBefore(resource, script)
+}
+function loadCSS(url, ignore) {
+    lastCSSloaded = false;
+    var r = window.location.hostname === '' ? '' : '/';
+    if (ignore) r = '';
+    var link = document.createElement("link");
+    link.href = r + url;
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    document.getElementsByTagName("head")[0].appendChild(link)
+}
+function loadUrl(url, ignore) {
+    if (url.indexOf('css/') != -1) {
+        loadCSS(url, ignore);
+    } else {
+        loadScript(url, ignore);
+    }
+}
