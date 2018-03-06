@@ -1,0 +1,5 @@
+.factuurinfo > span:first-child {
+    width: 300px;
+    display: inline-block;
+    font-weight: bold;
+}
