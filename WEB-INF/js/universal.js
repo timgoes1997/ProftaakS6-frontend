@@ -1,3 +1,7 @@
+// global variables
+var API_PATH = '/api/';
+
+
 function addEvent(element, eventName, fn) {
     if (element.addEventListener)
         element.addEventListener(eventName, fn, false);
@@ -51,12 +55,12 @@ function toggleClass(ele, cls) {
     }
 }
 
-function endsWith(str, suffix) {
-    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+function removeElement(ele) {
+    ele.parentNode.removeChild(ele);
 }
 
-function close() {
-    this.parentNode.removeChild(this);
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
 function $(id) {
@@ -101,6 +105,16 @@ function waitUntil(funcCond, readyAction, checkInterval, timeout, timeoutfunc) {
     };
     checkFunc();
 };
+function removeFromArray(arr) {
+    var what, a = arguments, L = a.length, ax;
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax = arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
+}
 
 /* ##############################
 		 ASYNC LOADING

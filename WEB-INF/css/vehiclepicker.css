@@ -60,3 +60,35 @@
     max-height: 60px;
     box-shadow: 0px 2px 10px 1px rgba(134, 23, 23, 0.5);
   }
+
+/* Closable inputs */
+.input p {
+  display: inline-block;
+  line-height: 1;
+  padding: 5px 8px;
+  border-right: 1px solid #A9A9A9;
+  border-top: 1px solid #A9A9A9;
+  border-bottom: 1px solid #A9A9A9;
+}
+.input p:hover {
+  background: #4285F4;
+  color: white;
+  cursor: pointer;
+}
+.input input {
+  width: calc(100% - 26px);
+}
+
+
+#cars {
+  padding: 0 24px 5px;
+}
+.entity {
+  display: inline-block;
+  margin: 2px;
+}
+.entity div {
+  border: 1px solid #A9A9A9;
+  display: inline-block;
+  padding: 2px 8px;
+}

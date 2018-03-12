@@ -42,28 +42,33 @@
         <div class="divider"></div>
         <div class="b-header"><h2>Track</h2></div>
         <h3>Opties</h2>
+        <div id="cars">
+
+        </div>
         <div class="t-two-inline">
-            <label>Nummerplaat</label><input type="text" id="owner">
+            <label>Nummerplaat</label><div class="input"><input type="text" id="owner"><p onclick="addCar()">+</p></div>
         </div>
         <div class="divider"></div>
         <h3>Real-time</h2>
         <div class="t-two-inline">
-            <label for="realtime">Real-time</label><input type="checkbox" id="realtime">
+            <label for="realtime">Real-time</label><input type="checkbox" id="realtime" onchange="setRealtime()">
         </div>
         <div class="divider"></div>
         <h3>Back-tracking</h2>
         <div class="t-two-inline">
-            <label for="starttime">Begin-tijd</label><input type="date" name="starttime" min="2018-01-01" max="2999-01-01">
+            <label for="starttime">Begin-tijd</label><input type="date" name="starttime" id="starttime" min="2018-01-01" max="2999-01-01" onchange="setStartTime()">
         </div>
         <div class="t-two-inline">
-            <label for="endtime">Eind-tijd</label><input type="date" name="endtime" min="2018-01-01" max="2999-01-01">
+            <label for="endtime">Eind-tijd</label><input type="date" name="endtime" id="endtime" min="2018-01-01" max="2999-01-01" onchange="setEndTime()">
         </div>
     </div>
+    <div id="notif-holder"></div>
     <div class="contents">
         <div id="map"></div>
     </div>
     <script async type="text/javascript" src="js/map.js"></script>
     <script async type="text/javascript" src="js/universal.js"></script>
     <script async type="text/javascript" src="js/modal.js"></script>
+    <script async type="text/javascript" src="js/notif.js"></script>
 </body>
 </html>

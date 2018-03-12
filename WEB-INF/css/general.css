@@ -462,6 +462,64 @@ h2, h3 {
     cursor: pointer;
 }
 
+/*Notifications*/
+#notif-holder {
+    z-index: 15;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    text-align: end;
+}
+.notif {
+    background: #fff;
+    display: table;
+    width: 200px;
+    table-layout: fixed;
+    margin: 12px;
+}
+.notif span {
+    border: 1px solid #A9A9A9;
+    padding: 7px 12px;
+    display: table-cell;
+    text-align: left;
+}
+.notif p {
+    display: table-cell;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+    border-right: 1px solid #A9A9A9;
+    border-top: 1px solid #A9A9A9;
+    border-bottom: 1px solid #A9A9A9;
+    width: 34px;
+    font-weight: bold;
+}
+.notif p:hover {
+    cursor: pointer;
+    box-shadow:inset 0 0 0 99px rgba(0,0,0,0.2);
+}
+
+.notif-error p, 
+.notif-error span,
+.notif-error {
+    background: #7c2e2e;
+    border-color: #741616;
+    font-weight: bold;
+    color: #fff;
+}
+.notif-warning p,
+.notif-warning span,
+.notif-warning {
+    background: #fff8d1;
+    border-color: #fff4b3;
+}
+.notif-info p,
+.notif-info span,
+.notif-info {
+    background: #c1dcff;
+    border-color: #84afe7;
+}
+
 /*Sidenav inner urls*/
 .side-nav a:active,
 .side-nav a:focus {

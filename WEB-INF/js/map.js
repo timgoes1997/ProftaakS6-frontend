@@ -1,27 +1,130 @@
 
 //map.js
-
 var map;        //Will contain map object.
 var markers = [];
 
-function initMap() {
-    definePopupClass();
+// mapped car objects
+var cars = []; 
 
-    //The center location of our map.
-    var centerOfMap = new google.maps.LatLng(50.872289, 10.380447);
+// settings
+var useRealtime = false;
+var start = new Date();
+var end = new Date();
 
-    //Map options.
-    var options = {
-        center: centerOfMap, //Set center.
-        zoom: 7 //The zoom value.
-    };
+////////// TRACK FUNCTIONS
+function addCar() {
+    var f = $('owner').value;
+    if (hasCar(f)) return;
 
-    //Create the map object.
-    map = new google.maps.Map(document.getElementById('map'), options);
+    // todo:
+    // regex for matching license plates
+
+    if (f != '') {
+        updateCar(f);
+    }
+}
+function mapCar(car) {
+    var f = car.licenseplate;
+
+    // Add to array
+    cars.push(car);
+
+    car.lines = [];
+    car.marker = null;
+    var e2 = null;
+
+    // draw route and place marker
+    funcOnArr(car.locations, function(e) {
+        if (e2) {
+            car.lines.push(drawBetweenPoints(e, e2));
+        }
+        e2 = e;
+        if (e.lastElement) {
+            car.marker = setMarker(f, e);
+        }
+    });
+
+    // Make visible and removable
+    var d = document.createElement('div');
+    d.id = f;
+    addClass(d, 'entity input');
+    var container = document.createElement('div');
+    container.innerHTML = f;
+    var remove = document.createElement('p');
+    remove.innerHTML =  'x';
+    d.appendChild(container);
+    d.appendChild(remove);
+
+    remove.onclick = function() {removeCar(d.id)};
+
+    $('cars').appendChild(d);
+}
+function funcOnArr(arr, callback) {
+    for (var i = 0; i < arr.length; i++) {
+        var e = arr[i];
+        e.lastElement = i === arr.length - 1;
+        callback(e);
+    }
+    return false;
+}
+function funcOnCar(id, func) {
+    for (var i = 0; i < cars.length; i++) {
+        var car = cars[i];
+        if (car.licenseplate === id)
+            return func(car);
+    }
+    return false;
+}
+function hasCar(id) {
+    return funcOnCar(id, function() {return true;});
+}
+function removeCar(id) {
+    var car = funcOnCar(id, function(e) {return e;});
+    if (car) {
+        funcOnArr(car.lines, function(e) {
+            // remove lines
+            e.setMap(null);
+        });
+        // remove marker
+        car.marker.setMap(null);
+
+        removeFromArray(cars, car);
+        removeElement($(id));
+    }
+}
+function updateCar(id) {
+    // check if values are alright
+    if (start && end || useRealtime) {
+        // call API
+        call('get', API_PATH + 'location/' + id, null, function(e, success) {
+            if (success) {
+                mapCar(e);
+            } else {
+                // show popup with error details
+                notify("Could not load location", "error", 2500);
+            }
+        });
+    }
+    // do nothing
 }
 
-google.maps.event.addDomListener(window, 'load', initMap);
 
+
+////////// OPTION FUNCTIONS
+function setRealtime() {
+    useRealtime = $('realtime').checked;
+
+    $('starttime').disabled = useRealtime;
+    $('endtime').disabled = useRealtime;
+}
+function setStartTime() {
+    start = $('starttime').value;
+}
+function setEndTime() {
+    end = $('starttime').value;
+}
+
+////////// LOCATION FUNCTIONS
 // sets the marker to a location
 function setMarker(id, pos) {
     var latLng = new google.maps.LatLng(pos.lat, pos.lng)
@@ -45,7 +148,6 @@ function setMarker(id, pos) {
     });
     marker.onUpdate(latLng);
 }
-
 // requres {long, lat} x2
 function drawBetweenPoints(pos1, pos2) {
     var line = new google.maps.Polyline({
@@ -56,10 +158,27 @@ function drawBetweenPoints(pos1, pos2) {
         geodesic: true,
         map: map
     });
+    return line;
 }
 
+////////// INITIALISER FUNCTIONS
+function initMap() {
+    definePopupClass();
+    setRealtime();
 
+    //The center location of our map.
+    var centerOfMap = new google.maps.LatLng(50.872289, 10.380447);
 
+    //Map options.
+    var options = {
+        center: centerOfMap, //Set center.
+        zoom: 7 //The zoom value.
+    };
+
+    //Create the map object.
+    map = new google.maps.Map(document.getElementById('map'), options);
+}
+google.maps.event.addDomListener(window, 'load', initMap);
 function definePopupClass() {
     /**
      * A customized popup on the map.
