@@ -60,65 +60,33 @@
         </div>
         <div id="dynamic-table" class="small-contents">
             <!-- example content -->
-            <table>
+            <table id="table-generate">
                     <tr>
-                      <th>FactuurNr</th>
-                      <th>Cartracker</th>
-                      <th>TotaalBedrag</th>
-                      <th>BetaalStatus</th>
-                      <th>Maand</th>
-                      <th>Acties</th>
+                      <th id="billnr">FactuurNr</th>
+                      <th id="licenseplate">Cartracker</th>
+                      <th id="price">TotaalBedrag</th>
+                      <th id="status">BetaalStatus</th>
+                      <th id="month">Maand</th>
+                      <th id="actions_Bewerk" action="a" link="factuur.html?id={0}" parameters="billnr">Acties</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>1111</td>
-                        <td>€ 100,-</td>
-                        <td>Betaald</td>
-                        <td>Januari</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>2222</td>
-                        <td>€ 150,-</td>
-                        <td>Open</td>
-                        <td>Februari</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>3333</td>
-                        <td>€ 175,-</td>
-                        <td>Geannuleerd</td>
-                        <td>Maart</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>4444</td>
-                        <td>€ 200,-</td>
-                        <td>Betaald</td>
-                        <td>April</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>5555</td>
-                        <td>€ 250,-</td>
-                        <td>Open</td>
-                        <td>Mei</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>7777</td>
-                        <td>€ 300,-</td>
-                        <td>Geannuleerd</td>
-                        <td>Juni</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                  </table>
+            </table>
         </div>
     </div>
+    <div id="notif-holder"></div>
+    <script async type="text/javascript" src="js/universal.js"></script>
+    <script async type="text/javascript" src="js/modal.js"></script>
+    <script async type="text/javascript" src="js/notif.js"></script>
+    <script>
+        var dstart = Date.now();
+        var dend = new Date();
+        dend.setMonth(dend.getMonth() - 12);
+        var table = {};
+        table.URL = "bills";
+        table.Data = {
+            "startdate" : dstart,
+            "enddate" : dend
+        };
+    </script>
+    <script async type="text/javascript" src="js/table-generate.js"></script>
 </body>
 </html>

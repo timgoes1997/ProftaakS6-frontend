@@ -67,6 +67,15 @@ function $(id) {
     return document.getElementById(id);
 }
 
+function ensure(variable, def, root) {
+    if (!root) root = window;
+    var x = root[variable];
+
+    if (typeof x == 'undefined') {
+        root[variable] = def;
+    }
+}
+
 function call(type, url, data, callback) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
@@ -115,9 +124,22 @@ function removeFromArray(arr) {
     }
     return arr;
 }
+function format(format) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return format.replace(/{(\d+)}/g, function (match, number) {
+        return typeof args[number] != 'undefined'
+            ? args[number]
+            : match
+            ;
+    });
+}
+function formatArray(format, arr) {
+    arr.splice(0, 0, format);
+    return window.format.apply(null, arr);
+}
 
 /* ##############################
-		 ASYNC LOADING
+         ASYNC LOADING
 ############################## */
 function loadScript(url, ignore) {
     var r = window.location.hostname === '' ? '' : '/';
