@@ -2,6 +2,11 @@
 addEvent(window, 'load', setUp)
 var notifID = 'notif-holder';
 var notifElement;
+var notif = {
+    "shortTime" : 1000,
+    "defaultTime" : 1500,
+    "longTime" : 5000
+}
 
 function setUp() {
     notifElement = document.getElementById(notifID);
@@ -30,7 +35,8 @@ Notif.prototype.show = function (parent) {
     var basicElement = this.createOn(parent);
     if (this.life !== Infinity) {
         setTimeout(function () {
-            removeElement(basicElement);
+            if (!basicElement.inactive)
+                removeElement(basicElement);
         }, this.life);
     }
 };
@@ -51,6 +57,7 @@ Notif.prototype.createOn = function (parent) {
     parent.appendChild(notif);
     c.onclick = function () {
         removeElement(notif);
+        notif.inactive = true;
     };
     return notif;
 }
