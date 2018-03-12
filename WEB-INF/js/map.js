@@ -1,10 +1,15 @@
+// todo
+// load in user credentials; change page based on that
 
 //map.js
 var map;        //Will contain map object.
 var markers = [];
 
 // mapped car objects
-var cars = []; 
+var cars = [];
+
+// modal
+var carModal;
 
 // settings
 var useRealtime = false;
@@ -23,6 +28,49 @@ function addCar() {
         updateCar(f);
     }
 }
+function openCarForm() {
+    if (!carModal) {
+        var m = new Modal('Auto toevoegen');
+        m.addTitle(3, 'Auto informatie');
+        m.addInput('text', 'Merk', 'brand');
+        m.addInput('text', 'Model', 'model');
+        m.addInput('text', 'Nummerplaat', 'license');
+        m.addInput('date', 'Bouwdatum', 'builddate');
+        m.addSpace(30);
+        m.addDivider();
+        m.addTitle(3, 'Persoonlijke informatie');
+        m.addInput('file', 'Eigendomsbewijs', 'poo');
+        m.addDivider();
+        m.addButton(function (a, b) {
+            // todo:
+            // Verify variables
+            var verified = true;
+
+            // Send
+            if (verified) {
+                notify("Adding new request for car...", "info", notif.defaultTime);
+                carModal.close();
+                var xhr = new XMLHttpRequest();
+                xhr.open('post', API_PATH + 'vehicle/new', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                xhr.onreadystatechange = function (e) {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        notify("Car was successfully added", "success", notif.longTime);
+                    } else if (xhr.readyState === 4 && xhr.status !== 200) {
+                        if (!xhr.status) {
+                            notify("Car could not be added: could not connect", "error", notif.longTime);
+                        } else
+                            notify("Car could not be added: " + xhr.status, "error", notif.longTime);
+                    }
+                };
+                xhr.send(m.getValues());
+            }
+        }, 'Voeg toe');
+        m.addButton(function () { m.close() }, 'Terug');
+        carModal = m;
+    }
+    carModal.open();
+}
 function mapCar(car) {
     var f = car.licenseplate;
 
@@ -34,7 +82,7 @@ function mapCar(car) {
     var e2 = null;
 
     // draw route and place marker
-    funcOnArr(car.locations, function(e) {
+    funcOnArr(car.locations, function (e) {
         if (e2) {
             car.lines.push(drawBetweenPoints(e, e2));
         }
@@ -51,11 +99,11 @@ function mapCar(car) {
     var container = document.createElement('div');
     container.innerHTML = f;
     var remove = document.createElement('p');
-    remove.innerHTML =  'x';
+    remove.innerHTML = 'x';
     d.appendChild(container);
     d.appendChild(remove);
 
-    remove.onclick = function() {removeCar(d.id)};
+    remove.onclick = function () { removeCar(d.id) };
 
     $('cars').appendChild(d);
 }
@@ -76,12 +124,12 @@ function funcOnCar(id, func) {
     return false;
 }
 function hasCar(id) {
-    return funcOnCar(id, function() {return true;});
+    return funcOnCar(id, function () { return true; });
 }
 function removeCar(id) {
-    var car = funcOnCar(id, function(e) {return e;});
+    var car = funcOnCar(id, function (e) { return e; });
     if (car) {
-        funcOnArr(car.lines, function(e) {
+        funcOnArr(car.lines, function (e) {
             // remove lines
             e.setMap(null);
         });
@@ -95,13 +143,20 @@ function removeCar(id) {
 function updateCar(id) {
     // check if values are alright
     if (start && end || useRealtime) {
+
+        var path = realtime? "/realtime" : "/date";
+        var data = realtime? null : {
+            "startdate" : start,
+            "enddate" : end
+        };
+
         // call API
-        call('get', API_PATH + 'location/' + id, null, function(e, success) {
+        call('get', API_PATH + 'location/' + id + path, data, function (e, success) {
             if (success) {
                 mapCar(e);
             } else {
                 // show popup with error details
-                notify("Could not load location", "error", 2500);
+                notify("Could not load location", "error", notif.longTime);
             }
         });
     }
@@ -130,8 +185,7 @@ function setMarker(id, pos) {
     var latLng = new google.maps.LatLng(pos.lat, pos.lng)
 
     var marker;
-    for (var i = 0; i < markers.length; i++)
-    {
+    for (var i = 0; i < markers.length; i++) {
         var m = markers[i];
         if (m.id === id) {
             marker = m.marker;
@@ -141,10 +195,10 @@ function setMarker(id, pos) {
     }
     marker = new Popup(latLng, id);
     marker.setMap(map);
-    
+
     markers.push({
-        'marker' : marker,
-        'id' : id
+        'marker': marker,
+        'id': id
     });
     marker.onUpdate(latLng);
 }
@@ -187,77 +241,77 @@ function definePopupClass() {
      * @constructor
      * @extends {google.maps.OverlayView}
      */
-    Popup = function(position, text) {
-      this.position = position;
+    Popup = function (position, text) {
+        this.position = position;
 
-      var content = document.createElement('div');
-      content.innerHTML = text;
+        var content = document.createElement('div');
+        content.innerHTML = text;
 
-      content.classList.add('popup-bubble-content');
-  
-      var pixelOffset = document.createElement('div');
-      pixelOffset.classList.add('popup-bubble-anchor');
-      pixelOffset.appendChild(content);
-  
-      this.anchor = document.createElement('div');
-      this.anchor.classList.add('popup-tip-anchor');
-      this.anchor.appendChild(pixelOffset);
-  
-      // Optionally stop clicks, etc., from bubbling up to the map.
-      this.stopEventPropagation();
+        content.classList.add('popup-bubble-content');
+
+        var pixelOffset = document.createElement('div');
+        pixelOffset.classList.add('popup-bubble-anchor');
+        pixelOffset.appendChild(content);
+
+        this.anchor = document.createElement('div');
+        this.anchor.classList.add('popup-tip-anchor');
+        this.anchor.appendChild(pixelOffset);
+
+        // Optionally stop clicks, etc., from bubbling up to the map.
+        this.stopEventPropagation();
     };
     // NOTE: google.maps.OverlayView is only defined once the Maps API has
     // loaded. That is why Popup is defined inside initMap().
     Popup.prototype = Object.create(google.maps.OverlayView.prototype);
-  
+
     /** Called when the popup is added to the map. */
-    Popup.prototype.onAdd = function() {
-      this.getPanes().floatPane.appendChild(this.anchor);
+    Popup.prototype.onAdd = function () {
+        this.getPanes().floatPane.appendChild(this.anchor);
     };
-  
+
     /** Called when the popup is removed from the map. */
-    Popup.prototype.onRemove = function() {
-      if (this.anchor.parentElement) {
-        this.anchor.parentElement.removeChild(this.anchor);
-      }
+    Popup.prototype.onRemove = function () {
+        if (this.anchor.parentElement) {
+            this.anchor.parentElement.removeChild(this.anchor);
+        }
     };
-    
+
     /** Called when the popup is removed from the map. */
-    Popup.prototype.onUpdate = function(latLng) {
+    Popup.prototype.onUpdate = function (latLng) {
         this.onRemove();
         this.position = latLng;
         this.onAdd();
-      };
-  
+    };
+
     /** Called when the popup needs to draw itself. */
-    Popup.prototype.draw = function() {
-      var divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
-      // Hide the popup when it is far out of view.
-      var display =
-          Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000 ?
-          'block' :
-          'none';
-  
-      if (display === 'block') {
-        this.anchor.style.left = divPosition.x + 'px';
-        this.anchor.style.top = divPosition.y + 'px';
-      }
-      if (this.anchor.style.display !== display) {
-        this.anchor.style.display = display;
-      }
+    Popup.prototype.draw = function () {
+        var divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
+        // Hide the popup when it is far out of view.
+        var display =
+            Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000 ?
+                'block' :
+                'none';
+
+        if (display === 'block') {
+            this.anchor.style.left = divPosition.x + 'px';
+            this.anchor.style.top = divPosition.y + 'px';
+        }
+        if (this.anchor.style.display !== display) {
+            this.anchor.style.display = display;
+        }
     };
-  
+
     /** Stops clicks/drags from bubbling up to the map. */
-    Popup.prototype.stopEventPropagation = function() {
-      var anchor = this.anchor;
-      anchor.style.cursor = 'auto';
-  
-      ['click', 'dblclick', 'contextmenu', 'wheel', 'mousedown', 'touchstart',
-       'pointerdown']
-          .forEach(function(event) {
-            anchor.addEventListener(event, function(e) {
-              e.stopPropagation();
+    Popup.prototype.stopEventPropagation = function () {
+        var anchor = this.anchor;
+        anchor.style.cursor = 'auto';
+
+        ['click', 'dblclick', 'contextmenu', 'wheel', 'mousedown', 'touchstart',
+            'pointerdown']
+            .forEach(function (event) {
+                anchor.addEventListener(event, function (e) {
+                    e.stopPropagation();
+                });
             });
-          });
     };
-  }
+}
