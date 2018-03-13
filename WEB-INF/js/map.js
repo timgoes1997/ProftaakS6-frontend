@@ -234,7 +234,6 @@ function definePopup() {
                 };
                 var formData = new FormData(m.getForm()); 
                 xhr.send(formData);
-                definePopup();
                 m.close();
                 notify('Uploading new car...', 'info', notif.defaultTime);
             } else {

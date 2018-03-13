@@ -139,8 +139,7 @@ Modal = function(name, form, id) {
         if (type==='text') {
             inp.placeholder = placeholder || label;
         }
-        inp.onclick = function() {
-            // reset colours
+        inp.onfocus = function() {
             removeClass(this, 'wrong');
         }
         if (verifiedFunc)
