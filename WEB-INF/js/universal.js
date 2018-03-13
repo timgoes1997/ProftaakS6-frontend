@@ -1,5 +1,5 @@
 // global variables
-var API_PATH = 'http://localhost:8080/rekeningrijden/api/';
+var API_PATH = 'http://localhost:8080/Rekeningrijden/api/';
 
 
 function addEvent(element, eventName, fn) {
