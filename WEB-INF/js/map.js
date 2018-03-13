@@ -29,46 +29,6 @@ function addCar() {
     }
 }
 function openCarForm() {
-    if (!carModal) {
-        var m = new Modal('Auto toevoegen');
-        m.addTitle(3, 'Auto informatie');
-        m.addInput('text', 'Merk', 'brand');
-        m.addInput('text', 'Model', 'model');
-        m.addInput('text', 'Nummerplaat', 'license');
-        m.addInput('date', 'Bouwdatum', 'builddate');
-        m.addSpace(30);
-        m.addDivider();
-        m.addTitle(3, 'Persoonlijke informatie');
-        m.addInput('file', 'Eigendomsbewijs', 'poo');
-        m.addDivider();
-        m.addButton(function (a, b) {
-            // todo:
-            // Verify variables
-            var verified = true;
-
-            // Send
-            if (verified) {
-                notify("Adding new request for car...", "info", notif.defaultTime);
-                carModal.close();
-                var xhr = new XMLHttpRequest();
-                xhr.open('post', API_PATH + 'vehicle/new', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-                xhr.onreadystatechange = function (e) {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        notify("Car was successfully added", "success", notif.longTime);
-                    } else if (xhr.readyState === 4 && xhr.status !== 200) {
-                        if (!xhr.status) {
-                            notify("Car could not be added: could not connect", "error", notif.longTime);
-                        } else
-                            notify("Car could not be added: " + xhr.status, "error", notif.longTime);
-                    }
-                };
-                xhr.send(m.getValues());
-            }
-        }, 'Voeg toe');
-        m.addButton(function () { m.close() }, 'Terug');
-        carModal = m;
-    }
     carModal.open();
 }
 function mapCar(car) {
@@ -144,10 +104,10 @@ function updateCar(id) {
     // check if values are alright
     if (start && end || useRealtime) {
 
-        var path = useRealtime? "/realtime" : "/date";
-        var data = useRealtime? null : {
-            "startdate" : start,
-            "enddate" : end
+        var path = useRealtime ? "/realtime" : "/date";
+        var data = useRealtime ? null : {
+            "startdate": start,
+            "enddate": end
         };
 
         // call API
@@ -219,6 +179,7 @@ function drawBetweenPoints(pos1, pos2) {
 function initMap() {
     definePopupClass();
     setRealtime();
+    definePopup();
 
     //The center location of our map.
     var centerOfMap = new google.maps.LatLng(50.872289, 10.380447);
@@ -231,6 +192,59 @@ function initMap() {
 
     //Create the map object.
     map = new google.maps.Map(document.getElementById('map'), options);
+}
+function definePopup() {
+    var m = new Modal('Auto toevoegen', true, 'carform');
+    m.addTitle(3, 'Auto informatie');
+    m.addInput('text', 'Merk', 'brand', null, function(e) {
+        return e.value != 0;
+    });
+    m.addInput('text', 'Model', 'model', null, function(e) {
+        return e.value != 0;
+    });
+    m.addInput('text', 'Nummerplaat', 'license', null, function(e) {
+        return e.value != 0;
+    });
+    m.addInput('date', 'Bouwdatum', 'builddate', null, function(e) {
+        return e.value != 0;
+    });
+    m.addSpace(30);
+    m.addDivider();
+    m.addTitle(3, 'Persoonlijke informatie');
+    m.addInput('file', 'Eigendomsbewijs', 'poo', null, function(e) {
+        return true;
+    });
+    m.addDivider();
+    m.addPost({
+        'innerHTML': 'Voeg toe',
+        'method': 'POST',
+        'onsubmit': function (e) {
+            if (m.verified()) {
+                // send
+                var xhr = new XMLHttpRequest() ;
+                xhr.open('POST', API_PATH + 'vehicle/new'); 
+                xhr.onload = function (e) { 
+                    notify('Car was succesfully added', notif.defaultTime); 
+                }; 
+                xhr.onerror = function(e) {
+                    if (xhr.status === 0) {
+                        notify('Could not add car: connection refused', 'error', notif.longTime);
+                    } else 
+                        notify('Could not add car: ERROR ' + xhr.status, 'error', notif.longTime);
+                };
+                var formData = new FormData(m.getForm()); 
+                xhr.send(formData);
+                definePopup();
+                m.close();
+                notify('Uploading new car...', 'info', notif.defaultTime);
+            } else {
+                notify('Please fill in all fields', 'warning', notif.longTime);
+            }
+            e.preventDefault();
+        }
+    });
+    m.addButton(function () { m.close() }, 'Terug');
+    carModal = m;
 }
 google.maps.event.addDomListener(window, 'load', initMap);
 function definePopupClass() {

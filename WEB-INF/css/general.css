@@ -464,7 +464,7 @@ h2, h3 {
 
 /*Notifications*/
 #notif-holder {
-    z-index: 15;
+    z-index: 150000;
     position: fixed;
     right: 0;
     bottom: 0;

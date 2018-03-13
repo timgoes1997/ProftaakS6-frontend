@@ -6,6 +6,27 @@
     min-width: 400px;
     padding: 1px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    border: 0px;
+}
+
+.iframe-modal .modal {
+    width: initial;
+}
+
+.iframe-modal {
+    height: initial;
+    width: initial;
+    position: static;
+    display:initial;
+}
+.iframe-modal body::after,
+.iframe-modal body::before,
+.iframe-modal body {
+    height: initial;
+    width: initial;
+    position: static;
+    content:'';
+    display:initial;
 }
 
 .darkener {
@@ -15,6 +36,11 @@
     opacity: 1;
     background: rgba(0,0,0,0.3);
     padding: 10px;
+}
+
+.wrong {
+    border: 1px solid #f00;
+    margin: 1px 0;
 }
 
 .modal .t-two-inline label {
