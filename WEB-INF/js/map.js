@@ -144,8 +144,8 @@ function updateCar(id) {
     // check if values are alright
     if (start && end || useRealtime) {
 
-        var path = realtime? "/realtime" : "/date";
-        var data = realtime? null : {
+        var path = useRealtime? "/realtime" : "/date";
+        var data = useRealtime? null : {
             "startdate" : start,
             "enddate" : end
         };
