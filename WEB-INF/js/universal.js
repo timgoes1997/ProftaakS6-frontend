@@ -76,7 +76,7 @@ function ensure(variable, def, root) {
     }
 }
 
-function call(type, url, data, callback) {
+function call(type, url, data, callback, h) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
@@ -86,6 +86,9 @@ function call(type, url, data, callback) {
         }
     }
     xmlHttp.open(type, url, true);
+    if (h) {
+        xmlHttp.setRequestHeader('Content-Type', h);
+    }
     xmlHttp.send(data);
 }
 

@@ -8,22 +8,28 @@ function loadTable() {
         return;
     }
     ensure('Data', null, table);
+    ensure('Callback', function(){}, table);
     call('get', API_PATH + table.URL, table.Data, fillTable);
 }
 
 // Table fill actions
 function fillTable(e, succ) {
     if (succ) {
-        var table = $('table-generate');
+        var t = $('table-generate');
+        e = JSON.parse(e);
+
         // e is an array
         for (var j=0; j<e.length;j++) {
             var obj = e[j];
             // Create a row
             var tr = document.createElement('tr');
 
+            var ids = [];
+
             // loop through the TH
-            var ths = table.getElementsByTagName("TH");
+            var ths = t.getElementsByTagName("TH");
             for (var i = 0; i < ths.length; i++) {
+                var th = ths[i];
                 if (th.id) {
                     var td;
                     if (th.id.indexOf('actions_') === -1) {
@@ -31,6 +37,12 @@ function fillTable(e, succ) {
                         td = document.createElement('td');
                         // Fill the td's
                         td.innerHTML = obj[th.id];
+                        ids.push(
+                            {
+                                'name':th.id,
+                                'value':obj[th.id]
+                            }
+                        );
 
                     } else {
                         // Create td's
@@ -42,16 +54,18 @@ function fillTable(e, succ) {
                         div.innerHTML = string;
 
                         // Attach action
-                        var action = getActionFor(th, obj);
+                        var action = getActionFor(th, obj, ids);
                         if (action) {
-                            div.onclick = func;
+                            div.onclick = action;
                         }
                         td.appendChild(div);
                     }
+                    table.Callback(th.id, td);
                     // attach TD to TR
                     tr.appendChild(td);
                 } // else no ID. 
             }
+            t.appendChild(tr);
         }
 
     } else {
@@ -59,7 +73,7 @@ function fillTable(e, succ) {
     }
 }
 
-function getActionFor(ele, obj) {
+function getActionFor(ele, obj, ids) {
     var action = ele.getAttribute('action');
     if (action === "a") {
         // Link action based on url and parameters
@@ -67,10 +81,21 @@ function getActionFor(ele, obj) {
         var params = ele.getAttribute('parameters');
         params = params.split(','); // to array
 
+        // replace params by matching IDs
+        for (var i=0;i<ids.length;i++) {
+            var id = ids[i];
+            for (var j=0;j<params.length;j++) {
+                var param = params[j];
+                if (id.name===param) {
+                    params[j] = id.value;
+                }
+            }
+        }
+
         // replace "{0}", etc by parameters
         url = format(url, params);
         return function() {
-            window.location = '';
+            window.location = url;
         };
     }
     console.warn("No action found for " + string);

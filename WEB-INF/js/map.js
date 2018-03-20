@@ -3,7 +3,14 @@
 
 //map.js
 var map;        //Will contain map object.
-var markers = [];
+function getMarkers() {
+    var a = [];
+    for (var i=0;i<cars.length;i++) {
+        var car = cars[i];
+        a.push(car.marker);
+    }
+    return a;
+}
 
 // mapped car objects
 var cars = [];
@@ -13,8 +20,7 @@ var carModal;
 
 // settings
 var useRealtime = false;
-var start = new Date();
-var end = new Date();
+var end, start;
 
 ////////// TRACK FUNCTIONS
 function addCar() {
@@ -26,17 +32,17 @@ function addCar() {
 
     if (f != '') {
         updateCar(f);
+    } else {
+        notify('Please specify a license plate', 'error', notif.defaultTime);
     }
 }
 function openCarForm() {
     carModal.open();
 }
-function mapCar(car) {
-    var f = car.licenseplate;
-
-    // Add to array
-    cars.push(car);
-
+function mapCar(c, f) {
+    var car = {};
+    car.licenseplate = f;
+    car.locations = c;
     car.lines = [];
     car.marker = null;
     var e2 = null;
@@ -51,6 +57,9 @@ function mapCar(car) {
             car.marker = setMarker(f, e);
         }
     });
+
+    // Add to array
+    cars.push(car);
 
     // Make visible and removable
     var d = document.createElement('div');
@@ -68,10 +77,15 @@ function mapCar(car) {
     $('cars').appendChild(d);
 }
 function funcOnArr(arr, callback) {
-    for (var i = 0; i < arr.length; i++) {
-        var e = arr[i];
-        e.lastElement = i === arr.length - 1;
-        callback(e);
+    if (arr instanceof Array) {
+        for (var i = 0; i < arr.length; i++) {
+            var e = arr[i];
+            e['lastElement'] = i === arr.length - 1;
+            callback(e);
+        } 
+    } else {
+        arr['lastElement'] = true;
+        callback(arr);
     }
     return false;
 }
@@ -91,34 +105,45 @@ function removeCar(id) {
     if (car) {
         funcOnArr(car.lines, function (e) {
             // remove lines
-            e.setMap(null);
+            e.onRemove();
         });
-        // remove marker
-        car.marker.setMap(null);
-
         removeFromArray(cars, car);
         removeElement($(id));
+
+        // remove marker
+        car.marker.onRemove();
     }
 }
 function updateCar(id) {
     // check if values are alright
     if (start && end || useRealtime) {
 
+        var d1 = Date.parse(start);
+        var d2 = Date.parse(end);
+
+        if (d1 > d2) {
+            notify('Start date cannot come after end date', 'error', notif.longTime);
+            return;
+        }
+
         var path = useRealtime ? "/realtime" : "/date";
-        var data = useRealtime ? null : {
-            "startdate": start,
-            "enddate": end
-        };
+        var data = new FormData();
+        data = 'startdate='+start+'&enddate='+end;
 
         // call API
-        call('get', API_PATH + 'location/' + id + path, data, function (e, success) {
+        call('POST', API_PATH + 'location/' + id + path, data, function (e, success) {
             if (success) {
-                mapCar(e);
+                e = JSON.parse(e);
+                mapCar(e, id);
             } else {
                 // show popup with error details
                 notify("Could not load location", "error", notif.longTime);
             }
-        });
+        }, 'application/x-www-form-urlencoded');
+    } else {
+        if (!start || !end) {
+            notify('No date range selected for the cartracker', 'error', notif.longTime);
+        }
     }
     // do nothing
 }
@@ -136,13 +161,14 @@ function setStartTime() {
     start = $('starttime').value;
 }
 function setEndTime() {
-    end = $('starttime').value;
+    end = $('endtime').value;
 }
 
 ////////// LOCATION FUNCTIONS
 // sets the marker to a location
 function setMarker(id, pos) {
-    var latLng = new google.maps.LatLng(pos.lat, pos.lng)
+    var latLng = new google.maps.LatLng(pos.x, pos.y)
+    var markers = getMarkers();
 
     var marker;
     for (var i = 0; i < markers.length; i++) {
@@ -161,6 +187,7 @@ function setMarker(id, pos) {
         'id': id
     });
     marker.onUpdate(latLng);
+    return marker;
 }
 // requres {long, lat} x2
 function drawBetweenPoints(pos1, pos2) {
@@ -177,7 +204,6 @@ function drawBetweenPoints(pos1, pos2) {
 
 ////////// INITIALISER FUNCTIONS
 function initMap() {
-    definePopupClass();
     setRealtime();
     definePopup();
 
@@ -192,6 +218,9 @@ function initMap() {
 
     //Create the map object.
     map = new google.maps.Map(document.getElementById('map'), options);
+    definePopupClass();
+
+    try { setMarker("", {'lat':0,'lng':0}); } catch (e) { }
 }
 function definePopup() {
     var m = new Modal('Auto toevoegen', true, 'carform');

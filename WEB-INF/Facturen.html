@@ -12,6 +12,7 @@
     <link href='css/general.css' rel='stylesheet' type='text/css' />
     <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
     <link href='css/management.css' rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="js/universal.js"></script>
     <title>Facturen</title>
 </head>
 
@@ -63,24 +64,23 @@
             <table id="table-generate">
                     <tr>
                       <th id="billnr">FactuurNr</th>
-                      <th id="licenseplate">Cartracker</th>
-                      <th id="price">TotaalBedrag</th>
-                      <th id="status">BetaalStatus</th>
+                      <th id="license">Nummerplaat</th>
+                      <th id="status">Status</th>
+                      <th id="price">Totaal bedrag</th>
                       <th id="month">Maand</th>
-                      <th id="actions_Bewerk" action="a" link="factuur.html?id={0}" parameters="billnr">Acties</th>
+                      <th id="actions_Details" action="a" link="factuur.html?id={0}" parameters="billnr">Acties</th>
                     </tr>
             </table>
         </div>
     </div>
     <div id="notif-holder"></div>
-    <script async type="text/javascript" src="js/universal.js"></script>
     <script async type="text/javascript" src="js/notif.js"></script>
     <script>
         var dstart = Date.now();
         var dend = new Date();
         dend.setMonth(dend.getMonth() - 12);
         var table = {};
-        table.URL = "bills";
+        table.URL = "bills/all";
         table.Data = {
             "startdate" : dstart,
             "enddate" : dend
