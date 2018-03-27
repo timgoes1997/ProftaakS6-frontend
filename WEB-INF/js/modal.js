@@ -13,17 +13,20 @@ function openMenu(menu) {
     show(bbd);
     if (menu instanceof HTMLElement) {
         modal = menu;
+    } else if (menu instanceof Modal) { 
+        menu.open();
     } else {
         modal = $(menu);
     }
-    show(modal);
+    if (modal)
+        show(modal);
 }
 
 function closeMenu(e) {
     if (e != null) {
-        if (e.target != null){
+        if (e.target != null) {
             if (e.target.id.indexOf('darkener') === -1)
-            return;
+                return;
         }
     }
 
@@ -32,7 +35,7 @@ function closeMenu(e) {
 }
 
 /// Modal generation
-Modal = function(name, form, id) {
+Modal = function (name, form, id) {
     this.formEnabled = form == null ? false : true;
 
     // Create a basic holder element
@@ -66,7 +69,7 @@ Modal = function(name, form, id) {
         // append all styles
         var styles = document.getElementsByTagName('LINK');
         var otherhead = frame.getElementsByTagName("head")[0];
-        for (var i=0;i<styles.length;i++) {
+        for (var i = 0; i < styles.length; i++) {
             var href = styles[i].href;
             var link = frame.createElement("link");
             link.setAttribute("rel", "stylesheet");
@@ -75,14 +78,14 @@ Modal = function(name, form, id) {
             otherhead.appendChild(link);
         }
     }
-    
+
     // Remember the list of added inputs
     var values = [];
     // Rember how to verify
     var verff = [];
 
     // Basic open function
-    Modal.prototype.open = function() {
+    Modal.prototype.open = function () {
 
         if (!this.basicElement.height) {
             // set frame height
@@ -94,18 +97,22 @@ Modal = function(name, form, id) {
     }
 
     // Basic close function
-    Modal.prototype.close = function() {
+    Modal.prototype.close = function () {
         hide(bbd);
         hide(modal);
     };
 
-    Modal.prototype.getForm = function() {
+    Modal.prototype.getForm = function () {
         return this.form;
     }
 
-    Modal.prototype.verified = function() {
+    Modal.prototype.getElement =  function() {
+        return this.basicElement;
+    }
+
+    Modal.prototype.verified = function () {
         var ret = true;
-        for (var i=0; i<verff.length;i++) {
+        for (var i = 0; i < verff.length; i++) {
             var v = verff[i];
             var ele = v.ele;
             var func = v.func;
@@ -121,7 +128,7 @@ Modal = function(name, form, id) {
 
     // Add an input of type
     // OPTION is not supported
-    Modal.prototype.addInput = function(type, label, id, placeholder, verifiedFunc) {
+    Modal.prototype.addInput = function (type, label, id, placeholder, verifiedFunc) {
         if (id == null) {
             id = label;
         }
@@ -136,14 +143,14 @@ Modal = function(name, form, id) {
         inp.setAttribute('name', id);
         addClass(inp, type);
         inp.id = id;
-        if (type==='text') {
+        if (type === 'text') {
             inp.placeholder = placeholder || label;
         }
-        inp.onfocus = function() {
+        inp.onfocus = function () {
             removeClass(this, 'wrong');
         }
         if (verifiedFunc)
-            verff.push({ 'ele' : inp, 'func' : verifiedFunc });
+            verff.push({ 'ele': inp, 'func': verifiedFunc });
 
         values.push(inp);
 
@@ -168,17 +175,17 @@ Modal = function(name, form, id) {
         return ret;
     }
     Modal.prototype.getValues = gv;
-    
+
 
     // Add a simple divider for styling
-    Modal.prototype.addDivider = function() {
+    Modal.prototype.addDivider = function () {
         var divider = document.createElement('div');
         addClass(divider, 'divider');
         this.form.appendChild(divider);
     }
 
     // Add a title with the desired size (1-5)
-    Modal.prototype.addTitle = function(size, name) {
+    Modal.prototype.addTitle = function (size, name) {
         var t = document.createElement('h' + size);
         t.innerHTML = name;
         this.form.appendChild(t);
@@ -186,23 +193,23 @@ Modal = function(name, form, id) {
 
     // Add a button
     // callback values are "e" and a JSON of all the filled in values
-    Modal.prototype.addButton = function(callback, name, id) {
+    Modal.prototype.addButton = function (callback, name, id) {
         id = id || "";
         var d = document.createElement('div');
-        addClass(d,'btn');
-        d.innerHTML=name;
+        addClass(d, 'btn');
+        d.innerHTML = name;
         d.id = id;
-        d.onclick=function(e) {
+        d.onclick = function (e) {
             if (callback)
-                callback(e, gv());   
+                callback(e, gv());
         };
         this.form.appendChild(d);
     }
 
-    Modal.prototype.addPost = function(properties) {
+    Modal.prototype.addPost = function (properties) {
         var d = document.createElement('button');
-        addClass(d,'btn');
-        d.innerHTML=name;
+        addClass(d, 'btn');
+        d.innerHTML = name;
         d.type = "submit";
         this.form.appendChild(d);
         for (var property in properties) {
@@ -215,7 +222,7 @@ Modal = function(name, form, id) {
     }
 
     // Add a spacing between elements
-    Modal.prototype.addSpace = function(amnt) {
+    Modal.prototype.addSpace = function (amnt) {
         var d = document.createElement('div');
         d.style.height = amnt + 'px';
         this.form.appendChild(d);

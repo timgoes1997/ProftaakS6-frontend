@@ -15,9 +15,6 @@ function getMarkers() {
 // mapped car objects
 var cars = [];
 
-// modal
-var carModal;
-
 // settings
 var useRealtime = false;
 var end, start;
@@ -35,9 +32,6 @@ function addCar() {
     } else {
         notify('Please specify a license plate', 'error', notif.defaultTime);
     }
-}
-function openCarForm() {
-    carModal.open();
 }
 function mapCar(c, f) {
     var car = {};
@@ -205,8 +199,6 @@ function drawBetweenPoints(pos1, pos2) {
 ////////// INITIALISER FUNCTIONS
 function initMap() {
     setRealtime();
-    definePopup();
-
     //The center location of our map.
     var centerOfMap = new google.maps.LatLng(50.872289, 10.380447);
 
@@ -221,51 +213,6 @@ function initMap() {
     definePopupClass();
 
     try { setMarker("", {'lat':0,'lng':0}); } catch (e) { }
-}
-function definePopup() {
-    var m = new Modal('Auto toevoegen', true, 'carform');
-    m.addTitle(3, 'Auto informatie');
-    m.addInput('text', 'Merk', 'brand', null, function(e) {
-        return e.value != 0;
-    });
-    m.addInput('text', 'Model', 'model', null, function(e) {
-        return e.value != 0;
-    });
-    m.addInput('text', 'Nummerplaat', 'licenseplate', null, function(e) {
-        return e.value != 0;
-    });
-    m.addInput('date', 'Bouwdatum', 'buildDate', null, function(e) {
-        return e.value != 0;
-    });
-    m.addSpace(30);
-    m.addDivider();
-    m.addTitle(3, 'Persoonlijke informatie');
-    m.addInput('file', 'Eigendomsbewijs', 'file', null, function(e) {
-        return true;
-    });
-    m.addDivider();
-    m.addPost({
-        'innerHTML': 'Voeg toe',
-        'method': 'POST',
-        'onsubmit': function (e) {
-            if (m.verified()) {
-                // send
-                notify('Uploading new car...', 'info', notif.defaultTime);
-                call('POST', API_PATH + 'vehicle/new', new FormData(m.getForm()), function(e,succ) {
-                    if (succ) {
-                        notify('Car was succesfully added', 'success', notif.defaultTime); 
-                    } else {
-                        notify('Could not add car', 'error', notif.longTime);
-                    }
-                })
-            } else {
-                notify('Please fill in all fields', 'warning', notif.longTime);
-            }
-            e.preventDefault();
-        }
-    });
-    m.addButton(function () { m.close() }, 'Terug');
-    carModal = m;
 }
 google.maps.event.addDomListener(window, 'load', initMap);
 function definePopupClass() {
