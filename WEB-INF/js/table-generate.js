@@ -69,7 +69,7 @@ function fillTable(e, succ) {
         }
 
     } else {
-        notify('Failed to get table resources', 'error', notif.longTime);
+        notify('Kon tabel niet inladen', 'error', notif.longTime);
     }
 }
 

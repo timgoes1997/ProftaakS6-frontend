@@ -30,7 +30,7 @@ function addCar() {
     if (f != '') {
         updateCar(f);
     } else {
-        notify('Please specify a license plate', 'error', notif.defaultTime);
+        notify('Geen nummerplaat opgegeven', 'error', notif.defaultTime);
     }
 }
 function mapCar(c, f) {
@@ -116,7 +116,7 @@ function updateCar(id) {
         var d2 = Date.parse(end);
 
         if (d1 > d2) {
-            notify('Start date cannot come after end date', 'error', notif.longTime);
+            notify('Begindatum kan niet na einddatum komen', 'error', notif.longTime);
             return;
         }
 
@@ -131,12 +131,12 @@ function updateCar(id) {
                 mapCar(e, id);
             } else {
                 // show popup with error details
-                notify("Could not load location", "error", notif.longTime);
+                notify("Kan locatie niet ophalen", "error", notif.longTime);
             }
         }, 'application/x-www-form-urlencoded');
     } else {
         if (!start || !end) {
-            notify('No date range selected for the cartracker', 'error', notif.longTime);
+            notify('Geen datums geselecteerd', 'error', notif.longTime);
         }
     }
     // do nothing
