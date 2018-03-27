@@ -3,6 +3,20 @@ html {
     width: 100vw;
     display: table;
     background: #4285F4;
+    background: linear-gradient(141deg, #0fa4b8 0%, #1f90db 51%, #4285F4 75%);
+}
+
+#darkener {
+  background: none;
+}
+#uninterested {
+  background: none;
+  color: #7d7d7d;
+  border: 1px solid #fff;
+}
+#uninterested:hover {
+  color: #222;
+  border: 1px solid #eee;
 }
 
 body {

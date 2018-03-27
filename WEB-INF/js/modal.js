@@ -13,7 +13,7 @@ function openMenu(menu) {
     show(bbd);
     if (menu instanceof HTMLElement) {
         modal = menu;
-    } else if (menu instanceof Modal) { 
+    } else if (menu instanceof Modal) {
         menu.open();
     } else {
         modal = $(menu);
@@ -80,20 +80,18 @@ Modal = function (name, form, id) {
     }
 
     // Remember the list of added inputs
-    var values = [];
+    this.values = [];
     // Rember how to verify
-    var verff = [];
+    this.verff = [];
 
     // Basic open function
     Modal.prototype.open = function () {
 
         openMenu(this.basicElement);
 
-        if (this.basicElement.height < 5) {
-            // set frame height
-            var e = this.form;
-            this.basicElement.height = Math.max(e.clientHeight, e.scrollHeight, e.offsetHeight) + 2;
-        }
+        // set frame height
+        var e = this.form;
+        this.basicElement.height = Math.max(e.clientHeight, e.scrollHeight, e.offsetHeight) + 2;
     }
 
     // Basic close function
@@ -106,14 +104,14 @@ Modal = function (name, form, id) {
         return this.form;
     }
 
-    Modal.prototype.getElement =  function() {
+    Modal.prototype.getElement = function () {
         return this.basicElement;
     }
 
     Modal.prototype.verified = function () {
         var ret = true;
-        for (var i = 0; i < verff.length; i++) {
-            var v = verff[i];
+        for (var i = 0; i < this.verff.length; i++) {
+            var v = this.verff[i];
             var ele = v.ele;
             var func = v.func;
             var t = func(ele);
@@ -150,9 +148,9 @@ Modal = function (name, form, id) {
             removeClass(this, 'wrong');
         }
         if (verifiedFunc)
-            verff.push({ 'ele': inp, 'func': verifiedFunc });
+        this.verff.push({ 'ele': inp, 'func': verifiedFunc });
 
-        values.push(inp);
+        this.values.push(inp);
 
         // label
         var lab = document.createElement('label');
@@ -166,15 +164,14 @@ Modal = function (name, form, id) {
     }
 
     // Get all values of the values on the modal
-    var gv = function getValues() {
+    Modal.prototype.getValues = function () {
         var ret = {};
-        for (var i = 0; i < values.length; i++) {
-            var v = values[i];
+        for (var i = 0; i < this.values.length; i++) {
+            var v = this.values[i];
             ret[v.name] = v.value;
         }
         return ret;
     }
-    Modal.prototype.getValues = gv;
 
 
     // Add a simple divider for styling
@@ -199,9 +196,10 @@ Modal = function (name, form, id) {
         addClass(d, 'btn');
         d.innerHTML = name;
         d.id = id;
+        var me = this;
         d.onclick = function (e) {
             if (callback)
-                callback(e, gv());
+                callback(e, me.getValues());
         };
         this.form.appendChild(d);
     }
