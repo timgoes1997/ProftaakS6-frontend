@@ -87,13 +87,13 @@ Modal = function (name, form, id) {
     // Basic open function
     Modal.prototype.open = function () {
 
-        if (!this.basicElement.height) {
+        openMenu(this.basicElement);
+
+        if (this.basicElement.height < 5) {
             // set frame height
             var e = this.form;
             this.basicElement.height = Math.max(e.clientHeight, e.scrollHeight, e.offsetHeight) + 2;
         }
-
-        openMenu(this.basicElement);
     }
 
     // Basic close function
