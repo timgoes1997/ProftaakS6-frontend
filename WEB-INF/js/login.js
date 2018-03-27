@@ -5,9 +5,9 @@ window.onload = function (e) {
 
 function logon(e) {
     eat(e);
-    window.location = 'home.html';
+    window.location = 'profiel.html';
 }
 function register(e) {
     eat(e);
-    window.location = 'home.html';
+    window.location = 'profiel.html';
 }
