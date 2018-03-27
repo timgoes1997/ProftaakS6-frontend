@@ -31,6 +31,9 @@ addEvent(window, 'load', function() {
                 notify('Uploading new car...', 'info', notif.defaultTime);
                 call('POST', API_PATH + 'vehicle/new', new FormData(m.getForm()), function(e,succ) {
                     if (succ) {
+                        if (modals.car_callback) {
+                            modals.car_callback(e);
+                        }
                         notify('Car was succesfully added', 'success', notif.defaultTime); 
                     } else {
                         notify('Could not add car', 'error', notif.longTime);
