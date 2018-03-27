@@ -38,9 +38,8 @@
     padding: 10px;
 }
 
-.wrong {
+.modal .t-two-inline input.wrong {
     border: 1px solid #f00;
-    margin: 3px 0;
 }
 
 .modal .t-two-inline label {
@@ -48,6 +47,8 @@
 }
 .modal .t-two-inline input {
     width:250px;
+    border: 1px solid #b8b8b8;
+    margin: 0;
 }
 
 .modal .t-two-inline {
