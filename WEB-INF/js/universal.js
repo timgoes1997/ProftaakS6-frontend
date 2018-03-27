@@ -144,6 +144,22 @@ function formatArray(format, arr) {
     arr.splice(0, 0, format);
     return window.format.apply(null, arr);
 }
+function getQueryParams(qs) {
+    if (!qs) {
+        qs = document.location.search;
+    }
+    qs = qs.split('+').join(' ');
+
+    var params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+}
 
 /* ##############################
          ASYNC LOADING
