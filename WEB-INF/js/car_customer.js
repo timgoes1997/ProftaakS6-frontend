@@ -28,19 +28,19 @@ addEvent(window, 'load', function() {
         'onsubmit': function (e) {
             if (m.verified()) {
                 // send
-                notify('Uploading new car...', 'info', notif.defaultTime);
+                notify('Bezig met verwerken nieuw voertuig...', 'info', notif.defaultTime);
                 call('POST', API_PATH + 'vehicle/new', new FormData(m.getForm()), function(e,succ) {
                     if (succ) {
                         if (modals.car_callback) {
                             modals.car_callback(e);
                         }
-                        notify('Car was succesfully added', 'success', notif.defaultTime); 
+                        notify('Auto succesvol toegevoegd', 'success', notif.defaultTime); 
                     } else {
-                        notify('Could not add car', 'error', notif.longTime);
+                        notify('Auto kon niet worden toegevoegd', 'error', notif.longTime);
                     }
                 })
             } else {
-                notify('Please fill in all fields', 'warning', notif.longTime);
+                notify('Vul de aangegeven waardes in', 'warning', notif.longTime);
             }
             e.preventDefault();
         }
