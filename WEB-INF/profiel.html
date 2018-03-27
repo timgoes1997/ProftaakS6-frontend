@@ -8,8 +8,8 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta name="author" content="Rowan Dings">
     <meta name="theme-color" content="#0163AE" />
-
     <link href='css/general.css' rel='stylesheet' type='text/css' />
+    <link href='css/modal.css' rel='stylesheet' type='text/css' />
     <link href='css/management.css' rel='stylesheet' type='text/css' />
     <link href='css/profiel.css' rel='stylesheet' type='text/css' />
     <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
@@ -23,6 +23,9 @@
         <h3>Home</h3>
         <a href="profiel.html"><p class="fa fa-user"></p><p>Profiel</p></a>
         <a href="track.html"><p class="fa fa-map-pin"></p><p>Track</p></a>
+        <div class="divider"></div>
+        <h3>Beheer</h3>
+        <a onclick="openMenu(modals.car)"><p class="fa fa-car"></p><p>Voeg voertuig toe</p></a>
         <div class="divider"></div>
         <h3>Administratie</h3>    
         <a href="voertuigen.html"><p class="fa fa-car"></p><p>Voertuigen</p></a>
@@ -126,5 +129,9 @@
                 </div>
         </div>
     </div>
+    <div id="darkener" class="hidden darkener" onclick="closeMenu()"></div>
+    <script async type="text/javascript" src="js/universal.js"></script>
+    <script async type="text/javascript" src="js/modal.js"></script>
+    <script async type="text/javascript" src="js/car_customer.js"></script>
 </body>
 </html>
