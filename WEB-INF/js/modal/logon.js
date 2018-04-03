@@ -65,7 +65,7 @@ addEvent(window, 'load', function () {
         'method': 'POST',
         'onsubmit': function (e) {
             if (m2.verified()) {
-                var data = new FormData(m.getForm());
+                var data = new FormData(m2.getForm());
                 data.append('residency','GERMANY');
 
                 call('POST', API_PATH + 'users/create', data, function (e, succ) {
@@ -78,7 +78,7 @@ addEvent(window, 'load', function () {
                     } else {
                         notify('Kon niet registreren', 'error', notif.longTime);
                     }
-                },1);
+                },'x-www-form-urlencoded');
             } else {
                 if (m2.getValues().password != m2.getValues().password_repeat) {
                     notify('Wachtwoord komt niet overeen', 'warning', notif.longTime);

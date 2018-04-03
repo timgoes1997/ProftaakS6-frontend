@@ -92,6 +92,8 @@ function call(type, url, data, callback, h) {
                 callback('CLIENT ERROR: ' + xmlHttp.responseText, false, 2);
             } else if (xmlHttp.status > 200 && xmlHttp.status < 300) {
                 callback(xmlHttp.responseText, false, 3);
+            } else {
+                callback(xmlHttp.responseText, false, 4);
             }
         }
     }
