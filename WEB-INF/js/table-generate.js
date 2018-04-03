@@ -32,15 +32,21 @@ function fillTable(e, succ, level) {
                 var th = ths[i];
                 if (th.id) {
                     var td;
+                    // for non actions
                     if (th.id.indexOf('actions_') === -1) {
-                        // Create td's
+                        // Create td
                         td = document.createElement('td');
-                        // Fill the td's
-                        td.innerHTML = obj[th.id];
+                        // Fill the td
+                        var def = th.getAttribute('default') || 'N/A';
+
+                        // get value from tree (dots accepted)
+                        var val = getValueInObject(obj,th.id) || def;
+
+                        td.innerHTML = val;
                         ids.push(
                             {
                                 'name':th.id,
-                                'value':obj[th.id]
+                                'value':val
                             }
                         );
 
@@ -72,10 +78,19 @@ function fillTable(e, succ, level) {
         if (level === 1 || level === 2) {
             notify('Kon tabel niet inladen', 'error', notif.longTime);
         } else {
-            
+
             notify('Geen data om in te laden', 'warning', notif.longTime);
         }
     }
+}
+
+function getValueInObject(obj, field) {
+    var fields = field.split('.');
+    var cur = obj;
+    for (var i=0; i<fields.length;i++) {
+        cur = cur[fields[i]];
+    }
+    return cur;
 }
 
 function getActionFor(ele, obj, ids) {
