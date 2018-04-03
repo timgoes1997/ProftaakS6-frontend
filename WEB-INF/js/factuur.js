@@ -8,7 +8,7 @@ function init() {
             e = JSON.parse(e);
             setValue('factuurnummer', e.billnr);
             setValue('nummerplaat', e.license);
-            setValue('totaalbedrag', e.price + ' ' + e.currency);
+            setValue('totaalbedrag', e.price + ' €');
             setValue('status', e.status);
             setValue('maand', e.month);
         } else {
