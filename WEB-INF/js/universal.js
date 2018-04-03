@@ -83,10 +83,16 @@ function ensure(variable, def, root) {
 function call(type, url, data, callback, h) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            callback(xmlHttp.responseText, true);
-        } else if (xmlHttp.readyState === 4 && xmlHttp.status !== 200) {
-            callback('ERROR: ' + xmlHttp.responseText, false);
+        if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status === 200) {
+                callback(xmlHttp.responseText, true);
+            } else if (xmlHttp.status >= 500 && xmlHttp.status < 600) {
+                callback('INTERNAL ERROR: ' + xmlHttp.responseText, false, 1);
+            } else if (xmlHttp.status >= 400 && xmlHttp.status < 500) {
+                callback('CLIENT ERROR: ' + xmlHttp.responseText, false, 2);
+            } else if (xmlHttp.status > 200 && xmlHttp.status < 300) {
+                callback(xmlHttp.responseText, false, 3);
+            }
         }
     }
     xmlHttp.open(type, url, true);

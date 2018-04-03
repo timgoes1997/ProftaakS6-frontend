@@ -13,7 +13,7 @@ function loadTable() {
 }
 
 // Table fill actions
-function fillTable(e, succ) {
+function fillTable(e, succ, level) {
     if (succ) {
         var t = $('table-generate');
         e = JSON.parse(e);
@@ -69,7 +69,12 @@ function fillTable(e, succ) {
         }
 
     } else {
-        notify('Kon tabel niet inladen', 'error', notif.longTime);
+        if (level === 1 || level === 2) {
+            notify('Kon tabel niet inladen', 'error', notif.longTime);
+        } else {
+            
+            notify('Geen data om in te laden', 'warning', notif.longTime);
+        }
     }
 }
 
