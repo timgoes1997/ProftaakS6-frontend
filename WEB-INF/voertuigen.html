@@ -65,64 +65,16 @@
         </div>
         <div id="dynamic-table" class="small-contents">
             <!-- example content -->
-            <table>
+            <table id="table-generate">
                     <tr>
-                      <th>Nummerplaat</th>
-                      <th>Hardware</th>
-                      <th>Eigenaar</th>
-                      <th>Tariefcategorie</th>
-                      <th>Applicatiegebruiker</th>
-                      <th>Acties</th>
+                      <th id="license">Nummerplaat</th>
+                      <th id="hardware">Hardware</th>
+                      <th id="owner">Eigenaar</th>
+                      <th id="energy">Tariefcategorie</th>
+                      <th id="app_user">Applicatiegebruiker</th>
+                      <th id="actions_Bewerk" action="a" link="voertuig.html?license={0}" parameters="license">Acties</th>
                     </tr>
-                    <tr>
-                        <td>AAA-12B</td>
-                        <td>GPS-SENSOR KITKAT</td>
-                        <td>Alfreds Futterkiste</td>
-                        <td>B</td>
-                        <td>Nee</td>
-                        <td class="actions"><div class="btn track-action"></div><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>AAA-12B</td>
-                        <td>GPS-SENSOR KITKAT</td>
-                        <td>Alfreds Futterkiste</td>
-                        <td>B</td>
-                        <td>Nee</td>
-                        <td class="actions"><div class="btn track-action"></div><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>AAA-12B</td>
-                        <td>GPS-SENSOR KITKAT</td>
-                        <td>Alfreds Futterkiste</td>
-                        <td>B</td>
-                        <td>Nee</td>
-                        <td class="actions"><div class="btn track-action"></div><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>AAA-12B</td>
-                        <td>GPS-SENSOR KITKAT</td>
-                        <td>Alfreds Futterkiste</td>
-                        <td>B</td>
-                        <td>Nee</td>
-                        <td class="actions"><div class="btn track-action"></div><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>AAA-12B</td>
-                        <td>GPS-SENSOR KITKAT</td>
-                        <td>Alfreds Futterkiste</td>
-                        <td>B</td>
-                        <td>Nee</td>
-                        <td class="actions"><div class="btn track-action"></div><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>AAA-12B</td>
-                        <td>GPS-SENSOR KITKAT</td>
-                        <td>Alfreds Futterkiste</td>
-                        <td>B</td>
-                        <td>Nee</td>
-                        <td class="actions"><div class="btn track-action"></div><div class="btn">Bewerk</div></td>
-                    </tr>
-                  </table>
+            </table>
         </div>
     </div>
     <div id="notif-holder"></div>
@@ -132,5 +84,10 @@
     <script async type="text/javascript" src="js/notif.js"></script>
     <script async type="text/javascript" src="js/modal/car_customer.js"></script>
     <script async type="text/javascript" src="js/modal/car_unknown.js"></script>
+    <script>
+        var table = {};
+        table.URL = "vehicles/active/all";
+    </script>
+    <script async type="text/javascript" src="js/table-generate.js"></script>
 </body>
 </html>
