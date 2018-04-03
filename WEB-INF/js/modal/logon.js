@@ -4,7 +4,7 @@ addEvent(window, 'load', function () {
     var m = new Modal('Login', true, 'login');
     var m2 = new Modal('Registreer', true, 'register');
 
-    m.addInput('text', 'Gebruikersnaam', 'username', null, function (e) {
+    m.addInput('text', 'Email', 'email', null, function (e) {
         return e.value != 0;
     });
     m.addInput('password', 'Wachtwoord', 'password', null, function (e) {
@@ -17,7 +17,10 @@ addEvent(window, 'load', function () {
         'onsubmit': function (e) {
             if (m.verified()) {
                 // send
-                call('POST', SERVER_URL + 'j_security_check', new FormData(m.getForm()), function (e, succ) {
+                var data = new FormData(m.getForm());
+                data.append('username', 'none');
+
+                call('POST', SERVER_URL + 'j_security_check', data, function (e, succ) {
                     if (succ) {
                         if (modals.logon_callback) {
                             modals.logon_callback(e);
@@ -41,10 +44,13 @@ addEvent(window, 'load', function () {
         m2.open();
     }, 'Registeer', 'uninterested');
 
-    m2.addInput('text', 'Gebruikersnaam', 'username', null, function (e) {
+    m2.addInput('text', 'Naam', 'name', null, function (e) {
         return e.value != 0;
     });
     m2.addInput('text', 'Email', 'email', null, function (e) {
+        return e.value != 0;
+    });
+    m2.addInput('text', 'Adres', 'address', null, function (e) {
         return e.value != 0;
     });
     m2.addInput('password', 'Wachtwoord', 'password', null, function (e) {
@@ -59,7 +65,10 @@ addEvent(window, 'load', function () {
         'method': 'POST',
         'onsubmit': function (e) {
             if (m2.verified()) {
-                call('POST', API_PATH + 'users/new', new FormData(m.getForm()), function (e, succ) {
+                var data = new FormData(m.getForm());
+                data.append('residency','GERMANY');
+
+                call('POST', API_PATH + 'users/create', data, function (e, succ) {
                     if (succ) {
                         if (modals.logon_callback) {
                             modals.logon_callback(e);
@@ -69,7 +78,7 @@ addEvent(window, 'load', function () {
                     } else {
                         notify('Kon niet registreren', 'error', notif.longTime);
                     }
-                })
+                },1);
             } else {
                 if (m2.getValues().password != m2.getValues().password_repeat) {
                     notify('Wachtwoord komt niet overeen', 'warning', notif.longTime);
