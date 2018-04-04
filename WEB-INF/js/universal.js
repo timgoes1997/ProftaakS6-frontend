@@ -211,7 +211,6 @@ User = function () {
                 // fill in user object with e OR with email
                 window.location = "profiel.html";
             } //else {
-            //notify('Kon niet inloggen', 'error', notif.longTime);
 
             // todo; don't fake
             call('GET', API_PATH + 'users/account/email/' + email, null, function (e, succ) {
@@ -222,7 +221,8 @@ User = function () {
                     storage.save('user', entity);
                     window.location = "profiel.html";
                 } else {
-                    console.error(e);
+                    // error
+                    notify('Inloggegevens waren onjuist', 'error', notif.longTime);
                 }
             });
             //}
@@ -234,7 +234,7 @@ User = function () {
         var lo = false;
         setTimeout(function () {
             lo = true;
-        }, 3000);
+        }, 1000);
 
         waitUntil(function () {
             return lo;
@@ -246,13 +246,35 @@ User = function () {
 
     // Run personalisation
     addEvent(window, 'load', function () {
-        var eles = document.querySelectorAll("span[user]");
+        // check if user should be on this page
+        if (window.role)
+            if (window.roles.indexOf(this.user.entity.role) === -1) {
+                window.location = '403.html';
+            }
+
+        // else, load in personalisation assets
+        var eles = document.querySelectorAll("[user]");
         for (var i = 0; i < eles.length; i++) {
             var e = eles[i];
             var u = user.entity;
             var v = e.getAttribute('user');
             if (!!u)
                 e.innerHTML = u[v] || u.user[v];
+        }
+
+        // check roles
+        var eles = document.querySelectorAll("[roles]");
+        for (var i = 0; i < eles.length; i++) {
+            var e = eles[i];
+            var u = user.entity;
+            var v = e.getAttribute('roles');
+            if (!!u) {
+                if (v.indexOf(v.role) === -1) {
+                    e.parentNode.removeChild(e); 
+                } else {
+                    removeClass(e, 'hidden');
+                }
+            }
         }
     });
 }

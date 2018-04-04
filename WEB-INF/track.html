@@ -14,6 +14,7 @@
     <link href='css/vehiclepicker.css' rel='stylesheet' type='text/css' />
     <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+    <script type="text/javascript" src="js/universal.js"></script>
     <title>Tracking</title>
 </head>
 
@@ -64,7 +65,7 @@
         </div>
         <div class="divider"></div>
         <a onclick="openMenu(modals.car)"><p class="fa fa-car"></p><p>Voeg voertuig toe</p></a>
-        <a onclick="openMenu(modals.car_unknown)"><p class="fa fa-car"></p><p>Voeg onbekend voertuig toe</p></a>
+        <a roles="ADMIN" onclick="openMenu(modals.car_unknown)" class="hidden"><p class="fa fa-car"></p><p>Voeg onbekend voertuig toe</p></a>
     </div>
     <div id="notif-holder"></div>
     <div class="contents">
@@ -72,7 +73,6 @@
     </div>
     <div id="darkener" class="hidden darkener" onclick="closeMenu()"></div>
     <script async type="text/javascript" src="js/map.js"></script>
-    <script async type="text/javascript" src="js/universal.js"></script>
     <script async type="text/javascript" src="js/modal.js"></script>
     <script async type="text/javascript" src="js/notif.js"></script>
     <script async type="text/javascript" src="js/modal/car_customer.js"></script>
