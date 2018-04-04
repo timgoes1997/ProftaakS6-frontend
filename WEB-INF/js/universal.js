@@ -269,7 +269,7 @@ User = function () {
             var u = user.entity;
             var v = e.getAttribute('roles');
             if (!!u) {
-                if (v.indexOf(v.role) === -1) {
+                if (v.indexOf(u.user.role) === -1) {
                     e.parentNode.removeChild(e); 
                 } else {
                     removeClass(e, 'hidden');
