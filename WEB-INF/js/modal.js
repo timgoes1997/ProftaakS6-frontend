@@ -100,8 +100,26 @@ Modal = function (name, form, id) {
         hide(modal);
     };
 
+    // gets the form
     Modal.prototype.getForm = function () {
         return this.form;
+    }
+
+    // gets the form data or formatted data
+    Modal.prototype.getData = function(formdata) {
+        if (!!formdata) {
+            return new FormData(this.form);
+        }
+        var kvs = this.values;
+        var str = '';
+        for(var i=0; i<kvs.length;i++) {
+            var kv = kvs[i];
+            if (i !== 0) {
+                str += '&';
+            }
+            str += kv.name+'='+kv.value;
+        }
+        return str;
     }
 
     Modal.prototype.getElement = function () {
