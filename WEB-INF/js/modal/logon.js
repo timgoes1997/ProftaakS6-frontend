@@ -17,8 +17,7 @@ addEvent(window, 'load', function () {
         'onsubmit': function (e) {
             if (m.verified()) {
                 // send
-                var data = new FormData(m.getForm());
-                data.append('username', 'none');
+                var data = m.getData(0);
 
                 call('POST', SERVER_URL + 'j_security_check', data, function (e, succ) {
                     if (succ) {
@@ -65,24 +64,29 @@ addEvent(window, 'load', function () {
         'method': 'POST',
         'onsubmit': function (e) {
             if (m2.verified()) {
-                var data = new FormData(m2.getForm());
-                data.append('residency','GERMANY');
+                var data = m2.getData(0);
+                if (data instanceof FormData) {
+                    data.append('residency', 'GERMANY');
+                } else {
+                    data +='&residency=GERMANY';
+                }
 
                 call('POST', API_PATH + 'users/create', data, function (e, succ) {
                     if (succ) {
                         if (modals.logon_callback) {
                             modals.logon_callback(e);
                         }
+                        console.log(e);
                         window.location = 'profiel.html';
 
                     } else {
                         notify('Kon niet registreren', 'error', notif.longTime);
                     }
-                },'x-www-form-urlencoded');
+                }, 'application/x-www-form-urlencoded');
             } else {
                 if (m2.getValues().password != m2.getValues().password_repeat) {
                     notify('Wachtwoord komt niet overeen', 'warning', notif.longTime);
-                } else 
+                } else
                     notify('Vul de aangegeven waardes in', 'warning', notif.longTime);
             }
             e.preventDefault();
