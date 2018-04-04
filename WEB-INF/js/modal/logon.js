@@ -16,22 +16,10 @@ addEvent(window, 'load', function () {
         'method': 'POST',
         'onsubmit': function (e) {
             if (m.verified()) {
-                // send
-                var data = m.getData(0);
-
-                call('POST', SERVER_URL + 'j_security_check', data, function (e, succ) {
-                    if (succ) {
-                        if (modals.logon_callback) {
-                            modals.logon_callback(e);
-                        }
-                        window.location = "profiel.html";
-                    } else {
-                        //notify('Kon niet inloggen', 'error', notif.longTime);
-
-                        // todo; don't fake
-                        window.location = "profiel.html";
-                    }
-                })
+                var data = m.getValues();
+                if (!user.login(data.email, data.password)) {
+                    notify('Inloggegevens waren onjuist', 'error', notif.longTime);
+                }
             } else {
                 notify('Vul de aangegeven waardes in', 'warning', notif.longTime);
             }
@@ -77,7 +65,7 @@ addEvent(window, 'load', function () {
                             modals.logon_callback(e);
                         }
                         console.log(e);
-                        window.location = 'profiel.html';
+                        //window.location = 'profiel.html';
 
                     } else {
                         notify('Kon niet registreren', 'error', notif.longTime);
