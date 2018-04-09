@@ -241,6 +241,13 @@ User = function () {
     }
 
     var me = this;
+    // no default roles, assume locked
+    var hasEntity = !!me.entity.name;
+    // run logged in check
+    if (!hasEntity && 'login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
+        window.location = "login.html";
+    }
+
     // Run personalisation
     addEvent(window, 'load', function () {
         // check if user should be on this page
@@ -248,13 +255,6 @@ User = function () {
         if (window.role) {
             if (window.roles.indexOf(user.entity.role) === -1) {
                 window.location = '403.html';
-            }
-        } else {
-            // no default roles, assume locked
-            var hasEntity = !!me.entity.name;
-            // run logged in check
-            if (!hasEntity && 'login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
-                window.location = "login.html";
             }
         }
 
