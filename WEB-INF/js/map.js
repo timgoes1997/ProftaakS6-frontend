@@ -33,13 +33,52 @@ function addCar() {
         notify('Geen nummerplaat opgegeven', 'error', notif.defaultTime);
     }
 }
-function mapCar(c, f) {
+function mapCar(c, f, rt) {
     var car = {};
     car.licenseplate = f;
     car.locations = c;
     car.lines = [];
     car.marker = null;
+    car.realtime = {};
+    car.realtime.use = rt;
+    car.realtime.function = function() {
+        function runTimeOut() {
+            setTimeout(update, 3000); // every three seconds
+        }
+
+        function update() {
+            // check if relevant
+            if (car.realtime.use) {
+                // call for update of the marker
+                call('POST', API_PATH + 'location/' + car.licenseplate + '/realtime', null, function (e, success) {
+                    if (success) {
+                        e = JSON.parse(e);
+                        // update
+                        car.locations = e;
+                        car.marker.onRemove();
+                        car.marker = setMarker(f, e[0]);
+                        console.log('Updating realtime location');
+                    } else {
+                        // show popup with error details
+                        notify("Realtime locatie kon niet worden opgehaald", "error", notif.defaultTime);
+                    }
+                    
+                    // reset timeout
+                    runTimeOut();
+                }, 'application/x-www-form-urlencoded');
+            } else {
+                console.log('End of realtime query');
+            }
+        }
+
+        // call update straight away
+        update();
+    };
     var e2 = null;
+
+    if (rt) {
+        car.realtime.function();
+    }
 
     // draw route and place marker
     funcOnArr(car.locations, function (e) {
@@ -107,6 +146,7 @@ function removeCar(id) {
         // remove marker
         car.marker.onRemove();
     }
+    car.realtime.use = false; // disable realtime
 }
 function updateCar(id) {
     // check if values are alright
@@ -126,9 +166,10 @@ function updateCar(id) {
 
         // call API
         call('POST', API_PATH + 'location/' + id + path, data, function (e, success) {
+            var rt = useRealtime;
             if (success) {
                 e = JSON.parse(e);
-                mapCar(e, id);
+                mapCar(e, id, rt);
             } else {
                 // show popup with error details
                 notify("Kan locatie niet ophalen", "error", notif.longTime);
