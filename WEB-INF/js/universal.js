@@ -205,48 +205,50 @@ User = function () {
     this.entity = storage.load('user') || {};
 
     User.prototype.login = function (email, password) {
-        var data = 'email=' + email + 'password=' + password;
-        call('POST', SERVER_URL + 'j_security_check', data, function (e, succ) {
+        var data = 'email=' + email + '&password=' + password;
+        call('POST', API_PATH + 'auth/login', data, function (e, succ) {
             if (succ) {
-                // fill in user object with e OR with email
-                window.location = "profiel.html";
-            } //else {
-
-            // todo; don't fake
-            call('GET', API_PATH + 'users/account/email/' + email, null, function (e, succ) {
-                if (succ) {
-                    e = JSON.parse(e);
-                    // fill with e
-                    this.entity = e;
-                    storage.save('user', entity);
-                    window.location = "profiel.html";
-                } else {
-                    // error
-                    notify('Inloggegevens waren onjuist', 'error', notif.longTime);
-                }
-            });
-            //}
-        });
+                call('GET', API_PATH + 'users/account/email/' + email, null, function (e, succ) {
+                    if (succ) {
+                        e = JSON.parse(e);
+                        // fill with e
+                        this.entity = e;
+                        storage.save('user', this.entity);
+                        window.location = "profiel.html";
+                    } else {
+                        // error
+                        notify('Kon accountgegevens niet ophalen. Probeer het later opnieuw', 'error', notif.longTime);
+                    }
+                });
+            } else {
+                notify('Inloggegevens waren onjuist', 'error', notif.longTime);
+            }
+        }, 'application/x-www-form-urlencoded');
         return true;
     }
     User.prototype.logout = function () {
-        // todo: call server to destroy session
-        var lo = false;
-        setTimeout(function () {
-            lo = true;
-        }, 1000);
-
-        waitUntil(function () {
-            return lo;
-        }, function () {
-            storage.remove('user');
-            window.location = 'login.html';
-        });
+        call('POST', API_PATH + 'auth/logout', null, function (e, succ) {
+            if (succ) {
+                // logout
+                storage.remove('user');
+                window.location = 'login.html';
+            } else {
+                // could not logout. Ignore for now, let session expire on its own
+                storage.remove('user');
+                window.location = 'login.html';
+            }
+        }, 'application/x-www-form-urlencoded');
+    }
+    // run logged in check
+    if (this.entity === {} && 'login.html'.indexOf(window.location) === -1) {
+        window.location = "login.html";
     }
 
+    var me = this;
     // Run personalisation
     addEvent(window, 'load', function () {
         // check if user should be on this page
+        var user = me;
         if (window.role)
             if (window.roles.indexOf(this.user.entity.role) === -1) {
                 window.location = '403.html';
@@ -270,7 +272,7 @@ User = function () {
             var v = e.getAttribute('roles');
             if (!!u) {
                 if (v.indexOf(u.user.role) === -1) {
-                    e.parentNode.removeChild(e); 
+                    e.parentNode.removeChild(e);
                 } else {
                     removeClass(e, 'hidden');
                 }

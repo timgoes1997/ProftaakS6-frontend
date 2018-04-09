@@ -64,9 +64,9 @@ addEvent(window, 'load', function () {
                         if (modals.logon_callback) {
                             modals.logon_callback(e);
                         }
-                        console.log(e);
-                        //window.location = 'profiel.html';
-
+                        var t = m2.getValues();
+                        // login
+                        window.user.login(t.email, t.password);
                     } else {
                         notify('Kon niet registreren', 'error', notif.longTime);
                     }
