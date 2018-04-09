@@ -239,8 +239,10 @@ User = function () {
             }
         }, 'application/x-www-form-urlencoded');
     }
+
+    var hasEntity = !!this.entity.name;
     // run logged in check
-    if (this.entity === {} && 'login.html'.indexOf(window.location) === -1) {
+    if (!hasEntity && 'login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
         window.location = "login.html";
     }
 
