@@ -241,21 +241,22 @@ User = function () {
     }
 
     var me = this;
-    // no default roles, assume locked
-    var hasEntity = !!me.entity.name;
-    // run logged in check
-    if (!hasEntity && 'login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
-        window.location = "login.html";
-    }
-
     // Run personalisation
     addEvent(window, 'load', function () {
-        // check if user should be on this page
         var user = me;
+
+        // no default roles, assume locked
+        var hasEntity = !!user.entity.user.name;
+        // run logged in check
+        if (!hasEntity && 'login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
+            window.location = "login.html";
+        }
+        // check if user should be on this page
         if (window.role) {
-            if (window.roles.indexOf(user.entity.role) === -1) {
+            if (window.roles.indexOf(user.entity.user.role) === -1) {
                 window.location = '403.html';
             }
+        } else {
         }
 
         // else, load in personalisation assets
