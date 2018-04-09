@@ -5,7 +5,7 @@
 var map;        //Will contain map object.
 function getMarkers() {
     var a = [];
-    for (var i=0;i<cars.length;i++) {
+    for (var i = 0; i < cars.length; i++) {
         var car = cars[i];
         a.push(car.marker);
     }
@@ -41,7 +41,7 @@ function mapCar(c, f, rt) {
     car.marker = null;
     car.realtime = {};
     car.realtime.use = rt;
-    car.realtime.function = function() {
+    car.realtime.function = function () {
         function runTimeOut() {
             setTimeout(update, 3000); // every three seconds
         }
@@ -62,7 +62,7 @@ function mapCar(c, f, rt) {
                         // show popup with error details
                         notify("Realtime locatie kon niet worden opgehaald", "error", notif.defaultTime);
                     }
-                    
+
                     // reset timeout
                     runTimeOut();
                 }, 'application/x-www-form-urlencoded');
@@ -115,7 +115,7 @@ function funcOnArr(arr, callback) {
             var e = arr[i];
             e['lastElement'] = i === arr.length - 1;
             callback(e);
-        } 
+        }
     } else {
         arr['lastElement'] = true;
         callback(arr);
@@ -162,7 +162,7 @@ function updateCar(id) {
 
         var path = useRealtime ? "/realtime" : "/date";
         var data = new FormData();
-        data = 'startdate='+start+'&enddate='+end;
+        data = 'startdate=' + start + '&enddate=' + end;
 
         // call API
         call('POST', API_PATH + 'location/' + id + path, data, function (e, success) {
@@ -214,7 +214,8 @@ function setMarker(id, pos) {
             return;
         }
     }
-    marker = new Popup(latLng, id);
+    if (!marker)
+        marker = new Popup(latLng, id);
     marker.setMap(map);
 
     markers.push({
@@ -253,7 +254,7 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), options);
     definePopupClass();
 
-    try { setMarker("", {'lat':0,'lng':0}); } catch (e) { }
+    try { setMarker("", { 'lat': 0, 'lng': 0 }); } catch (e) { }
 }
 google.maps.event.addDomListener(window, 'load', initMap);
 function definePopupClass() {
