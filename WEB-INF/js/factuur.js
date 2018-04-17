@@ -11,6 +11,17 @@ function init() {
             setValue('totaalbedrag', e.price + ' €');
             setValue('status', e.status);
             setValue('maand', e.month);
+
+            // Get dates
+            var l = e.license;
+
+            // mapcore.js interface
+            start = e.startDate;
+            end = e.endDate;
+
+            // Draw on map
+            addCar(l);
+
         } else {
             // todo 
             //take to other page?
@@ -22,6 +33,8 @@ function init() {
     table.root = 'trips';
 
     // Fill table with trips
+    var tl = new TableLoader();
+    tl.fetch();
 }
 
 function setValue(name, value) {

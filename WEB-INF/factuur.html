@@ -14,6 +14,8 @@
     <link href='css/factuur.css' rel='stylesheet' type='text/css' />
     <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
     <script type="text/javascript" src="js/universal.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+    <script async type="text/javascript" src="js/mapcore.js"></script>
     <title>Autotracker - Factuur</title>
 </head>
 
@@ -38,11 +40,15 @@
     <div class="contents">
         <div class="header small-contents factuurinfo" id="factuurnummer"><h2>Factuur #</h2><span>N/A</span></div>
         <div class="divider"></div>
-        <div class="small-contents">
-            <div id="nummerplaat" class="factuurinfo"><span>Nummerplaat:</span><span>test</span></div>
-            <div id="totaalbedrag" class="factuurinfo"><span>Totaalbedrag:</span><span>test</span></div>
-            <div id="status" class="factuurinfo"><span>Status:</span><span>test</span></div>
-            <div id="maand" class="factuurinfo"><span>Maand:</span><span>test</span></div>
+        <div class="small-contents main">
+            <div class="left-map">
+                <div id="nummerplaat" class="factuurinfo"><span>Nummerplaat:</span><span>N/A</span></div>
+                <div id="totaalbedrag" class="factuurinfo"><span>Totaalbedrag:</span><span>N/A</span></div>
+                <div id="status" class="factuurinfo"><span>Status:</span><span>N/A</span></div>
+                <div id="maand" class="factuurinfo"><span>Maand:</span><span>N/A</span></div>
+            </div>
+            <!-- Google map indication -->
+            <div id="map"></div>
         </div>
         <hr/>
         <div id="dynamic-table" class="small-contents">
@@ -57,8 +63,6 @@
                     </tr>
             </table>
         </div>
-        <!-- Google map indication -->
-        <div id="map"></div>
         <hr/>
         <div class="small-contents">
             <div class="btn">PayPal</div>

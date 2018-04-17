@@ -3,7 +3,7 @@ addEvent(window, 'load', loadTable)
 // Class
 TableLoader = function(t, id) {
     this.table = t || window.table || {};
-    this.id = id || t.id || console.error('Please specify the ID of the table');
+    this.id = id || this.table.id || console.error('Please specify the ID of the table');
     var me = this;
 
     ensure('actions', []);
@@ -19,11 +19,19 @@ TableLoader = function(t, id) {
     TableLoader.prototype.fetch = function() {
         call('get', API_PATH + table.URL, table.Data, this.fill);
     }
+
+    TableLoader.prototype.showEmpty = function() {
+        var t = $(me.id);
+        var tr = document.createElement('tr');
+        tr.innerHTML='Geen resultaten gevonden';
+        addClass(t, 'empty');
+        t.appendChild(tr);
+    }
     
     // Table fill actions
     TableLoader.prototype.fill = function(e, succ, level) {
         if (succ) {
-            var t = $(me.id || me.table.id);
+            var t = $(me.id);
             e = JSON.parse(e);
 
             // Use root if given (always an array)
@@ -33,8 +41,15 @@ TableLoader = function(t, id) {
             } else {
                 root = getValueInObject(e, root);
             }
+            if (root == null) {
+                me.showEmpty(); // nothing to show
+                return;
+            }
             if (!(root instanceof Array)) {
                 console.error('Table root was not an Array');
+            }
+            if (!root.length) {
+                me.showEmpty(); // nothing to show
             }
     
             // e is an array
