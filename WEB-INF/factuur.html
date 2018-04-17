@@ -36,16 +36,41 @@
         <div class="divider"></div>
     </div>
     <div class="contents">
-        <div class="header small-contents"><h3>Factuur</h3></div>
+        <div class="header small-contents factuurinfo" id="factuurnummer"><h2>Factuur #</h2><span>N/A</span></div>
         <div class="divider"></div>
         <div class="small-contents">
-            <div id="factuurnummer" class="factuurinfo"><span>Factuurnummer:</span><span>test</span></div>
             <div id="nummerplaat" class="factuurinfo"><span>Nummerplaat:</span><span>test</span></div>
             <div id="totaalbedrag" class="factuurinfo"><span>Totaalbedrag:</span><span>test</span></div>
             <div id="status" class="factuurinfo"><span>Status:</span><span>test</span></div>
             <div id="maand" class="factuurinfo"><span>Maand:</span><span>test</span></div>
         </div>
+        <hr/>
+        <div id="dynamic-table" class="small-contents">
+            <!-- example content -->
+            <table id="trips">
+                    <tr>
+                      <th id="trips.region">Regio</th>
+                      <th id="trips.date">Tijdstip</th>
+                      <th id="trips.kilometers">Kilometers</th>
+                      <th id="trips.time_rate">Zone prijs</th>
+                      <th id="trips.price">Geaccumuleerde kosten</th>
+                    </tr>
+            </table>
+        </div>
+        <!-- Google map indication -->
+        <div id="map"></div>
+        <hr/>
+        <div class="small-contents">
+            <div class="btn">PayPal</div>
+            <div class="btn">iDeal</div>
+            <div class="btn">Google Wallet</div>
+        </div>
     </div>
+    <script>
+        var table = {};
+        table.Manually = true;
+    </script>
     <script async type="text/javascript" src="js/factuur.js"></script>
+    <script async type="text/javascript" src="js/table-generate.js"></script>
 </body>
 </html>

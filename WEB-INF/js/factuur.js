@@ -16,6 +16,12 @@ function init() {
             //take to other page?
         }
     });
+
+    table.URL = "bills/" + params.id;
+    table.id = 'trips';
+    table.root = 'trips';
+
+    // Fill table with trips
 }
 
 function setValue(name, value) {
