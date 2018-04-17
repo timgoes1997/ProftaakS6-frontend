@@ -5,7 +5,20 @@ addCar = function () {
     return __$a(f);
 }
 
-addEvent(document, 'load', setRealtime);
+addEvent(window, 'load', initTrack);
+
+function initTrack() {
+    // set realtime function
+    setRealtime();
+
+    // set the enter key to track if possible
+    addEvent($('owner'), 'keyup', function(e) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            addCar();
+        }
+    });
+}
 
 ////////// OPTION FUNCTIONS
 function setRealtime() {
