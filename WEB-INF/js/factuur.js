@@ -9,6 +9,7 @@ function init() {
             setValue('factuurnummer', e.billnr);
             setValue('nummerplaat', e.license);
             setValue('totaalbedrag', e.price + ' €');
+            setValue('totaalbedrag2', e.price + ' €');
             setValue('status', e.status);
             setValue('maand', e.month);
 

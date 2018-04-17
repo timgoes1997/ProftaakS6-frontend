@@ -38,6 +38,16 @@
     background:none;
     line-height: 30px;
 }
+.bill span:nth-child(1) {
+    font-weight: bold;
+    color: grey;
+}
+.bill span:nth-child(2) {
+    float:right;
+}
+.bill {
+    font-size: 32px;
+}
 
 /* The location pointed to by the popup tip. */
 .popup-tip-anchor {
