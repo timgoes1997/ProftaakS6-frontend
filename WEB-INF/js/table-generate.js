@@ -39,8 +39,12 @@ function fillTable(e, succ, level) {
                         // Fill the td
                         var def = th.getAttribute('default') || 'N/A';
 
+                        var p = th.getAttribute('prefix') || '';
+                        var s = th.getAttribute('suffix') || '';
+
                         // get value from tree (dots accepted)
                         var val = getValueInObject(obj,th.id) || def;
+                        val = p + val + s;
 
                         td.innerHTML = val;
                         ids.push(
@@ -118,5 +122,5 @@ function getActionFor(ele, obj, ids) {
             window.location = url;
         };
     }
-    console.warn("No action found for " + string);
+    console.warn("No action found for " + action);
 }
