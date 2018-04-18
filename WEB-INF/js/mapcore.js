@@ -28,6 +28,11 @@ function addCar(f) {
     }
 }
 function mapCar(c, f, rt) {
+    if (c.length === 0) {
+        notify('Auto had geen locaties op aangegeven tijd', 'error', notif.longTime);
+        return;
+    }
+
     var car = {};
     car.licenseplate = f;
     car.locations = c;
@@ -158,9 +163,9 @@ function updateCar(id) {
         var data = new FormData();
         data = 'startdate=' + start + '&enddate=' + end;
 
+        var rt = useRealtime;
         // call API
         call('POST', API_PATH + 'location/' + id + path, data, function (e, success) {
-            var rt = useRealtime;
             if (success) {
                 e = JSON.parse(e);
                 mapCar(e, id, rt);
