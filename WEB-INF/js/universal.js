@@ -246,7 +246,7 @@ User = function () {
         var user = me;
 
         // no default roles, assume locked
-        var hasEntity = !!user.entity.user.name;
+        var hasEntity = !!user.entity.user;
         // run logged in check
         if (!hasEntity && 'login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
             window.location = "login.html";
