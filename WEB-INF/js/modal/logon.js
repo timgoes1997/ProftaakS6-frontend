@@ -43,7 +43,7 @@ addEvent(window, 'load', function () {
     m2.addInput('password', 'Wachtwoord', 'password', null, function (e) {
         return e.value != 0;
     });
-    m2.addInput('password', 'Wachtwoord', 'password_repeat', null, function (e) {
+    m2.addInput('password', 'Bevestig wachtwoord', 'password_repeat', null, function (e) {
         return e.value === m2.getValues().password;
     });
     m2.addDivider();
