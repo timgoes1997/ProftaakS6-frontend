@@ -1,7 +1,7 @@
 addEvent(window, 'load', function () {
     ensure('modals', {});
 
-    var m = new Modal('Login', true, 'login');
+    var m = new Modal('Login', true, 'login', true);
     var m2 = new Modal('Registreer', true, 'register');
 
     m.addInput('text', 'Email', 'email', null, function (e) {

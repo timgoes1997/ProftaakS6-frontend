@@ -35,27 +35,32 @@ function closeMenu(e) {
 }
 
 /// Modal generation
-Modal = function (name, form, id) {
+Modal = function (name, form, id, starthidden) {
     this.formEnabled = form == null ? false : true;
+    this.showOnStart = !!starthidden;
+    this.keep = document.getElementById(id) != null;
 
     // Create a basic holder element
     if (this.formEnabled) {
-        this.basicElement = document.createElement('iframe');
+        this.basicElement = document.getElementById(id) || document.createElement('iframe');
     } else {
-        this.basicElement = document.createElement('div');
+        this.basicElement = document.getElementById(id) || document.createElement('div');
         this.form = this.basicElement;
     }
 
     // Ensure that the user can style the modal
     addClass(this.basicElement, 'modal');
 
+    if (!this.showOnStart)
     // Hide the modal in advance
     hide(this.basicElement);
 
-    // Get the darkener, and insert it into the darkener
     bbd = $('darkener');
-    this.basicElement.id = id;
-    bbd.insertAdjacentElement('afterbegin', this.basicElement);
+    if (!this.keep) {
+        // Get the darkener, and insert it into the darkener
+        this.basicElement.id = id;
+        bbd.insertAdjacentElement('afterbegin', this.basicElement);
+    }
 
     if (this.formEnabled) {
         var frame = this.basicElement.contentWindow.document;

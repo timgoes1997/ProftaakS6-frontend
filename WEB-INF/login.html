@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Log in op uw Autotracker</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <link href='css/general.css' rel='stylesheet' type='text/css' />
-        <link href='css/modal.css' rel='stylesheet' type='text/css' />
-        <link href='css/logout.css' rel='stylesheet' type='text/css' />
-        <script type="text/javascript" src="js/universal.js"></script>
-    </head>
-    <body>
-        <div class="sk-cube-grid">
-            <div class="sk-cube sk-cube1"></div>
-            <div class="sk-cube sk-cube2"></div>
-            <div class="sk-cube sk-cube3"></div>
-            <div class="sk-cube sk-cube4"></div>
-            <div class="sk-cube sk-cube5"></div>
-            <div class="sk-cube sk-cube6"></div>
-            <div class="sk-cube sk-cube7"></div>
-            <div class="sk-cube sk-cube8"></div>
-            <div class="sk-cube sk-cube9"></div>
+
+<head>
+    <title>Log in op uw Autotracker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href='css/general.css' rel='stylesheet' type='text/css' />
+    <link href='css/modal.css' rel='stylesheet' type='text/css' />
+    <link href='css/logout.css' rel='stylesheet' type='text/css' />
+    <link href='css/portal.css' rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="js/universal.js"></script>
+</head>
+
+<body>
+    <div id="notif-holder"></div>
+    <div id="darkener" class="darkener">
+        <div class="main">
+            <div>
+                <h2>API</h2>
+                <hr/>
+                <p>
+                    <b>Swaggerhub</b> -
+                    <a href="https://app.swaggerhub.com/apis/ProftaakS6/Proftaak-S6/">https://app.swaggerhub.com/apis/ProftaakS6/Proftaak-S6/</a>
+                </p>
+                <p class="note">
+                    <b>Let op!</b> De laatste versie kan mogelijk niet overeenkomen met de directe link. Gelieve op het versienummer
+                    te letten.</p>
+            </div>
+            <div>
+                <h2>Documentatie</h2>
+                <hr/>
+                <p class="note">Niet publiekelijk gepubliceerd</p>
+            </div>
         </div>
-        <div id="notif-holder"></div>
-        <div id="darkener" class="hidden darkener"></div>
-    </body>
-    <script async type="text/javascript" src="js/modal.js"></script>
-    <script async type="text/javascript" src="js/notif.js"></script>
-    <script async type="text/javascript" src="js/modal/logon.js"></script>
+        <iframe id="login" class="modal"></iframe>
+        <iframe id="register" class="modal"></iframe>
+    </div>
+</body>
+<script async type="text/javascript" src="js/modal.js"></script>
+<script async type="text/javascript" src="js/notif.js"></script>
+<script async type="text/javascript" src="js/modal/logon.js"></script>
+
 </html>
