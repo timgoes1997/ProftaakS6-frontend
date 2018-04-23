@@ -92,15 +92,8 @@
     <script async type="text/javascript" src="js/modal/car_customer.js"></script>
     <script async type="text/javascript" src="js/notif.js"></script>
     <script>
-        var dstart = Date.now();
-        var dend = new Date();
-        dend.setMonth(dend.getMonth() - 12);
         var table = {};
-        table.URL = "bills/all"; // todo: change to user id "bills/user/{id}"
-        table.Data = {
-            "startdate" : dstart,
-            "enddate" : dend
-        };
+        table.URL = "bills/currentUser";
     </script>
     <script async type="text/javascript" src="js/table-generate.js"></script>
 </body>
