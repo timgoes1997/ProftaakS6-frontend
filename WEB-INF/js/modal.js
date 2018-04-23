@@ -94,6 +94,13 @@ Modal = function (name, form, id) {
         this.basicElement.height = Math.max(e.clientHeight, e.scrollHeight, e.offsetHeight) + 2;
     }
 
+    Modal.prototype.clear = function() {
+        for (var i = 0; i < this.values.length; i++) {
+            var v = this.values[i];
+            v.value = null;
+        }
+    }
+
     // Basic close function
     Modal.prototype.close = function () {
         hide(bbd);

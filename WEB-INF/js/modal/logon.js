@@ -28,6 +28,7 @@ addEvent(window, 'load', function () {
     });
     m.addButton(function () {
         m.close();
+        m.clear();
         m2.open();
     }, 'Registeer', 'uninterested');
 
@@ -65,8 +66,10 @@ addEvent(window, 'load', function () {
                             modals.logon_callback(e);
                         }
                         var t = m2.getValues();
-                        // login
-                        window.user.login(t.email, t.password);
+                        m2.clear();
+                        notify('Account aangemaakt!', 'info');
+                        m2.close();
+                        m.open();
                     } else {
                         notify('Kon niet registreren', 'error', notif.longTime);
                     }
@@ -82,6 +85,7 @@ addEvent(window, 'load', function () {
     });
     m2.addButton(function () {
         m2.close();
+        m2.clear();
         m.open();
     }, 'Log in', 'uninterested');
 

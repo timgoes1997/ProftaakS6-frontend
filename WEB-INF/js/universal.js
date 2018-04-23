@@ -99,6 +99,7 @@ function call(type, url, data, callback, h) {
     if (h) {
         xmlHttp.setRequestHeader('Content-Type', h);
     }
+    xmlHttp.withCredentials = true;
     xmlHttp.send(data);
 }
 
@@ -201,8 +202,17 @@ function loadUrl(url, ignore) {
          USER MANAGEMENT
 ############################## */
 User = function () {
-    this.oauth = '0000000';
-    this.entity = storage.load('user') || {};
+    var us = storage.load('user') || {};
+    this.entity = null;
+
+    /* ##############################
+            USER FUNCTIONS
+    ############################## */
+    User.prototype.onLoggedIn = function (callback) {
+        call('GET', API_PATH + 'auth/loggedIn', null, function (e, succ) {
+            return callback(succ);
+        });
+    }
 
     User.prototype.login = function (email, password) {
         var data = 'email=' + email + '&password=' + password;
@@ -240,47 +250,55 @@ User = function () {
         }, 'application/x-www-form-urlencoded');
     }
 
-    var me = this;
-    // Run personalisation
-    addEvent(window, 'load', function () {
-        var user = me;
 
-        // no default roles, assume locked
-        var hasEntity = !!user.entity.user;
-        // run logged in check
-        if (!hasEntity && 'login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
-            window.location = "login.html";
-        }
-        // check if user should be on this page
-        if (window.role) {
-            if (window.roles.indexOf(user.entity.user.role) === -1) {
-                window.location = '403.html';
+    /* ##############################
+            WINDOW LOADING
+    ############################## */
+    var me = this;
+
+
+    this.onLoggedIn(function (loggedIn) {
+        // user is logged in
+        if (loggedIn) {
+            // check if user should be on this page
+            if (window.role) {
+                if (window.roles.indexOf(me.entity.user.role) === -1) {
+                    window.location = '403.html';
+                }
+            }
+
+            // load in personalisation assets
+            var eles = document.querySelectorAll("[user]");
+            for (var i = 0; i < eles.length; i++) {
+                var e = eles[i];
+                var u = me.entity;
+                var v = e.getAttribute('user');
+                if (!!u)
+                    e.innerHTML = u[v] || u.user[v];
+            }
+
+            // check roles
+            var eles = document.querySelectorAll("[roles]");
+            for (var i = 0; i < eles.length; i++) {
+                var e = eles[i];
+                var u = me.entity;
+                var v = e.getAttribute('roles');
+                if (!!u) {
+                    if (v.indexOf(u.user.role) === -1) {
+                        e.parentNode.removeChild(e);
+                    } else {
+                        removeClass(e, 'hidden');
+                    }
+                }
             }
         } else {
-        }
+            // user is not logged in
+            me.entity = null;
+            storage.remove('user');
 
-        // else, load in personalisation assets
-        var eles = document.querySelectorAll("[user]");
-        for (var i = 0; i < eles.length; i++) {
-            var e = eles[i];
-            var u = user.entity;
-            var v = e.getAttribute('user');
-            if (!!u)
-                e.innerHTML = u[v] || u.user[v];
-        }
-
-        // check roles
-        var eles = document.querySelectorAll("[roles]");
-        for (var i = 0; i < eles.length; i++) {
-            var e = eles[i];
-            var u = user.entity;
-            var v = e.getAttribute('roles');
-            if (!!u) {
-                if (v.indexOf(u.user.role) === -1) {
-                    e.parentNode.removeChild(e);
-                } else {
-                    removeClass(e, 'hidden');
-                }
+            // throw user to log in page
+            if ('login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
+                window.location = "login.html";
             }
         }
     });
