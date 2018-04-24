@@ -1,7 +1,7 @@
 addEvent(window, 'load', function() {
     ensure('modals', {});
 
-    var m = new Modal('Auto toevoegen', true, 'carform');
+    var m = new Modal('Auto toevoegen', true, 'carform_customer');
     m.addTitle(3, 'Auto informatie');
     m.addInput('text', 'Merk', 'brand', null, function(e) {
         return e.value != 0;

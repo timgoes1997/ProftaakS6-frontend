@@ -1,7 +1,7 @@
 addEvent(window, 'load', function() {
     ensure('modals', {});
 
-    var m = new Modal('Onbekende auto toevoegen', true, 'carform');
+    var m = new Modal('Onbekende auto toevoegen', true, 'carform_unknown');
     m.addTitle(3, 'Auto informatie');
     m.addInput('text', 'Nummerplaat', 'licenseplate', null, function(e) {
         return e.value != 0;

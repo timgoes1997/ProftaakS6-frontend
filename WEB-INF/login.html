@@ -7,8 +7,9 @@
     <link href='css/general.css' rel='stylesheet' type='text/css' />
     <link href='css/modal.css' rel='stylesheet' type='text/css' />
     <link href='css/logout.css' rel='stylesheet' type='text/css' />
-    <link href='css/portal.css' rel='stylesheet' type='text/css' />
     <script type="text/javascript" src="js/universal.js"></script>
+    <script type="text/javascript" src="js/notif.js"></script>
+    <script type="text/javascript" src="js/table-generate.js"></script>
 </head>
 
 <body>
@@ -31,13 +32,43 @@
                 <hr/>
                 <p class="note">Niet publiekelijk gepubliceerd</p>
             </div>
+            <div>
+                <h2>Services</h2>
+                <hr/>
+                <p class="note">Geen data beschikbaar</p>
+                <table id="police" failtext="Unavailable" failclass="red" class="dynamictable">
+                        <tr>
+                          <th id="ping">Politiesysteem</th>
+                        </tr>
+                </table>
+                <table id="pay" failtext="Unavailable" failclass="red" class="dynamictable">
+                        <tr>
+                          <th id="ping">Klantensysteem</th>
+                        </tr>
+                </table>
+                <table id="track" failtext="Unavailable" failclass="red" class="dynamictable">
+                        <tr>
+                          <th id="ping">Tracking</th>
+                        </tr>
+                </table>
+            </div>
         </div>
         <iframe id="login" class="modal"></iframe>
         <iframe id="register" class="modal"></iframe>
     </div>
 </body>
 <script async type="text/javascript" src="js/modal.js"></script>
-<script async type="text/javascript" src="js/notif.js"></script>
 <script async type="text/javascript" src="js/modal/logon.js"></script>
+<script>
+    var table = {};
+    table.Manually = true;
 
+    var pot = {URL:'ping', id:'police'};
+    var pat = {URL:'ping', id:'pay'};
+    var tt = {URL:'ping', id:'track'};
+
+    var t = new TableLoader(pot);
+    var t2 = new TableLoader(pat);
+    var t3 = new TableLoader(tt);
+</script>
 </html>

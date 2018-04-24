@@ -8,7 +8,7 @@ TableLoader = function(t, id) {
 
     ensure('actions', []);
 
-    if (!table.URL) {
+    if (!this.table.URL) {
         console.error("Please set a tableURL to request the resources from");
         return;
     }
@@ -16,20 +16,33 @@ TableLoader = function(t, id) {
     ensure('Manually', false, table);
     ensure('Callback', function(){}, table);
 
-    TableLoader.prototype.fetch = function() {
-        call('get', API_PATH + table.URL, table.Data, this.fill);
+    this.fetch = function() {
+        call('get', API_PATH + this.table.URL, this.table.Data, this.fill);
     }
 
-    TableLoader.prototype.showEmpty = function() {
-        var t = $(me.id);
+    this.showEmpty = function() {
+        var t = $(this.id);
         var tr = document.createElement('tr');
         tr.innerHTML='Geen resultaten gevonden';
         addClass(t, 'empty');
         t.appendChild(tr);
     }
+
+    this.showError = function() {
+        var t = $(this.id);
+        var td = document.createElement('td');
+
+        var eText = t.getAttribute('failtext') || 'Een error is opgetreden. Neem contact op met een beheerder als het probleem zich niet oplost.';
+        td.innerHTML= eText;
+
+        var eClass = t.getAttribute('failclass') || 'error';
+        addClass(td, eClass);
+        t = t.children[0].children[0];
+        t.appendChild(td);
+    }
     
     // Table fill actions
-    TableLoader.prototype.fill = function(e, succ, level) {
+    this.fill = function(e, succ, level) {
         if (succ) {
             var t = $(me.id);
             e = JSON.parse(e);
@@ -115,8 +128,8 @@ TableLoader = function(t, id) {
         } else {
             if (level === 1 || level === 2) {
                 notify('Kon tabel niet inladen', 'error', notif.longTime);
+                me.showError();
             } else {
-    
                 notify('Geen data om in te laden', 'warning', notif.longTime);
             }
         }

@@ -22,10 +22,14 @@ function initTrack() {
 
 ////////// OPTION FUNCTIONS
 function setRealtime() {
-    useRealtime = $('realtime').checked;
+    if ($('realtime')) {
+        useRealtime = $('realtime').checked;
 
-    $('starttime').disabled = useRealtime;
-    $('endtime').disabled = useRealtime;
+        $('starttime').disabled = useRealtime;
+        $('endtime').disabled = useRealtime;
+    } else {
+        useRealtime = false;
+    }
 }
 function setStartTime() {
     start = $('starttime').value;

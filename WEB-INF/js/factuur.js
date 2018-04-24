@@ -2,6 +2,10 @@ addEvent(window, 'load', init);
 
 
 function init() {
+    function toShortDate(date) {
+        return date.year + date.month + date.day;
+    }
+
     var params = getQueryParams();
     call('GET', API_PATH + 'bills/' + params.id, null, function (e, succ) {
         if (succ) {
@@ -17,8 +21,8 @@ function init() {
             var l = e.license;
 
             // mapcore.js interface
-            start = e.startDate;
-            end = e.endDate;
+            start = toShortDate(new Date(e.numberStartDate));
+            end = toShortDate(new Date(e.numberEndDate));
 
             // Draw on map
             addCar(l);

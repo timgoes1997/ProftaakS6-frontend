@@ -202,8 +202,7 @@ function loadUrl(url, ignore) {
          USER MANAGEMENT
 ############################## */
 User = function () {
-    var us = storage.load('user') || {};
-    this.entity = null;
+    this.entity = storage.load('user') || {};
 
     /* ##############################
             USER FUNCTIONS

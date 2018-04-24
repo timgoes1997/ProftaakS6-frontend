@@ -137,10 +137,13 @@ function removeCar(id) {
     if (car) {
         funcOnArr(car.lines, function (e) {
             // remove lines
-            e.onRemove();
+            e.setMap(null);
         });
         removeFromArray(cars, car);
         removeElement($(id));
+
+        // clear lines
+        car.lines = [];
 
         // remove marker
         car.marker.onRemove();
@@ -208,10 +211,9 @@ function setMarker(id, pos) {
     marker.onUpdate(latLng);
     return marker;
 }
-// requres {long, lat} x2
 function drawBetweenPoints(pos1, pos2) {
     var line = new google.maps.Polyline({
-        path: [new google.maps.LatLng(pos1.lat, pos1.lng), new google.maps.LatLng(pos2.lat, pos2.lng)],
+        path: [new google.maps.LatLng(pos1.x, pos1.y), new google.maps.LatLng(pos2.x, pos2.y)],
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
         strokeWeight: 2.5,

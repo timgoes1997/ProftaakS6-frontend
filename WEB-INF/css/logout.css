@@ -18,6 +18,16 @@ html {
   color: #222;
   border: 1px solid #eee;
 }
+.dynamictable {
+  text-align: left;
+  font-weight: bold;
+}
+.dynamictable th {
+  width: 150px;
+}
+.red {
+  color: #b82020;
+}
 
 body {
     vertical-align: middle;

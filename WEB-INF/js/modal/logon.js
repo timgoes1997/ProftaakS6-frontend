@@ -1,5 +1,8 @@
 addEvent(window, 'load', function () {
     ensure('modals', {});
+    t.fetch();
+    t2.fetch();
+    t3.fetch();
 
     var m = new Modal('Login', true, 'login', true);
     var m2 = new Modal('Registreer', true, 'register');
