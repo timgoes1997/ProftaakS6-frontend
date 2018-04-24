@@ -3,7 +3,7 @@ addEvent(window, 'load', init);
 
 function init() {
     function toShortDate(date) {
-        return date.year + date.month + date.day;
+        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     }
 
     var params = getQueryParams();
@@ -21,8 +21,8 @@ function init() {
             var l = e.license;
 
             // mapcore.js interface
-            start = toShortDate(new Date(e.numberStartDate));
-            end = toShortDate(new Date(e.numberEndDate));
+            window.start = toShortDate(new Date(e.numberStartDate*1e3));
+            window.end = toShortDate(new Date(e.numberEndDate*1e3));
 
             // Draw on map
             addCar(l);
