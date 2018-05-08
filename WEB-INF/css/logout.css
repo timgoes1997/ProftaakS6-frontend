@@ -39,3 +39,10 @@ body {
 .centered {
   margin: auto;
 }
+.btns {
+  text-align: right;
+}
+.btns > * {
+  width: 120px;
+  margin-left: 20px;
+}

@@ -2,7 +2,7 @@ addEvent(window, 'load', loadTable);
 
 // Class
 TableLoader = function (t, id) {
-    var hasTableSort = function() {
+    var hasTableSort = function () {
         return typeof variable !== 'undefined';
     }
 
