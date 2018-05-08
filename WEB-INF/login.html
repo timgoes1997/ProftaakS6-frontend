@@ -37,19 +37,19 @@
                 <hr/>
                 <p class="note">Geen data beschikbaar</p>
                 <table id="police" failtext="Unavailable" failclass="red" class="dynamictable">
-                        <tr>
-                          <th id="ping">Politiesysteem</th>
-                        </tr>
+                    <tr>
+                        <th>Politiesysteem</th>
+                    </tr>
                 </table>
                 <table id="pay" failtext="Unavailable" failclass="red" class="dynamictable">
-                        <tr>
-                          <th id="ping">Klantensysteem</th>
-                        </tr>
+                    <tr>
+                        <th>Klantensysteem</th>
+                    </tr>
                 </table>
                 <table id="track" failtext="Unavailable" failclass="red" class="dynamictable">
-                        <tr>
-                          <th id="ping">Tracking</th>
-                        </tr>
+                    <tr>
+                        <th>Tracking</th>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -63,12 +63,22 @@
     var table = {};
     table.Manually = true;
 
-    var pot = {URL:'ping', id:'police'};
-    var pat = {URL:'ping', id:'pay'};
-    var tt = {URL:'ping', id:'track'};
+    var onEmpty = function (e) {
+        e.handled = true;
+
+        var t = $(this.id);
+        var th = document.createElement('th');
+        th.innerHTML="Available";
+        addClass(th, 'green');
+        t.children[0].children[0].appendChild(th);
+    };
+    var pot = { URL: 'ping', id: 'police', onempty: onEmpty };
+    var pat = { URL: 'ping', id: 'pay', onempty: onEmpty };
+    var tt = { URL: 'ping', id: 'track', onempty: onEmpty };
 
     var t = new TableLoader(pot);
     var t2 = new TableLoader(pat);
     var t3 = new TableLoader(tt);
 </script>
+
 </html>

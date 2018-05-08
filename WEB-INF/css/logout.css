@@ -5,7 +5,9 @@ html {
     background: #4285F4;
     background: linear-gradient(141deg, #0fa4b8 0%, #1f90db 51%, #4285F4 75%);
 }
-
+.green {
+  color: #1aa157;
+}
 #darkener {
   background: none;
 }

@@ -78,6 +78,13 @@ TableLoader = function (t, id) {
         if (hasempty) {
             removeClass(hasempty, 'hidden');
         } else {
+            var e = {};
+            if (this.table.onempty) {
+                this.table.onempty(e);
+            }
+            if (e.handled || e.preventDefault) {
+                return;
+            }
             var t = $(this.id);
             var tr = document.createElement('tr');
             tr.innerHTML = 'Geen resultaten gevonden';
