@@ -45,6 +45,11 @@ TableLoader = function(t, id) {
     this.fill = function(e, succ, level) {
         if (succ) {
             var t = $(me.id);
+            if (e==="") {
+                me.showEmpty();
+                return;
+            }
+
             e = JSON.parse(e);
 
             // Use root if given (always an array)
