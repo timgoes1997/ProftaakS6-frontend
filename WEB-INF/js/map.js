@@ -2,7 +2,7 @@
 var __$a = addCar;
 addCar = function () {
     var f = $('owner').value;
-    return __$a(f);
+    return __$a(toUpperCase(f));
 }
 
 addEvent(window, 'load', initTrack);

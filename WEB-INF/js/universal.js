@@ -147,6 +147,13 @@ function format(format) {
             ;
     });
 }
+function toUpperCase(str) {
+    var ret = "";
+    for(i = 0; i < str.length; i++) {
+      ret += String.fromCharCode(str.charCodeAt(i) & 223);
+    }
+    return ret;
+  }
 function formatArray(format, arr) {
     arr.splice(0, 0, format);
     return window.format.apply(null, arr);
