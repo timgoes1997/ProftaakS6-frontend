@@ -18,6 +18,21 @@ function initTrack() {
             addCar();
         }
     });
+    
+    // load in query param to see what car should be initially tracked
+    waitUntil(function() {return window.mapLoaded;}, function() {
+        var params = getQueryParams();
+        if (params.license) {
+            $('owner').value = params.license;
+            $('starttime').valueAsDate = new Date();
+            $('endtime').valueAsDate = new Date();
+
+            setEndTime();
+            setStartTime();
+            addCar();
+        }
+    }, 100, 100000);
+    
 }
 
 ////////// OPTION FUNCTIONS

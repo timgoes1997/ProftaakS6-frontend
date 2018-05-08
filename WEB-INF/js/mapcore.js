@@ -239,6 +239,7 @@ function initMap() {
     definePopupClass();
 
     try { setMarker("", { 'lat': 0, 'lng': 0 }); } catch (e) { }
+    window.mapLoaded = true;
 }
 google.maps.event.addDomListener(window, 'load', initMap);
 function definePopupClass() {

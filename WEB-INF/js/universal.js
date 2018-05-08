@@ -148,6 +148,7 @@ function format(format) {
     });
 }
 function toUpperCase(str) {
+    if (str.toUpperCase) return str.toUpperCase();
     var ret = "";
     for(i = 0; i < str.length; i++) {
       ret += String.fromCharCode(str.charCodeAt(i) & 223);
