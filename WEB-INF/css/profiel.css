@@ -35,3 +35,15 @@
 .details-box .divider {
     margin-bottom: 5px;
 }
+
+p > p {
+    display: table-cell;
+}
+p > p:first-child {
+    width:40%;
+    font-weight:bold;
+}
+.details-box > p {
+    display:table;
+    width: 100%;
+}
