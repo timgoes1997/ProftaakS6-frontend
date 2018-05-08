@@ -14,6 +14,16 @@ addEvent(window, 'load', function () {
         return e.value != 0;
     });
     m.addDivider();
+
+    var el = document.createElement('a');
+        el.innerHTML = "Wachtwoord vergeten?";
+        el.href = '#';
+        el.onclick = function() {
+            window.location = 'newpass.html';
+        }
+
+    m.addElement(el);
+    m.addDivider();
     m.addPost({
         'innerHTML': 'Log in',
         'method': 'POST',

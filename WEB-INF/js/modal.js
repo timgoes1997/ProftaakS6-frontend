@@ -203,6 +203,10 @@ Modal = function (name, form, id, starthidden) {
         return ret;
     }
 
+    // Custom element
+    Modal.prototype.addElement = function(el) {
+        this.form.appendChild(el);
+    }
 
     // Add a simple divider for styling
     Modal.prototype.addDivider = function () {
