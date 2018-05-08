@@ -150,11 +150,11 @@ function format(format) {
 function toUpperCase(str) {
     if (str.toUpperCase) return str.toUpperCase();
     var ret = "";
-    for(i = 0; i < str.length; i++) {
-      ret += String.fromCharCode(str.charCodeAt(i) & 223);
+    for (i = 0; i < str.length; i++) {
+        ret += String.fromCharCode(str.charCodeAt(i) & 223);
     }
     return ret;
-  }
+}
 function formatArray(format, arr) {
     arr.splice(0, 0, format);
     return window.format.apply(null, arr);
@@ -268,9 +268,10 @@ User = function () {
         // user is logged in
         if (loggedIn) {
             // check if user should be on this page
-            if (window.role) {
+            if (window.roles) {
                 if (window.roles.indexOf(me.entity.user.role) === -1) {
-                    window.location = '403.html';
+                    if (window.roles.indexOf('ALL') === -1)
+                        window.location = '403.html';
                 }
             }
 
@@ -299,13 +300,21 @@ User = function () {
                 }
             }
         } else {
-            // user is not logged in
-            me.entity = null;
-            storage.remove('user');
+            if (window.roles) {
+                if (window.roles.indexOf(me.entity.user.role) === -1) {
+                    if (window.roles.indexOf('ALL') === -1)
+                        window.location = '403.html';
+                }
+            } else {
 
-            // throw user to log in page
-            if ('login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
-                window.location = "login.html";
+                // user is not logged in
+                me.entity = null;
+                storage.remove('user');
+
+                // throw user to log in page
+                if ('login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
+                    window.location = "login.html";
+                }
             }
         }
     });

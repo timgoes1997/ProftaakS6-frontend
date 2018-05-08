@@ -2,12 +2,18 @@ addEvent(window, 'load', loadTable);
 
 // Class
 TableLoader = function (t, id) {
+    var hasTableSort = function() {
+        return typeof variable !== 'undefined';
+    }
+
+
     this.table = t || window.table || {};
     this.id = id || this.table.id || console.error('Please specify the ID of the table');
     var me = this;
-    this.sorter = new Tablesort(document.getElementById(this.id), {
-        //descending: true
-    });
+    if (hasTableSort())
+        this.sorter = new Tablesort(document.getElementById(this.id), {
+            //descending: true
+        });
 
     ensure('actions', []);
 
@@ -38,7 +44,8 @@ TableLoader = function (t, id) {
             }
 
             // refresh sorter
-            me.sorter.refresh();
+            if (hasTableSort())
+                me.sorter.refresh();
 
             // show the empty list if necessary
             if (empty) {
@@ -187,7 +194,8 @@ TableLoader = function (t, id) {
                 tbody.appendChild(tr);
             }
             t.appendChild(tbody);
-            me.sorter.refresh();
+            if (hasTableSort())
+                me.sorter.refresh();
         } else {
             if (level === 1 || level === 2) {
                 notify('Kon tabel niet inladen', 'error', notif.longTime);
