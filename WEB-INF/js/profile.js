@@ -7,6 +7,8 @@ function init()
     var model = document.getElementById("model");
     var nummerplaat = document.getElementById("nummerplaat");
     var bouwdatum = document.getElementById("bouwdatum");
+    var facturen = document.getElementById("facturen");
+    var track = document.getElementById("track");
 
     call ("GET", API_PATH + "vehicles/currentUser/", null, function(e, succ){
         var carlist = JSON.parse(e);
@@ -25,6 +27,9 @@ function init()
             model.innerHTML = "<p>Model</p><p>"+ mo + "</p>";
             nummerplaat.innerHTML = "<p>Nummerplaat</p><p>"+ nu + "</p>";
             bouwdatum.innerHTML = "<p>Bouwdatum</p><p>"+ bouw + "</p>";
+            track.href = '/track.html?license=' + car.licensePlate;
+            facturen.href = '/facturen.html?type=vehicle&filter=' + car.vehicle.id;
+
             var clone = template.cloneNode(true);
             removeClass(clone, "hidden");
             if (template.nextSibling)
@@ -35,6 +40,7 @@ function init()
             {
                 template.parentNode.appendChild(clone);
             }
+            removeElement(template);
         }
     });
 

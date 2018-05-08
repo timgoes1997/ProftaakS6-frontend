@@ -76,15 +76,20 @@
     <div id="notif-holder"></div>
     <script async type="text/javascript" src="js/notif.js"></script>
     <script>
-        var dstart = Date.now();
-        var dend = new Date();
-        dend.setMonth(dend.getMonth() - 12);
         var table = {};
-        table.URL = "bills/all";
-        table.Data = {
-            "startdate" : dstart,
-            "enddate" : dend
-        };
+        var params = getQueryParams();
+        if (params.filter) {
+            table.URL = "bills/" + params.type + "/" + params.filter;
+        } else {
+            var dstart = Date.now();
+            var dend = new Date();
+            dend.setMonth(dend.getMonth() - 12);
+            table.URL = "bills/all";
+            table.Data = {
+                "startdate" : dstart,
+                "enddate" : dend
+            };
+        }
     </script>
     <script async type="text/javascript" src="js/table-generate.js"></script>
 </body>

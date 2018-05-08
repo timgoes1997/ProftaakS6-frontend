@@ -24,7 +24,10 @@ function initTrack() {
         var params = getQueryParams();
         if (params.license) {
             $('owner').value = params.license;
-            $('starttime').valueAsDate = new Date();
+
+            var d = new Date();
+            d.setDate(d.getDate()-7);
+            $('starttime').valueAsDate = d;
             $('endtime').valueAsDate = new Date();
 
             setEndTime();
