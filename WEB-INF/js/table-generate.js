@@ -1,10 +1,13 @@
-addEvent(window, 'load', loadTable)
+addEvent(window, 'load', loadTable);
 
 // Class
-TableLoader = function(t, id) {
+TableLoader = function (t, id) {
     this.table = t || window.table || {};
     this.id = id || this.table.id || console.error('Please specify the ID of the table');
     var me = this;
+    this.sorter = new Tablesort(document.getElementById(this.id), {
+        //descending: true
+    });
 
     ensure('actions', []);
 
@@ -14,38 +17,91 @@ TableLoader = function(t, id) {
     }
     ensure('Data', null, table);
     ensure('Manually', false, table);
-    ensure('Callback', function(){}, table);
+    ensure('Callback', function () { }, table);
 
-    this.fetch = function() {
+    this.subscribeSearchBar = function () {
+        me.table.search.addEventListener('keyup', function () {
+            var empty = true;
+
+            var t = $(me.id).getElementsByTagName("TBODY")[0];
+
+            var kiddos = t.getElementsByTagName("TR");
+            // filter rows (1 partial tr match = OK)
+            for (var i = 0; i < kiddos.length; i++) {
+                var tr = kiddos[i];
+                if (!rowHasData(tr, me.table.search.value)) {
+                    addClass(tr, 'hidden');
+                } else {
+                    removeClass(tr, 'hidden');
+                    empty = false;
+                }
+            }
+
+            // refresh sorter
+            me.sorter.refresh();
+
+            // show the empty list if necessary
+            if (empty) {
+                me.showEmpty();
+            } else {
+                me.hideEmpty();
+            }
+        });
+    }
+
+    function rowHasData(row, data) {
+        var kiddos = row.getElementsByTagName("td");
+        for (i = 0; i < kiddos.length; i++) {
+            td = kiddos[i];
+            if (td) {
+                if (toUpperCase(td.innerHTML).indexOf(toUpperCase(data)) > -1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    this.fetch = function () {
         call('get', API_PATH + this.table.URL, this.table.Data, this.fill);
     }
 
-    this.showEmpty = function() {
-        var t = $(this.id);
-        var tr = document.createElement('tr');
-        tr.innerHTML='Geen resultaten gevonden';
-        addClass(t, 'empty');
-        t.appendChild(tr);
+    var hasempty = 0;
+    this.showEmpty = function () {
+        if (hasempty) {
+            removeClass(hasempty, 'hidden');
+        } else {
+            var t = $(this.id);
+            var tr = document.createElement('tr');
+            tr.innerHTML = 'Geen resultaten gevonden';
+            addClass(t, 'empty');
+            t.appendChild(tr);
+            hasempty = tr;
+        }
     }
 
-    this.showError = function() {
+    this.hideEmpty = function () {
+        addClass(hasempty, 'hidden');
+    }
+
+    this.showError = function () {
         var t = $(this.id);
         var td = document.createElement('td');
 
         var eText = t.getAttribute('failtext') || 'Een error is opgetreden. Neem contact op met een beheerder als het probleem zich niet oplost.';
-        td.innerHTML= eText;
+        td.innerHTML = eText;
 
         var eClass = t.getAttribute('failclass') || 'error';
         addClass(td, eClass);
         t = t.children[0].children[0];
         t.appendChild(td);
     }
-    
+
     // Table fill actions
-    this.fill = function(e, succ, level) {
+    this.fill = function (e, succ, level) {
         if (succ) {
             var t = $(me.id);
-            if (e==="") {
+            if (e === "") {
                 me.showEmpty();
                 return;
             }
@@ -69,15 +125,16 @@ TableLoader = function(t, id) {
             if (!root.length) {
                 me.showEmpty(); // nothing to show
             }
-    
+
+            var tbody = document.createElement('tbody');
             // e is an array
-            for (var j=0; j<root.length;j++) {
+            for (var j = 0; j < root.length; j++) {
                 var obj = e[j];
                 // Create a row
                 var tr = document.createElement('tr');
-    
+
                 var ids = [];
-    
+
                 // loop through the TH
                 var ths = t.getElementsByTagName("TH");
                 for (var i = 0; i < ths.length; i++) {
@@ -90,22 +147,22 @@ TableLoader = function(t, id) {
                             td = document.createElement('td');
                             // Fill the td
                             var def = th.getAttribute('default') || 'N/A';
-    
+
                             var p = th.getAttribute('prefix') || '';
                             var s = th.getAttribute('suffix') || '';
-    
+
                             // get value from tree (dots accepted)
-                            var val = getValueInObject(obj,th.id) || def;
+                            var val = getValueInObject(obj, th.id) || def;
                             val = p + val + s;
-    
+
                             td.innerHTML = val;
                             ids.push(
                                 {
-                                    'name':th.id,
-                                    'value':val
+                                    'name': th.id,
+                                    'value': val
                                 }
                             );
-    
+
                         } else {
                             // Create td's
                             td = document.createElement('td');
@@ -114,7 +171,7 @@ TableLoader = function(t, id) {
                             var string = th.id.replace('actions_', '');
                             addClass(div, 'btn');
                             div.innerHTML = string;
-    
+
                             // Attach action
                             var action = getActionFor(th, obj, ids);
                             if (action) {
@@ -127,9 +184,10 @@ TableLoader = function(t, id) {
                         tr.appendChild(td);
                     } // else no ID. 
                 }
-                t.appendChild(tr);
+                tbody.appendChild(tr);
             }
-    
+            t.appendChild(tbody);
+            me.sorter.refresh();
         } else {
             if (level === 1 || level === 2) {
                 notify('Kon tabel niet inladen', 'error', notif.longTime);
@@ -139,16 +197,16 @@ TableLoader = function(t, id) {
             }
         }
     }
-    
+
     function getValueInObject(obj, field) {
         var fields = field.split('.');
         var cur = obj;
-        for (var i=0; i<fields.length;i++) {
+        for (var i = 0; i < fields.length; i++) {
             cur = cur[fields[i]];
         }
         return cur;
     }
-    
+
     function getActionFor(ele, obj, ids) {
         var action = ele.getAttribute('action');
         if (action === "a") {
@@ -156,25 +214,29 @@ TableLoader = function(t, id) {
             var url = ele.getAttribute('link');
             var params = ele.getAttribute('parameters');
             params = params.split(','); // to array
-    
+
             // replace params by matching IDs
-            for (var i=0;i<ids.length;i++) {
+            for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
-                for (var j=0;j<params.length;j++) {
+                for (var j = 0; j < params.length; j++) {
                     var param = params[j];
-                    if (id.name===param) {
+                    if (id.name === param) {
                         params[j] = id.value;
                     }
                 }
             }
-    
+
             // replace "{0}", etc by parameters
             url = format(url, params);
-            return function() {
+            return function () {
                 window.location = url;
             };
         }
         console.warn("No action found for " + action);
+    }
+
+    if (table.search) {
+        this.subscribeSearchBar();
     }
 }
 

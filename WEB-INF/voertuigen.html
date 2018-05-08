@@ -16,6 +16,7 @@
     <script type="text/javascript" src="js/universal.js"></script>
     <script type="text/javascript" src="js/modal.js"></script>
     <script type="text/javascript" src="js/notif.js"></script>
+    <script type="text/javascript" src='js/tablesort.min.js'></script>
     <title>Voertuigen</title>
 </head>
 
@@ -48,18 +49,10 @@
         <div class="table-settings small-contents">
                 <h3>Opties</h3>
                 <div class="t-two-inline">
-                    <label>Zoeken</label><input type="text"/>
+                    <label>Zoeken</label><input id="search" type="text"/>
                 </div>
                 <div class="t-two-inline">
                     <label for="app-only">Enkel applicatiegebruikers</label><input name="app-only" id="app-only" type="checkbox"/>
-                    <label>Sorteer op</label>
-                    <select>
-                        <option>Nummerplaat</option>
-                        <option>Hardware</option>
-                        <option>Eigenaar</option>
-                        <option>Tariefcategorie</option>
-                        <option>Applicatiegebruiker</option>
-                    </select>
                 </div>
         </div>
         <div class="divider"></div>
@@ -68,25 +61,29 @@
         </div>
         <div id="dynamic-table" class="small-contents">
             <table id="table-generate">
+                <thead>
                     <tr>
-                      <th id="licensePlate">Nummerplaat</th>
+                      <th data-sort-method='number' id="licensePlate" data-sort-default>Nummerplaat</th>
                       <th id="hardware" default="Standaard">Hardware</th>
                       <th id="customer.name">Eigenaar</th>
                       <th id="vehicle.energyLabel">Tariefcategorie</th>
                       <th id="app_user" default="Onbekend">Applicatiegebruiker</th>
                       <th id="actions_Bewerk" action="a" link="voertuig.html?license={0}" parameters="license">Acties</th>
                     </tr>
+                </thead>
             </table>
         </div>
     </div>
     <div id="notif-holder"></div>
     <div id="darkener" class="hidden darkener" onclick="closeMenu()"></div>
-    <script async type="text/javascript" src="js/modal/car_customer.js"></script>
-    <script async type="text/javascript" src="js/modal/car_unknown.js"></script>
+    <script async defer type="text/javascript" src="js/modal/car_customer.js"></script>
+    <script async defer type="text/javascript" src="js/modal/car_unknown.js"></script>
     <script>
         var table = {};
         table.URL = "vehicles/registered";
+        table.search = $('search');
     </script>
-    <script async type="text/javascript" src="js/table-generate.js"></script>
+    <script async defer type="text/javascript" src="js/table-generate.js"></script>
+    <script async defer type="text/javascript" src='js/sorts/tablesort.number.min.js'></script>
 </body>
 </html>

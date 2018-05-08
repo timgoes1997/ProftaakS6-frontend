@@ -13,6 +13,7 @@
     <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
     <link href='css/management.css' rel='stylesheet' type='text/css' />
     <script type="text/javascript" src="js/universal.js"></script>
+    <script type="text/javascript" src='js/tablesort.min.js'></script>
     <title>Facturen</title>
 </head>
 
@@ -42,17 +43,7 @@
         <div class="table-settings small-contents">
                 <h3>Opties</h3>
                 <div class="t-two-inline">
-                    <label>Zoeken</label><input type="text"/>
-                </div>
-                <div class="t-two-inline">
-                    <label>Sorteer op</label>
-                    <select>
-                        <option>FactuurNr</option>
-                        <option>Cartracker</option>
-                        <option>TotaalBedrag</option>
-                        <option>BetaalStatus</option>
-                        <option>Maand</option>
-                    </select>
+                    <label>Zoeken</label><input id="search" type="text"/>
                 </div>
         </div>
         <div class="divider"></div>
@@ -62,14 +53,16 @@
         <div id="dynamic-table" class="small-contents">
             <!-- example content -->
             <table id="table-generate">
+                <thead>
                     <tr>
-                      <th id="billnr">FactuurNr</th>
-                      <th id="license">Nummerplaat</th>
+                      <th data-sort-method='number' id="billnr" data-sort-default>FactuurNr</th>
+                      <th data-sort-method='number' id="license">Nummerplaat</th>
                       <th id="status">Status</th>
-                      <th id="price" default="0" suffix=" EUR">Totaal bedrag</th>
+                      <th data-sort-method='number' id="price" default="0" suffix=" EUR">Totaal bedrag</th>
                       <th id="month">Maand</th>
                       <th id="actions_Details" action="a" link="factuur.html?id={0}" parameters="billnr">Acties</th>
                     </tr>
+                </thead>
             </table>
         </div>
     </div>
@@ -89,8 +82,10 @@
                 "startdate" : dstart,
                 "enddate" : dend
             };
+            table.search = $('search');
         }
     </script>
-    <script async type="text/javascript" src="js/table-generate.js"></script>
+    <script async defer type="text/javascript" src="js/table-generate.js"></script>
+    <script async defer type="text/javascript" src='js/sorts/tablesort.number.min.js'></script>
 </body>
 </html>

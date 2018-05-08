@@ -12,6 +12,10 @@
     <link href='css/general.css' rel='stylesheet' type='text/css' />
     <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
     <link href='css/management.css' rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="js/universal.js"></script>
+    <script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/notif.js"></script>
+    <script type="text/javascript" src='js/tablesort.min.js'></script>
     <title>Voertuigen</title>
 </head>
 
@@ -41,17 +45,7 @@
         <div class="table-settings small-contents">
                 <h3>Opties</h3>
                 <div class="t-two-inline">
-                    <label>Zoeken</label><input type="text"/>
-                </div>
-                <div class="t-two-inline">
-                    <label>Sorteer op</label>
-                    <select>
-                        <option>Tarief</option>
-                        <option>Regio</option>
-                        <option>Tariefcategorie</option>
-                        <option>Starttijd Tarief</option>
-                        <option>Eindtijd Tarief</option>
-                    </select>
+                    <label>Zoeken</label><input id="search" type="text"/>
                 </div>
         </div>
         <div class="divider"></div>
@@ -60,15 +54,18 @@
         </div>
         <div id="dynamic-table" class="small-contents">
             <!-- example content -->
-            <table>
+            <table id="table-generate">
+                <thead>
                     <tr>
-                      <th>Tarief</th>
+                      <th data-sort-default data-sort-method='number'>Tarief</th>
                       <th>Regio</th>
                       <th>Tariefcategorie</th>
                       <th>Starttijd Tarief</th>
                       <th>Eindtijd Tarief</th>
                       <th>Acties</th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr>
                         <td>€ 1,-</td>
                         <td>Berlijn</td>
@@ -117,8 +114,18 @@
                         <td>20:00</td>
                         <td class="actions"><div class="btn">Bewerk</div></td>
                     </tr>
-                  </table>
+                </tbody>
+            </table>
         </div>
+        <div id="notif-holder"></div>
+        <div id="darkener" class="hidden darkener" onclick="closeMenu()"></div>
     </div>
+    <script>
+        var table = {};
+        //table.URL = "vehicles/registered";
+        table.search = $('search');
+    </script>
+    <script async defer type="text/javascript" src="js/table-generate.js"></script>
+    <script async defer type="text/javascript" src='js/sorts/tablesort.number.min.js'></script>
 </body>
 </html>
