@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name="author" content="Rowan Dings">
+    <meta name="theme-color" content="#0163AE" />
+
+    <link href='css/general.css' rel='stylesheet' type='text/css' />
+    <link href='css/modal.css' rel='stylesheet' type='text/css' />
+    <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
+    <link href='css/admin.css' rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="js/universal.js"></script>
+    <title>Admin</title>
+</head>
+
+<body>
+    <div class="side-nav scroller">
+        <img src="img/car.jpg" class="img-header"/>
+        <div class="b-header"><h2>Welkom</h2></div>
+        <h3>Home</h3>
+        <a href="profiel.html"><p class="fa fa-user"></p><p>Profiel</p></a>
+        <a href="track.html"><p class="fa fa-map-pin"></p><p>Track</p></a>
+        <div class="divider"></div>
+        <h3>Administratie</h3>    
+        <a href="voertuigen.html"><p class="fa fa-car"></p><p>Voertuigen</p></a>
+        <a href="tarieven.html"><p class="fa fa-compass"></p><p>Tarieven</p></a>
+        <a href="facturen.html"><p class="fa fa-balance-scale"></p><p>Facturen</p></a>
+        <a roles="GOVERNMENT_EMPLOYEE" href="admin.html"><p class="fa fa-address-card"></p><p>Administratie</p></a>
+        <div class="divider"></div>
+        <h3>Algemeen</h3>
+        <a href="logout.html"><p class="fa fa-power-off"></p><p>Uitloggen</p></a>
+        <a href="about.html"><p class="fa fa-info"></p><p>Over Ons</p></a>
+        <div class="divider"></div>
+    </div>
+    <div class="contents">
+        <div class="header small-contents">
+            <h3>Administratie</h3>
+        </div>
+        <div class="divider"></div>
+        <div class="flex small-contents">
+            <div class="auto-box" onclick="openMenu(modals.car)">
+                <p>
+                    <div class="box-button">
+                        <span class="decorator fa fa-car"></span>
+                        <h3>Voeg auto toe</h3>
+                    </div>
+                </p>
+            </div>
+            <div class="auto-box" onclick="openMenu(modals.car_unknown)">
+                <p>
+                    <div class="box-button">
+                        <span class="decorator fa fa-car"></span>
+                        <h3>Voeg onbekende auto toe</h3>
+                    </div>
+                </p>
+            </div>
+            <div class="auto-box" onclick="openMenu(modals.registernew)">
+                <p>
+                    <div class="box-button">
+                        <span class="decorator fa fa-user"></span>
+                        <h3>Voeg gebruiker toe</h3>
+                    </div>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="notif-holder"></div>
+    <div id="darkener" class="hidden darkener" onclick="closeMenu()"></div>
+    <script>
+        window.roles = "GOVERNMENT_EMPLOYEE";
+        //window.roles = "ALL";
+    </script>
+    <script async type="text/javascript" src="js/modal.js"></script>
+    <script async type="text/javascript" src="js/notif.js"></script>
+    <script async type="text/javascript" src="js/modal/car_customer.js"></script>
+    <script async type="text/javascript" src="js/modal/car_unknown.js"></script>
+    <script async type="text/javascript" src="js/modal/registernew.js"></script>
+</body>
+</html>

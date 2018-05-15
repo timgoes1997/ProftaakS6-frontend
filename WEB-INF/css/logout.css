@@ -46,3 +46,9 @@ body {
   width: 120px;
   margin-left: 20px;
 }
+
+.main.centered > div:after {
+  content: "";
+  display: table;
+  clear: both;
+}

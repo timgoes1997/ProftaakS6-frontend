@@ -22,7 +22,7 @@ addEvent(window, 'load', function () {
                     data += '&residency=GERMANY';
                 }
 
-                call('POST', API_PATH + 'ToDo', data, function (e, succ) {
+                call('POST', API_PATH + 'users/create/simple', data, function (e, succ) {
                     if (succ) {
                         notify('Account aangemaakt!', 'info');
                     } else {
@@ -39,4 +39,5 @@ addEvent(window, 'load', function () {
         m.close();
         m.clear();
     }, 'Sluit', 'uninterested');
+    modals.registernew = m;
 });
