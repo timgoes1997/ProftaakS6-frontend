@@ -14,7 +14,18 @@ addEvent(window, 'load', function() {
     m.addInput('date', 'Bouwdatum', 'buildDate', null, function(e) {
         return e.value != 0;
     });
-    m.addInput('text', 'Model', 'model', null, function(e) {
+    m.addInput('text', 'Model', 'modelName', null, function(e) {
+        return e.value != 0;
+    });
+    m.addInput('text', 'Editie', 'edition', null, function(e) {
+        return e.value != 0;
+    });
+    m.addDivider();
+    m.addTitle(3, 'Verbruiksinformatie');
+    m.addInput('text', 'Energielabel', 'energyLabel', null, function(e) {
+        return e.value != 0;
+    });
+    m.addInput('text', 'Brandstof', 'fuelType', null, function(e) {
         return e.value != 0;
     });
     m.addDivider();
@@ -30,7 +41,7 @@ addEvent(window, 'load', function() {
             if (m.verified()) {
                 // send
                 notify('Bezig met verwerken nieuw onbekend voertuig...', 'info', notif.defaultTime);
-                call('POST', API_PATH + 'vehicle/new', new FormData(m.getForm()), function(e,succ) {
+                call('POST', API_PATH + 'vehicles/create/vehicle', new FormData(m.getForm()), function(e,succ) {
                     if (succ) {
                         if (modals.car_unknown_callback) {
                             modals.car_unknown_callback(e);
