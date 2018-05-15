@@ -301,10 +301,8 @@ User = function () {
             }
         } else {
             if (window.roles) {
-                if (window.roles.indexOf(me.entity.user.role) === -1) {
-                    if (window.roles.indexOf('ALL') === -1)
-                        window.location = '403.html';
-                }
+                if (window.roles.indexOf('ALL') === -1)
+                    window.location = '403.html';
             } else {
 
                 // user is not logged in
