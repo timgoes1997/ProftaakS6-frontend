@@ -166,7 +166,8 @@ TableLoader = function (t, id) {
                             var s = th.getAttribute('suffix') || '';
 
                             // get value from tree (dots accepted)
-                            var val = getValueInObject(obj, th.id) || def;
+                            var val = getValueInObject(obj, th.id);
+                            val = getMatchingValueAttribute(val, th) || def;
                             val = p + val + s;
 
                             td.innerHTML = val;
@@ -211,6 +212,10 @@ TableLoader = function (t, id) {
                 notify('Geen data om in te laden', 'warning', notif.longTime);
             }
         }
+    }
+
+    function getMatchingValueAttribute(val, ele) {
+        return ele.getAttribute(val) || val;
     }
 
     function getValueInObject(obj, field) {
