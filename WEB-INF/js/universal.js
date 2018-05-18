@@ -87,9 +87,9 @@ function call(type, url, data, callback, h) {
             if (xmlHttp.status >= 200 && xmlHttp.status < 300 || xmlHttp.status === 302) {
                 callback(xmlHttp.responseText, true);
             } else if (xmlHttp.status >= 500 && xmlHttp.status < 600) {
-                callback('INTERNAL ERROR: ' + xmlHttp.responseText, false, 1);
+                callback('INTERNAL ERROR: ' + xmlHttp.responseText, false, 1, xmlHttp.status);
             } else if (xmlHttp.status >= 400 && xmlHttp.status < 500) {
-                callback('CLIENT ERROR: ' + xmlHttp.responseText, false, 2);
+                callback('CLIENT ERROR: ' + xmlHttp.responseText, false, 2, xmlHttp.status);
             } else {
                 callback(xmlHttp.responseText, false, 4);
             }
@@ -223,22 +223,21 @@ User = function () {
 
     User.prototype.login = function (email, password) {
         var data = 'email=' + email + '&password=' + password;
-        call('POST', API_PATH + 'auth/login', data, function (e, succ) {
+        call('POST', API_PATH + 'auth/login', data, function (e, succ, n, code) {
             if (succ) {
-                call('GET', API_PATH + 'users/account/email/' + email, null, function (e, succ) {
-                    if (succ) {
-                        e = JSON.parse(e);
-                        // fill with e
-                        this.entity = e;
-                        storage.save('user', this.entity);
-                        window.location = "profiel.html";
-                    } else {
-                        // error
-                        notify('Kon accountgegevens niet ophalen. Probeer het later opnieuw', 'error', notif.longTime);
-                    }
-                });
+                e = JSON.parse(e);
+                // fill with e
+                this.entity = e;
+                storage.save('user', this.entity);
+                window.location = "profiel.html";
             } else {
-                notify('Inloggegevens waren onjuist', 'error', notif.longTime);
+                if (code === 404) {
+                    notify('Inloggegevens waren onjuist', 'error', notif.longTime);
+                } else if (code === 401) {
+                    notify('Dit account is nog niet geverifieerd', 'error', notif.longTime);
+                } else {
+                    notify('Er ging iets fout. Probeer het later opnieuw', 'error', notif.longTime);
+                }
             }
         }, 'application/x-www-form-urlencoded');
         return true;
