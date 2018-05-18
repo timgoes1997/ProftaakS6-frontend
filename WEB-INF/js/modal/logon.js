@@ -20,6 +20,14 @@ addEvent(window, 'load', function () {
         el.href = '#';
         el.onclick = function() {
             window.location = 'newpass.html';
+            var data = m.getValues();
+            call('POST', API_PATH + 'recovery/create', data.email, function (e, succ) {
+                if (succ) {
+                    notify('Email verstuurd!', 'info');
+                } else {
+                    notify('Fout bij het versturen van de email!', 'error', notif.longTime);
+                }
+            });
         }
 
     m.addElement(el);
