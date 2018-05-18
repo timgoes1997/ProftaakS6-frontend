@@ -102,3 +102,35 @@ th[role=columnheader]:not(.no-sort):hover:after {
 	visibility: visible;
 	opacity: 1;
 }
+
+tr > td:last-of-type {
+    text-align: center;
+}
+
+.delete,
+.transfer {
+    display: inline;
+    margin: 2px;
+}
+.warn:hover {
+    background: #d83c3c;
+}
+.warn {
+    background: #db2a2a;
+}
+.ignore:hover,
+.ignore {
+    background: none;
+    color: #000;
+    border: 1px solid #ccc;
+}
+.delete:before { 
+    content: "\f12d";  
+}
+.transfer:before {
+    content: "\f14d"; 
+}
+
+.mini-modal {
+    height: 200px;
+}

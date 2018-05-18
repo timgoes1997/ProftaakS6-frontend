@@ -149,6 +149,9 @@ TableLoader = function (t, id) {
 
                 var ids = [];
 
+                // keep a td for all actions
+                var tdactions = false;
+
                 // loop through the TH
                 var ths = t.getElementsByTagName("TH");
                 for (var i = 0; i < ths.length; i++) {
@@ -179,13 +182,20 @@ TableLoader = function (t, id) {
                             );
 
                         } else {
-                            // Create td's
-                            td = document.createElement('td');
-                            addClass(td, 'actions');
+                            if (!tdactions) {
+                                // Create td's
+                                td = document.createElement('td');
+                            }
                             var div = document.createElement('div');
                             var string = th.id.replace('actions_', '');
                             addClass(div, 'btn');
-                            div.innerHTML = string;
+
+                            var s2 = th.getAttribute('content');
+                            if (typeof (s2) === typeof ('')) {
+                                div.innerHTML = s2;
+                            } else {
+                                div.innerHTML = string;
+                            }
 
                             // Attach action
                             var action = getActionFor(th, obj, ids);
@@ -193,6 +203,12 @@ TableLoader = function (t, id) {
                                 div.onclick = action;
                             }
                             td.appendChild(div);
+
+                            // Attach classes
+                            addClass(div, (th.getAttribute('action-class') || 'btn'));
+
+                            if (!tdactions)
+                                tdactions = true;
                         }
                         table.Callback(th.id, td);
                         // attach TD to TR
@@ -229,28 +245,40 @@ TableLoader = function (t, id) {
 
     function getActionFor(ele, obj, ids) {
         var action = ele.getAttribute('action');
+        var params = ele.getAttribute('parameters');
+        params = params.split(','); // to array
+
+        // replace params by matching IDs
+        for (var i = 0; i < ids.length; i++) {
+            var id = ids[i];
+            for (var j = 0; j < params.length; j++) {
+                var param = params[j];
+                if (id.name === param) {
+                    params[j] = id.value;
+                }
+            }
+        }
+
+        // get actions
         if (action === "a") {
             // Link action based on url and parameters
             var url = ele.getAttribute('link');
-            var params = ele.getAttribute('parameters');
-            params = params.split(','); // to array
-
-            // replace params by matching IDs
-            for (var i = 0; i < ids.length; i++) {
-                var id = ids[i];
-                for (var j = 0; j < params.length; j++) {
-                    var param = params[j];
-                    if (id.name === param) {
-                        params[j] = id.value;
-                    }
-                }
-            }
 
             // replace "{0}", etc by parameters
             url = format(url, params);
             return function () {
                 window.location = url;
             };
+        } else if (action === "click") {
+            var fname = ele.getAttribute('function');
+            var ff = format(fname, params);
+
+            var func = window[ff.slice(0, ff.indexOf("("))];
+
+            return function () {
+                // call function from string
+                func.apply(this, params);
+            }
         }
         console.warn("No action found for " + action);
     }
