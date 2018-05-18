@@ -36,7 +36,11 @@ function closeMenu(e) {
 
 /// Modal generation
 Modal = function (name, form, id, starthidden) {
-    this.formEnabled = form == null ? false : true;
+    if (typeof(form) == typeof(true)) {
+        this.formEnabled = form;
+    } else {
+        this.formEnabled = form == null ? false : true;
+    }
     this.showOnStart = !!starthidden;
     this.keep = document.getElementById(id) != null;
 
@@ -52,8 +56,8 @@ Modal = function (name, form, id, starthidden) {
     addClass(this.basicElement, 'modal');
 
     if (!this.showOnStart)
-    // Hide the modal in advance
-    hide(this.basicElement);
+        // Hide the modal in advance
+        hide(this.basicElement);
 
     bbd = $('darkener');
     if (!this.keep) {
@@ -99,7 +103,7 @@ Modal = function (name, form, id, starthidden) {
         this.basicElement.height = Math.max(e.clientHeight, e.scrollHeight, e.offsetHeight) + 2;
     }
 
-    Modal.prototype.clear = function() {
+    Modal.prototype.clear = function () {
         for (var i = 0; i < this.values.length; i++) {
             var v = this.values[i];
             v.value = null;
@@ -118,18 +122,18 @@ Modal = function (name, form, id, starthidden) {
     }
 
     // gets the form data or formatted data
-    Modal.prototype.getData = function(formdata) {
+    Modal.prototype.getData = function (formdata) {
         if (!!formdata) {
             return new FormData(this.form);
         }
         var kvs = this.values;
         var str = '';
-        for(var i=0; i<kvs.length;i++) {
+        for (var i = 0; i < kvs.length; i++) {
             var kv = kvs[i];
             if (i !== 0) {
                 str += '&';
             }
-            str += kv.name+'='+kv.value;
+            str += kv.name + '=' + kv.value;
         }
         return str;
     }
@@ -178,7 +182,7 @@ Modal = function (name, form, id, starthidden) {
             removeClass(this, 'wrong');
         }
         if (verifiedFunc)
-        this.verff.push({ 'ele': inp, 'func': verifiedFunc });
+            this.verff.push({ 'ele': inp, 'func': verifiedFunc });
 
         this.values.push(inp);
 
@@ -191,6 +195,7 @@ Modal = function (name, form, id, starthidden) {
         d.appendChild(lab);
         d.appendChild(inp);
         this.form.appendChild(d);
+        return inp;
     }
 
     // Get all values of the values on the modal
@@ -204,8 +209,9 @@ Modal = function (name, form, id, starthidden) {
     }
 
     // Custom element
-    Modal.prototype.addElement = function(el) {
+    Modal.prototype.addElement = function (el) {
         this.form.appendChild(el);
+        return el;
     }
 
     // Add a simple divider for styling
@@ -213,6 +219,7 @@ Modal = function (name, form, id, starthidden) {
         var divider = document.createElement('div');
         addClass(divider, 'divider');
         this.form.appendChild(divider);
+        return divider;
     }
 
     // Add a title with the desired size (1-5)
@@ -220,6 +227,15 @@ Modal = function (name, form, id, starthidden) {
         var t = document.createElement('h' + size);
         t.innerHTML = name;
         this.form.appendChild(t);
+        return t;
+    }
+
+    // Add text (p)
+    Modal.prototype.addText = function (content) {
+        var t = document.createElement('p');
+        t.innerHTML = content;
+        this.form.appendChild(t);
+        return t;
     }
 
     // Add a button
@@ -236,6 +252,7 @@ Modal = function (name, form, id, starthidden) {
                 callback(e, me.getValues());
         };
         this.form.appendChild(d);
+        return d;
     }
 
     Modal.prototype.addPost = function (properties) {
@@ -251,6 +268,7 @@ Modal = function (name, form, id, starthidden) {
         }
         this.form.onerror = properties.onerror;
         this.form.onsubmit = properties.onsubmit;
+        return d;
     }
 
     // Add a spacing between elements
@@ -258,6 +276,7 @@ Modal = function (name, form, id, starthidden) {
         var d = document.createElement('div');
         d.style.height = amnt + 'px';
         this.form.appendChild(d);
+        return d;
     }
 
     // add the title

@@ -16,7 +16,8 @@
     height: initial;
     box-shadow: 0 0 0;
 }
-.modal a {
+.modal a,
+.modal p {
     padding: 8px;
     line-height: 21px;
     padding-left: 25px;
