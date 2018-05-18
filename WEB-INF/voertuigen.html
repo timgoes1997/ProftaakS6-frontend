@@ -69,7 +69,8 @@
                       <th id="customer.name">Eigenaar</th>
                       <th id="vehicle.energyLabel">Tariefcategorie</th>
                       <th id="customer.appUser" default="Onbekend" true="Ja" false="Nee">Applicatiegebruiker</th>
-                      <th id="actions_Bewerk" action="a" link="voertuig.html?license={0}" parameters="license">Acties</th>
+                      <th id="actions_Transfer" content="" class="hidden" requires-role="CUSTOMER" action="click" function="transferCar({0})" action-class="transfer fa" parameters="licensePlate"></th>
+                      <th id="actions_Verwijder" content="" requires-role="GOVERNMENT_EMPLOYEE" action="click" action-class="delete fa" function="removeCar({0})" parameters="licensePlate">Acties</th>
                     </tr>
                 </thead>
             </table>
@@ -79,6 +80,8 @@
     <div id="darkener" class="hidden darkener" onclick="closeMenu()"></div>
     <script async defer type="text/javascript" src="js/modal/car_customer.js"></script>
     <script async defer type="text/javascript" src="js/modal/car_unknown.js"></script>
+    <script async defer type="text/javascript" src="js/modal/car_transfer.js"></script>
+    <script async defer type="text/javascript" src="js/modal/confirm.js"></script>
     <script>
         var table = {};
         table.URL = "vehicles/registered";
@@ -86,5 +89,6 @@
     </script>
     <script async defer type="text/javascript" src="js/table-generate.js"></script>
     <script async defer type="text/javascript" src='js/sorts/tablesort.number.min.js'></script>
+    <script async defer type="text/javascript" src="js/cars.js"></script>
 </body>
 </html>

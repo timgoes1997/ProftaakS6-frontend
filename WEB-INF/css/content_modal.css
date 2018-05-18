@@ -1,0 +1,23 @@
+#darkener.darkener {
+    display:initial !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+}
+
+.modal {
+    background: transparent;
+    border: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    min-width: initial;
+    max-width: initial;
+}
+
+.contents {
+    position: relative;
+}
