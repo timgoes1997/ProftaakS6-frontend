@@ -146,13 +146,14 @@ tr > td:last-of-type {
     color: #000;
     border: 1px solid #ccc;
 }
+table .fa:before {
+    font-size: 20px;
+}
 .delete:before { 
     content: "\f1f8";  
-    font-size: 20px;
 }
 .transfer:before {
     content: "\f044"; 
-    font-size: 20px;
 }
 
 .mini-modal {
