@@ -21,15 +21,37 @@
     position: relative;
     z-index: -1;
 }
+/*Actions*/
+table td:last-of-type > * {
+    zoom: 1;
+    filter: alpha(opacity=0);
+    opacity: 0;
+}
+table tr:hover td:last-of-type > * {
+    zoom: 1;
+    filter: alpha(opacity=100);
+    opacity: 1; 
+}
 
 /*Table markup*/
+table .btn {
+    background: none;
+    color: #bbb;
+}
+table .btn:hover {
+    background: none;
+    color: #000;
+}
+table th:last-of-type {
+    width: 50px;
+}
+
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     background: #fff;
 }
 td, th {
-    border: 1px solid #ddd;
     text-align: left;
     padding: 8px;
 }
@@ -125,10 +147,12 @@ tr > td:last-of-type {
     border: 1px solid #ccc;
 }
 .delete:before { 
-    content: "\f12d";  
+    content: "\f1f8";  
+    font-size: 20px;
 }
 .transfer:before {
-    content: "\f14d"; 
+    content: "\f044"; 
+    font-size: 20px;
 }
 
 .mini-modal {
