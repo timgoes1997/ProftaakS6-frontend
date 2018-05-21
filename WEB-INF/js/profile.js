@@ -59,7 +59,7 @@ function acceptRequest(id, license) {
                 } else
                     notify('Er ging iets fout. Probeer het later opnieuw', 'error', notif.longTime);
             }
-        })
+        },'application/x-www-form-urlencoded')
     }, 'Weet u zeker dat u deze overschrijving van <b>' + license + '</b> wilt accepteren?', 0, 0, 'confirm'), 'mini-modal');
 }
 
@@ -74,6 +74,6 @@ function declineRequest(id, license) {
                 } else
                     notify('Er ging iets fout. Probeer het later opnieuw', 'error', notif.longTime);
             }
-        })
+        },'application/x-www-form-urlencoded')
     }, 'Weet u zeker dat u deze overschrijving van <b>' + license + '</b> wilt weigeren?'), 'mini-modal');
 }
