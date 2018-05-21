@@ -9,7 +9,7 @@ function removeCar(license) {
                 } else 
                     notify('Er ging iets fout. Probeer het later opnieuw', 'error', notif.longTime);
             }
-        });
+        },'application/x-www-form-urlencoded');
 
     }, 'Weet u zeker dat u auto met nummerplaat <b>' + license + '</b> wilt verwijderen?'), 'mini-modal');
 }
