@@ -21,9 +21,9 @@ TableLoader = function (t, id) {
         console.error("Please set a tableURL to request the resources from");
         return;
     }
-    ensure('Data', null, table);
-    ensure('Manually', false, table);
-    ensure('Callback', function () { }, table);
+    ensure('Data', null, this.table);
+    //ensure('Manually', false, table);
+    ensure('Callback', function () { }, this.table);
 
     this.subscribeSearchBar = function () {
         me.table.search.addEventListener('keyup', function () {
@@ -73,10 +73,10 @@ TableLoader = function (t, id) {
         call('get', API_PATH + this.table.URL, this.table.Data, this.fill);
     }
 
-    var hasempty = 0;
+    this.hasEmpty = 0;
     this.showEmpty = function () {
-        if (hasempty) {
-            removeClass(hasempty, 'hidden');
+        if (this.hasEmpty) {
+            removeClass(this.hasEmpty, 'hidden');
         } else {
             var e = {};
             if (this.table.onempty) {
@@ -90,7 +90,7 @@ TableLoader = function (t, id) {
             tr.innerHTML = 'Geen resultaten gevonden';
             addClass(t, 'empty');
             t.appendChild(tr);
-            hasempty = tr;
+            this.hasEmpty = tr;
         }
     }
 
@@ -134,20 +134,21 @@ TableLoader = function (t, id) {
                 return;
             }
             if (!(root instanceof Array)) {
-                console.error('Table root was not an Array');
+                var rt = root;
+                root = [];
+                root.push(rt);
             }
             if (!root.length) {
                 me.showEmpty(); // nothing to show
+                return;
             }
 
             var tbody = document.createElement('tbody');
             // e is an array
             for (var j = 0; j < root.length; j++) {
-                var obj = e[j];
+                var obj = root[j];
                 // Create a row
                 var tr = document.createElement('tr');
-
-                var ids = [];
 
                 // keep a td for all actions
                 var tdactions = false;
@@ -174,12 +175,6 @@ TableLoader = function (t, id) {
                             val = p + val + s;
 
                             td.innerHTML = val;
-                            ids.push(
-                                {
-                                    'name': th.id,
-                                    'value': val
-                                }
-                            );
 
                         } else {
                             if (!tdactions) {
@@ -198,7 +193,7 @@ TableLoader = function (t, id) {
                             }
 
                             // Attach action
-                            var action = getActionFor(th, obj, ids);
+                            var action = getActionFor(th, obj);
                             if (action) {
                                 div.onclick = action;
                             }
@@ -210,7 +205,7 @@ TableLoader = function (t, id) {
                             if (!tdactions)
                                 tdactions = true;
                         }
-                        table.Callback(th.id, td);
+                        me.table.Callback(th.id, td);
                         // attach TD to TR
                         tr.appendChild(td);
                     } // else no ID. 
@@ -239,24 +234,22 @@ TableLoader = function (t, id) {
         var cur = obj;
         for (var i = 0; i < fields.length; i++) {
             cur = cur[fields[i]];
+            if (typeof cur === 'undefined') {
+                return '';
+            }
         }
         return cur;
     }
 
-    function getActionFor(ele, obj, ids) {
+    function getActionFor(ele, obj) {
         var action = ele.getAttribute('action');
-        var params = ele.getAttribute('parameters');
+        var params = ele.getAttribute('parameters').replace(/ /g, '');;
         params = params.split(','); // to array
 
         // replace params by matching IDs
-        for (var i = 0; i < ids.length; i++) {
-            var id = ids[i];
-            for (var j = 0; j < params.length; j++) {
-                var param = params[j];
-                if (id.name === param) {
-                    params[j] = id.value;
-                }
-            }
+        for (var i = 0; i < params.length; i++) {
+            var p = params[i];
+            params[i] = getValueInObject(obj, p);
         }
 
         // get actions
@@ -269,7 +262,7 @@ TableLoader = function (t, id) {
             return function () {
                 window.location = url;
             };
-        } else if (action === "click") {
+        } else if (action === "click" || action === "onclick") {
             var fname = ele.getAttribute('function');
             var ff = format(fname, params);
 
@@ -283,14 +276,14 @@ TableLoader = function (t, id) {
         console.warn("No action found for " + action);
     }
 
-    if (table.search) {
+    if (this.table.search) {
         this.subscribeSearchBar();
     }
 }
 
 // Exposed function
 function loadTable() {
-    ensure('table', null);
+    ensure('table', {Manually : true});
     if (!table.Manually) {
         table.id = 'table-generate';
         var tl = new TableLoader();

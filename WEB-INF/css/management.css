@@ -68,29 +68,6 @@ table.sortable thead:hover {
     cursor: pointer;
 }
 
-/*Actions*/
-.actions {
-    display: table;
-    width:100%;
-    border-spacing: 5px 0;
-    padding: 0;
-    border-collapse: separate;
-}
-.actions > div + div {
-    padding-left: 5px;
-}
-
-.track-action:after {
-    content: 'Track';
-}
-.edit-action:after {
-    content: 'Edit';
-}
-.btn {
-    display: table-cell;
-}
-
-
 th[role=columnheader]:not(.no-sort) {
 	cursor: pointer;
 }
@@ -129,6 +106,47 @@ tr > td:last-of-type {
     text-align: center;
 }
 
+/* Vertical tables */
+.vertical-table thead,
+.vertical-table tbody {
+    float: left;   
+}
+.vertical-table tbody tr {
+    display: block;
+    float: left;
+}
+.vertical-table thead th,
+.vertical-table tbody td {
+    display: block;
+}
+.vertical-table tr > td:last-of-type {
+    text-align: left;
+}
+.vertical-table th:last-of-type {
+    width: initial;
+}
+table {
+    margin-bottom: 10px;
+}
+.small-contents > *:last-child {
+    margin-bottom: 30px;
+}
+.soft-table {
+    width: initial;
+    background: none;
+}
+.soft-table th {
+    background: none;
+    color: rgb(55, 99, 170);
+    font-weight: normal;
+    width:300px;
+}
+.soft-table th,
+.soft-table td {
+    border-bottom: 1px solid rgb(250, 250, 250);
+}
+
+
 .delete,
 .transfer {
     display: inline;
@@ -140,6 +158,27 @@ tr > td:last-of-type {
 .warn {
     background: #db2a2a;
 }
+
+.confirm:hover {
+    background: #2ca746;
+}
+.confirm {
+    background: #23b962;
+}
+
+table .btn.confirm {
+    color: #aae2b6;
+}
+table .btn.warn {
+    color: #d4acac;
+}
+table .btn.confirm:hover {
+    color: #2ca746;
+}
+table .btn.warn:hover {
+    color: #db2a2a;
+}
+
 .ignore:hover,
 .ignore {
     background: none;

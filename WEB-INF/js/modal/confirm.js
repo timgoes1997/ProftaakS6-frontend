@@ -2,11 +2,13 @@ addEvent(window, 'load', function () {
     ensure('modals', {});
 });
 
-function confirm(title, callback, text, yes, no) {
+function confirm(title, callback, text, yes, no, post_button_class) {
     var el = $('confirmation');
     if (el) {
         el.parentNode.removeChild(el);
     }
+
+    post_button_class = post_button_class || 'warn';
 
     yes = yes || title;
     no = no || 'Annuleer';
@@ -27,7 +29,7 @@ function confirm(title, callback, text, yes, no) {
             m.close();
         }
     });
-    addClass(p, 'warn');
+    addClass(p, post_button_class);
     var e = m.addButton(function () {
         m.close();
         m.clear();

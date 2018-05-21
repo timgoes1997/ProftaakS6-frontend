@@ -450,6 +450,16 @@ h2, h3 {
     user-drag:none;
 }
 
+.inline-a {
+    color: #0163AE;
+    cursor: pointer;
+    border-bottom: 1px solid #0163AE;
+    padding: 3px; 
+}
+.inline-a:hover {
+    color: #4285F4;
+    border-bottom: 1px solid #4285F4;
+}
 .side-nav .fa {
     width: 50px;
     text-align: center;
@@ -604,7 +614,7 @@ body:before {
     height: 100vh;
     background: #000;
     opacity: 0.3;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 101;
