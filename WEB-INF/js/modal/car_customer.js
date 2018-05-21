@@ -49,6 +49,7 @@ addEvent(window, 'load', function() {
                             modals.car_callback(e);
                         }
                         notify('Auto succesvol toegevoegd', 'success', notif.defaultTime); 
+                        m.close();
                     } else {
                         notify('Auto kon niet worden toegevoegd', 'error', notif.longTime);
                     }

@@ -122,6 +122,9 @@ TableLoader = function (t, id) {
 
             e = JSON.parse(e);
 
+            // cache the thead for actions
+            var tactions;
+
             // Use root if given (always an array)
             var root = me.table.root || '';
             if (root == '') {
@@ -177,33 +180,43 @@ TableLoader = function (t, id) {
                             td.innerHTML = val;
 
                         } else {
-                            if (!tdactions) {
-                                // Create td's
-                                td = document.createElement('td');
+                            tactions = th;
+
+                            // check if should be visible
+                            var vo = th.getAttribute('visibleOn');
+                            if (vo) {
+                                if (!tdactions) {
+                                    // Create td's
+                                    td = document.createElement('td');
+                                }
+                                var div = document.createElement('div');
+                                var string = th.id.replace('actions_', '');
+                                addClass(div, 'btn');
+
+                                var s2 = th.getAttribute('content');
+                                if (typeof (s2) === typeof ('')) {
+                                    div.innerHTML = s2;
+                                } else {
+                                    div.innerHTML = string;
+                                }
+
+                                if (window[vo]()) {
+                                    // Attach action
+                                    var action = getActionFor(th, obj);
+                                    if (action) {
+                                        div.onclick = action;
+                                    }
+                                    td.appendChild(div);
+
+
+                                }
+
+                                // Attach classes
+                                addClass(div, (th.getAttribute('action-class') || 'btn'));
+
+                                if (!tdactions)
+                                    tdactions = true;
                             }
-                            var div = document.createElement('div');
-                            var string = th.id.replace('actions_', '');
-                            addClass(div, 'btn');
-
-                            var s2 = th.getAttribute('content');
-                            if (typeof (s2) === typeof ('')) {
-                                div.innerHTML = s2;
-                            } else {
-                                div.innerHTML = string;
-                            }
-
-                            // Attach action
-                            var action = getActionFor(th, obj);
-                            if (action) {
-                                div.onclick = action;
-                            }
-                            td.appendChild(div);
-
-                            // Attach classes
-                            addClass(div, (th.getAttribute('action-class') || 'btn'));
-
-                            if (!tdactions)
-                                tdactions = true;
                         }
                         me.table.Callback(th.id, td);
                         // attach TD to TR
@@ -215,6 +228,11 @@ TableLoader = function (t, id) {
             t.appendChild(tbody);
             if (hasTableSort())
                 me.sorter.refresh();
+
+            if (!tdactions) {
+                // remove this thead
+                addClass(tactions, 'hidden');
+            }
         } else {
             if (level === 1 || level === 2) {
                 notify('Kon tabel niet inladen', 'error', notif.longTime);
@@ -283,7 +301,7 @@ TableLoader = function (t, id) {
 
 // Exposed function
 function loadTable() {
-    ensure('table', {Manually : true});
+    ensure('table', { Manually: true });
     if (!table.Manually) {
         table.id = 'table-generate';
         var tl = new TableLoader();

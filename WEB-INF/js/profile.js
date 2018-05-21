@@ -43,9 +43,15 @@ function init() {
             else {
                 template.parentNode.appendChild(clone);
             }
-            removeElement(template);
         }
+        removeElement(template);
     });
+}
+
+function checkStatus(obj) {
+    // true on:
+    // AcceptedNewOwner
+    return obj.status === 'AcceptedNewOwner';
 }
 
 function acceptRequest(id, license) {
