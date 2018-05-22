@@ -16,19 +16,25 @@ addEvent(window, 'load', function () {
     m.addDivider();
 
     var el = document.createElement('a');
-        el.innerHTML = "Wachtwoord vergeten?";
-        el.href = '#';
-        el.onclick = function() {
-            window.location = 'newpass.html';
-            var data = m.getValues();
-            call('POST', API_PATH + 'recovery/create', data.email, function (e, succ) {
-                if (succ) {
-                    notify('Email verstuurd!', 'info');
-                } else {
-                    notify('Fout bij het versturen van de email!', 'error', notif.longTime);
-                }
-            });
+    el.innerHTML = "Wachtwoord vergeten?";
+    el.onclick = function () {
+        var data = m.getValues();
+        if (!data.email) {
+            notify('Vul het email veld in.', 'error', notif.longTime);
+            return;
         }
+        notify('Bezig met email versturen', 'info', notif.longTime);
+        call('POST', API_PATH + 'users/recovery/create', 'email='+data.email, function (e, succ, n, code) {
+            if (succ) {
+                notify('Email verstuurd!', 'info');
+            } else {
+                if (code === 403) {
+                    notify('Account bestaat niet!', 'error', notif.longTime);
+                } else
+                    notify('Fout bij het versturen van de email!', 'error', notif.longTime);
+            }
+        }, 'application/x-www-form-urlencoded');
+    }
 
     m.addElement(el);
     m.addDivider();
@@ -78,7 +84,7 @@ addEvent(window, 'load', function () {
                 if (data instanceof FormData) {
                     data.append('residency', 'GERMANY');
                 } else {
-                    data +='&residency=GERMANY';
+                    data += '&residency=GERMANY';
                 }
 
                 call('POST', API_PATH + 'users/create', data, function (e, succ) {

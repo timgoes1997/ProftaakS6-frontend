@@ -49,7 +49,14 @@
     width: 0;
     min-width:0;
 }
-
+a {
+    color: #00a;
+    text-decoration: underline;
+    cursor: pointer;
+}
+a:hover {
+    color: #00f;
+}
 .darkener {
     display: flex;
     align-items: center;
