@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Email geverifieerd!</title>
+    <title>Account verificatie</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href='css/general.css' rel='stylesheet' type='text/css' />
     <link href='css/modal.css' rel='stylesheet' type='text/css' />
@@ -14,7 +14,7 @@
     <div id="darkener" class="darkener">
         <div class="main centered">
             <div>
-                <h2>Uw email is succesvol geactiveerd!</h2>
+                <h2 id="regi">Bezig met activeren...</h2>
                 <hr/>
                 <p>Ga terug naar de
                     <a href="login.html">inlogpagina</a>
@@ -24,6 +24,20 @@
     </div>
     <script>
         window.roles = "ALL";
+
+        var params = getQueryParams();
+        if (params.token) {
+            call('GET', API_PATH + 'users/verify/' + params.token, null, function (e, succ) {
+                if (succ) {
+                    $('regi').innerHTML = 'Uw email is succesvol geactiveerd!';
+                } else {
+                    $('regi').innerHTML = 'Er ging iets fout. Probeer het later opnieuw.';
+                }
+            })
+        }
+        else {
+            window.location = "login.html";
+        }
     </script>
 </body>
 

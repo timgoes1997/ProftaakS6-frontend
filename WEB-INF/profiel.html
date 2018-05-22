@@ -49,8 +49,10 @@
                 <thead>
                     <tr>
                         <th id="user.name">Volledige naam</th>
-                        <th id="user.residency">Land van herkomst</th>
-                        <th id="user.role">Site rol</th>
+                        <th id="user.residency"
+                            GERMANY="Duitsland">Land van herkomst</th>
+                        <th id="user.role"
+                            CUSTOMER="Klant">Site rol</th>
                         <th id="email">Email</th>
                     </tr>
                 </thead>
@@ -150,25 +152,30 @@
     <script async type="text/javascript" src="js/modal/car_transfer.js"></script>
     <script async defer type="text/javascript" src="js/modal/confirm.js"></script>
     <script>
-        new TableLoader({
-            URL : "users/account/name/" + window.user.entity.username,
-            id : "user-table"
-        }).fetch();
-        
-        new TableLoader({
-            URL : "bills/currentUser",
-            id : "table-generate"
-        }).fetch();
-        
-        new TableLoader({
-            URL : "trade/transfers/from",
-            id : "trades-from"
-        }).fetch();
+        waitUntil(function () {
+                return typeof window.user.entity.email != 'undefined';
+            }, function () {
 
-        new TableLoader({
-            URL : "trade/transfers/to",
-            id : "trades-to"
-        }).fetch();
+                new TableLoader({
+                    URL: "users/account/email/" + window.user.entity.email,
+                    id: "user-table"
+                }).fetch();
+
+                new TableLoader({
+                    URL: "bills/currentUser",
+                    id: "table-generate"
+                }).fetch();
+
+                new TableLoader({
+                    URL: "trade/transfers/from",
+                    id: "trades-from"
+                }).fetch();
+
+                new TableLoader({
+                    URL: "trade/transfers/to",
+                    id: "trades-to"
+                }).fetch();
+            });
     </script>
     <script async type="text/javascript" src="js/profile.js"></script>
     <script type="text/javascript" src="js/notif.js"></script>
