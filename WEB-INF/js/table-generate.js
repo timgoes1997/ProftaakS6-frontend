@@ -111,9 +111,17 @@ TableLoader = function (t, id) {
         t.appendChild(td);
     }
 
+    this.empty = function () {
+        var b = $(this.id).getElementsByTagName('TBODY')[0];
+        if (b)
+            b.parentNode.removeChild(b);
+    }
+
     // Table fill actions
     this.fill = function (e, succ, level) {
         if (succ) {
+            me.empty();
+
             var t = $(me.id);
             if (e === "") {
                 me.showEmpty();
@@ -280,6 +288,8 @@ TableLoader = function (t, id) {
                 window.location = url;
             };
         } else if (action === "click" || action === "onclick") {
+            var refresh = ele.getAttribute('refresh') || false;
+
             var fname = ele.getAttribute('function');
             var ff = format(fname, params);
 
@@ -296,6 +306,8 @@ TableLoader = function (t, id) {
     if (this.table.search) {
         this.subscribeSearchBar();
     }
+    ensure('tables', []);
+    window.tables[this.id] = this;
 }
 
 // Exposed function

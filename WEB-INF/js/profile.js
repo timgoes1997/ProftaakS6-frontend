@@ -59,6 +59,8 @@ function acceptRequest(id, license) {
         call('POST', API_PATH + 'trade/accept', 'id=' + id, function (e, succ, type, code) {
             if (succ) {
                 notify('Overschrijving geaccepteerd', 'success', notif.defaultTime);
+                tables['trades-from'].fetch();
+                tables['trades-to'].fetch();
             } else {
                 if (code === 405) {
                     notify('U heeft niet de juiste rechten om deze overschrijving te accepteren', 'error', notif.longTime);
@@ -74,6 +76,8 @@ function declineRequest(id, license) {
         call('POST', API_PATH + 'trade/decline', 'id=' + id, function (e, succ, type, code) {
             if (succ) {
                 notify('Overschrijving geannuleerd', 'success', notif.defaultTime);
+                tables['trades-from'].fetch();
+                tables['trades-to'].fetch();
             } else {
                 if (code === 405) {
                     notify('U heeft niet de juiste rechten om deze overschrijving te weigeren', 'error', notif.longTime);

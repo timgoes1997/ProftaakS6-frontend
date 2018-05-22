@@ -3,6 +3,7 @@ function removeCar(license) {
         call('POST', API_PATH + 'vehicles/destroy', 'license=' + license, function(e,succ,type,code) {
             if (succ) {
                 notify('Auto succesvol gemarkeerd als onbruikbaar', 'success', notif.defaultTime); 
+                tables['table-generate'].fetch();
             } else {
                 if (code === 404) {
                     notify('Auto kon niet worden gevonden', 'error', notif.longTime);
