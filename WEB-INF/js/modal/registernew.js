@@ -21,7 +21,7 @@ addEvent(window, 'load', function () {
                 } else {
                     data += '&residency=GERMANY';
                 }
-
+                notify('Bezig met registreren', 'info', notif.longTime);
                 call('POST', API_PATH + 'users/create/simple', data, function (e, succ) {
                     if (succ) {
                         notify('Account aangemaakt!', 'info');

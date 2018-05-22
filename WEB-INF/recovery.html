@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Verifieer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href='css/general.css' rel='stylesheet' type='text/css' />
+    <link href='css/modal.css' rel='stylesheet' type='text/css' />
+    <link href='css/logout.css' rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="js/universal.js"></script>
+</head>
+
+<body>
+    <div id="darkener" class="darkener">
+        <div class="main centered">
+            <div>
+                <h2>Stel uw nieuwe wachtwoord in</h2>
+                <hr/>
+                <div class="t-two-inline">
+                    <label for="password">Wachtwoord</label>
+                    <input type="password" onclick="clearerr(this)" name="password" placeholder="Wachtwoord" />
+                </div>
+                <div class="t-two-inline">
+                    <label for="r-password">Herhaal wachtwoord</label>
+                    <input type="password" onclick="clearerr(this)" name="r-password" placeholder="Wachtwoord" />
+                </div>
+                <hr/>
+                <div class="btns">
+                    <a href="login.html">Terug</a>
+                    <a class="btn" onclick="reset()">Reset</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.roles = "ALL";
+        var p = $('password');
+        var p2 = $('r-password');
+        function clearerr(e) {
+            removeClass(e, 'wrong');
+        }
+        function reset() {
+            var w = false;
+            if (p.value == '') {
+                addClass(p, 'wrong');
+                w = true;
+            }
+            if (p2.value == '') {
+                addClass(p2, 'wrong');
+                w = true;
+            }
+            if (p.value !== p2.value) {
+                addClass(p, 'wrong');
+                addClass(p2, 'wrong');
+                w = true;
+            }
+            if (w) {
+                return;
+            }
+
+
+            var params = getQueryParams();
+            if (params.token) {
+                var data = 'password=' + p.value + '&link=' + params.token;
+
+                call('GET', API_PATH + 'users/recovery/reset' + data, null, function (e, succ) {
+                    if (succ) {
+                        $('regi').innerHTML = 'Uw email is succesvol geactiveerd!';
+                    } else {
+                        $('regi').innerHTML = 'Er ging iets fout. Probeer het later opnieuw.';
+                    }
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>
