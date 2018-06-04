@@ -1,5 +1,5 @@
 // global variables
-var HOST = window.location.protocol + '//' + window.location.hostname;
+var HOST = window.location.protocol + '//' + window.location.hostname + ':8080/';
 var APPLICATION_NAME = 'Rekeningrijden';
 var SERVER_URL = HOST + APPLICATION_NAME + '/';
 var API_PATH = SERVER_URL + 'api/';
