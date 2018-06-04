@@ -50,8 +50,8 @@ function setRealtime() {
     }
 }
 function setStartTime() {
-    start = $('starttime').value;
+    start = $('starttime').valueAsDate;
 }
 function setEndTime() {
-    end = $('endtime').value;
+    end = $('endtime').valueAsDate;
 }

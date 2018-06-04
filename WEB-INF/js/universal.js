@@ -281,7 +281,8 @@ User = function () {
                 var u = me.entity;
                 var v = e.getAttribute('user');
                 if (!!u)
-                    e.innerHTML = u[v] || u.user[v];
+                    if (!!u.user)
+                        e.innerHTML = u[v] || u.user[v];
             }
 
             // check roles
@@ -291,11 +292,12 @@ User = function () {
                 var u = me.entity;
                 var v = e.getAttribute('roles');
                 if (!!u) {
-                    if (v.indexOf(u.user.role) === -1) {
-                        e.parentNode.removeChild(e);
-                    } else {
-                        removeClass(e, 'hidden');
-                    }
+                    if (!!u.user)
+                        if (v.indexOf(u.user.role) === -1) {
+                            e.parentNode.removeChild(e);
+                        } else {
+                            removeClass(e, 'hidden');
+                        }
                 }
             }
         } else {

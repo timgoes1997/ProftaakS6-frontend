@@ -5,14 +5,7 @@ var cars = [];
 var useRealtime = false;
 var map;
 var end, start;
-function getMarkers() {
-    var a = [];
-    for (var i = 0; i < cars.length; i++) {
-        var car = cars[i];
-        a.push(car.marker);
-    }
-    return a;
-}
+var markers = [];
 
 ////////// TRACK FUNCTIONS
 function addCar(f) {
@@ -54,7 +47,8 @@ function mapCar(c, f, rt) {
                         e = JSON.parse(e);
                         // update
                         car.locations = e;
-                        car.marker.onRemove();
+                        if (car.marker)
+                            car.marker.onRemove();
                         car.marker = setMarker(f, e[0]);
                         console.log('Updating realtime location');
                     } else {
@@ -157,14 +151,23 @@ function updateCar(id) {
         var d1 = Date.parse(start);
         var d2 = Date.parse(end);
 
-        if (d1 > d2) {
+        if (start > end) {
             notify('Begindatum kan niet na einddatum komen', 'error', notif.longTime);
             return;
         }
 
-        var path = useRealtime ? "/realtime" : "/date";
+        var path = useRealtime ? "/realtime" : "/precise";
         var data = new FormData();
-        data = 'startdate=' + start + '&enddate=' + end;
+
+        if (!useRealtime) {
+            // Always add 1 day to end date (to include it)
+            if (typeof setEndTime !== 'undefined') {
+                setEndTime();
+                end.setDate(end.getDate() + 1);
+            }
+
+            data = 'startdate=' + start.getTime() + '&enddate=' + end.getTime();
+        }
 
         var rt = useRealtime;
         // call API
@@ -189,8 +192,6 @@ function updateCar(id) {
 // sets the marker to a location
 function setMarker(id, pos) {
     var latLng = new google.maps.LatLng(pos.x, pos.y)
-    var markers = getMarkers();
-
     var marker;
     for (var i = 0; i < markers.length; i++) {
         var m = markers[i];
@@ -200,15 +201,22 @@ function setMarker(id, pos) {
             return;
         }
     }
-    if (!marker)
+    if (!marker) {
         marker = new Popup(latLng, id);
+        if (id !== "") {
+            // only update center if new marker
+            setCenter(pos.x, pos.y);
+        }
+    }
     marker.setMap(map);
 
-    markers.push({
-        'marker': marker,
-        'id': id
-    });
-    marker.onUpdate(latLng);
+    if (id !== "") {
+        markers.push({
+            'marker': marker,
+            'id': id
+        });
+        marker.onUpdate(latLng);
+    }
     return marker;
 }
 function drawBetweenPoints(pos1, pos2) {
@@ -221,6 +229,10 @@ function drawBetweenPoints(pos1, pos2) {
         map: map
     });
     return line;
+}
+
+function setCenter(lat, long) {
+    map.setCenter(new google.maps.LatLng(lat, long));
 }
 
 ////////// INITIALISER FUNCTIONS

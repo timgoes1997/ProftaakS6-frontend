@@ -12,8 +12,10 @@ function init() {
             e = JSON.parse(e);
             setValue('factuurnummer', e.billnr);
             setValue('nummerplaat', e.license);
-            setValue('totaalbedrag', e.price + ' €');
-            setValue('totaalbedrag2', e.price + ' €');
+            var price = Math.round(e.price * 100) / 100;
+
+            setValue('totaalbedrag', price + ' €');
+            setValue('totaalbedrag2', price + ' €');
             setValue('status', e.status);
             setValue('maand', e.month);
 
@@ -21,8 +23,8 @@ function init() {
             var l = e.license;
 
             // mapcore.js interface
-            window.start = toShortDate(new Date(e.numberStartDate*1e3));
-            window.end = toShortDate(new Date(e.numberEndDate*1e3));
+            window.start = new Date(e.numberStartDate * 1e3);
+            window.end = new Date(e.numberEndDate * 1e3);
 
             // Draw on map
             addCar(l);
