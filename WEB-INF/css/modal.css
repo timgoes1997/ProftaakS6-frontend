@@ -2,8 +2,6 @@
     background: white;
     margin: auto;
     width: 75%;
-    max-width: 700px;
-    min-width: 400px;
     padding: 1px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     border: 0px;
@@ -31,7 +29,6 @@
 .iframe-modal body::after,
 .iframe-modal body::before,
 .iframe-modal body {
-    height: initial;
     width: initial;
     position: static;
     content:'';
@@ -105,9 +102,13 @@ a:hover {
     display:flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    height: 100%;
-    align-items: center;
-    vertical-align: middle;
+    max-height: 100%;
+}
+@media (min-height: 900px)
+{
+    .main {
+        
+    }
 }
 
 .main > div {
