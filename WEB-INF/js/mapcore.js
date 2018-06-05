@@ -35,7 +35,7 @@ function mapCar(c, f, rt) {
     car.realtime.use = rt;
     car.realtime.function = function () {
         function runTimeOut() {
-            setTimeout(update, 3000); 
+            setTimeout(update, 3000);
         }
 
         car.laspos = null;
@@ -86,7 +86,9 @@ function mapCar(c, f, rt) {
     // draw route and place marker
     funcOnArr(car.locations, function (e) {
         if (e2) {
-            car.lines.push(drawBetweenPoints(e, e2));
+            var line = drawBetweenPoints(e, e2);
+            if (line)
+                car.lines.push(line);
         }
         e2 = e;
         if (e.lastElement) {
@@ -230,8 +232,12 @@ function setMarker(id, pos) {
     return marker;
 }
 function drawBetweenPoints(pos1, pos2) {
+    var a = new google.maps.LatLng(pos1.x, pos1.y), b = new google.maps.LatLng(pos2.x, pos2.y)
+
+    if (getDistance(a, b) > 5000) return 0;
+
     var line = new google.maps.Polyline({
-        path: [new google.maps.LatLng(pos1.x, pos1.y), new google.maps.LatLng(pos2.x, pos2.y)],
+        path: [a, b],
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
         strokeWeight: 2.5,
@@ -244,6 +250,22 @@ function drawBetweenPoints(pos1, pos2) {
 function setCenter(lat, long) {
     map.setCenter(new google.maps.LatLng(lat, long));
 }
+
+var rad = function (x) {
+    return x * Math.PI / 180;
+};
+
+var getDistance = function (p1, p2) {
+    var R = 6378137; // Earth’s mean radius in meter
+    var dLat = rad(p2.lat() - p1.lat());
+    var dLong = rad(p2.lng() - p1.lng());
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
+        Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d; // returns the distance in meter
+};
 
 ////////// INITIALISER FUNCTIONS
 function initMap() {
