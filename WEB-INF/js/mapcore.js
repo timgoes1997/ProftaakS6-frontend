@@ -234,7 +234,7 @@ function setMarker(id, pos) {
 function drawBetweenPoints(pos1, pos2) {
     var a = new google.maps.LatLng(pos1.x, pos1.y), b = new google.maps.LatLng(pos2.x, pos2.y)
 
-    if (getDistance(a, b) > 5000) return 0;
+    if (getDistance(a, b) > 50000) return 0;
 
     var line = new google.maps.Polyline({
         path: [a, b],
