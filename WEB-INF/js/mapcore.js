@@ -35,10 +35,12 @@ function mapCar(c, f, rt) {
     car.realtime.use = rt;
     car.realtime.function = function () {
         function runTimeOut() {
-            setTimeout(update, 3000); // every three seconds
+            setTimeout(update, 3000); 
         }
 
+        car.laspos = null;
         function update() {
+
             // check if relevant
             if (car.realtime.use) {
                 // call for update of the marker
@@ -49,6 +51,14 @@ function mapCar(c, f, rt) {
                         car.locations = e;
                         if (car.marker)
                             car.marker.onRemove();
+
+                        if (car.laspos !== null) {
+                            // add line
+                            drawBetweenPoints(car.laspos, e[0]);
+                        }
+                        if (car.laspos !== e[0])
+                            car.laspos = e[0];
+
                         car.marker = setMarker(f, e[0]);
                         console.log('Updating realtime location');
                     } else {
@@ -277,9 +287,6 @@ function definePopupClass() {
         this.anchor = document.createElement('div');
         this.anchor.classList.add('popup-tip-anchor');
         this.anchor.appendChild(pixelOffset);
-
-        // Optionally stop clicks, etc., from bubbling up to the map.
-        this.stopEventPropagation();
     };
     // NOTE: google.maps.OverlayView is only defined once the Maps API has
     // loaded. That is why Popup is defined inside initMap().
@@ -301,6 +308,8 @@ function definePopupClass() {
     Popup.prototype.onUpdate = function (latLng) {
         this.onRemove();
         this.position = latLng;
+        // repaint map
+        google.maps.event.trigger(map, 'center_changed');
         this.onAdd();
     };
 
@@ -320,19 +329,5 @@ function definePopupClass() {
         if (this.anchor.style.display !== display) {
             this.anchor.style.display = display;
         }
-    };
-
-    /** Stops clicks/drags from bubbling up to the map. */
-    Popup.prototype.stopEventPropagation = function () {
-        var anchor = this.anchor;
-        anchor.style.cursor = 'auto';
-
-        ['click', 'dblclick', 'contextmenu', 'wheel', 'mousedown', 'touchstart',
-            'pointerdown']
-            .forEach(function (event) {
-                anchor.addEventListener(event, function (e) {
-                    e.stopPropagation();
-                });
-            });
     };
 }
