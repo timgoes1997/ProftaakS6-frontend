@@ -188,8 +188,11 @@ function updateCar(id) {
                 e = JSON.parse(e);
                 mapCar(e, id, rt);
             } else {
-                // show popup with error details
-                notify("Kan locatie niet ophalen", "error", notif.longTime);
+                var event = new CustomEvent("notify", {
+                    detail:
+                        { message: "Kan locatie niet ophalen", life: notif.longTime, level: "error", type:"location_access_error" }
+                });
+                notifElement.dispatchEvent(event);
             }
         }, 'application/x-www-form-urlencoded');
     } else {

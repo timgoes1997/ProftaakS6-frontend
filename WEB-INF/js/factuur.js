@@ -1,10 +1,22 @@
 addEvent(window, 'load', init);
 
-
 function init() {
     function toShortDate(date) {
         return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     }
+    notifElement = $(notifID);
+    notifElement.addEventListener("notify", function (e) {
+        var b = e.detail;
+        if (b.type === "location_access_error") {
+            //prevent default
+            b.notified = true;
+
+            // remove the map
+            notify("U heeft geen rechten om deze route in te zien", "info", b.life);
+            var map = $("map");
+            removeElement(map);
+        }
+    }, false);
 
     var params = getQueryParams();
     call('GET', API_PATH + 'bills/' + params.id, null, function (e, succ) {

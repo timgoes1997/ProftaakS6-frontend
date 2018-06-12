@@ -14,6 +14,11 @@ function setUp() {
     if (!notifElement) {
         console.error("No element with id " + notifID + " found");
     }
+    notifElement.addEventListener("notify", function (e) {
+        e = e.detail;
+        if (e.notified) return;
+        notify(e.message, e.level, e.life, e.parent);
+    });
 }
 
 function notify(message, level, life, parent) {
