@@ -226,12 +226,12 @@ User = function () {
         var path = API_PATH + 'auth/login';
 
         // check if there's a transfer 
+        var data = 'email=' + email + '&password=' + password;
         if (params.token) {
             API_PATH + 'trade/login';
             data += '&token=' + params.token;
         }
 
-        var data = 'email=' + email + '&password=' + password;
         call('POST', path, data, function (e, succ, n, code) {
             if (succ) {
                 e = JSON.parse(e);
