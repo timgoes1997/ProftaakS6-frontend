@@ -1,4 +1,5 @@
 addEvent(window, 'load', function () {
+    var params = getQueryParams();
     ensure('modals', {});
     t.fetch();
     t2.fetch();
@@ -24,7 +25,7 @@ addEvent(window, 'load', function () {
             return;
         }
         notify('Bezig met email versturen', 'info', notif.longTime);
-        call('POST', API_PATH + 'users/recovery/create', 'email='+data.email, function (e, succ, n, code) {
+        call('POST', API_PATH + 'users/recovery/create', 'email=' + data.email, function (e, succ, n, code) {
             if (succ) {
                 notify('Email verstuurd!', 'info');
             } else {
@@ -86,8 +87,15 @@ addEvent(window, 'load', function () {
                 } else {
                     data += '&residency=GERMANY';
                 }
+                var path = API_PATH + 'users/create';
 
-                call('POST', API_PATH + 'users/create', data, function (e, succ) {
+                // check if there's a transfer 
+                if (params.token) {
+                    API_PATH + 'trade/register';
+                    data += '&token=' + params.token;
+                }
+
+                call('POST', path, data, function (e, succ) {
                     if (succ) {
                         if (modals.logon_callback) {
                             modals.logon_callback(e);

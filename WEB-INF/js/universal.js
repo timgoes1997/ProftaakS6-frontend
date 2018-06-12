@@ -211,24 +211,34 @@ function loadUrl(url, ignore) {
 ############################## */
 User = function () {
     this.entity = storage.load('user') || {};
+    var params = getQueryParams();
 
     /* ##############################
             USER FUNCTIONS
     ############################## */
-    User.prototype.onLoggedIn = function (callback) {
+    this.onLoggedIn = function (callback) {
         call('GET', API_PATH + 'auth/loggedIn', null, function (e, succ) {
             return callback(succ);
         });
     }
 
-    User.prototype.login = function (email, password) {
+    this.login = function (email, password) {
+        var path = API_PATH + 'auth/login';
+
+        // check if there's a transfer 
+        if (params.token) {
+            API_PATH + 'trade/login';
+            data += '&token=' + params.token;
+        }
+
         var data = 'email=' + email + '&password=' + password;
-        call('POST', API_PATH + 'auth/login', data, function (e, succ, n, code) {
+        call('POST', path, data, function (e, succ, n, code) {
             if (succ) {
                 e = JSON.parse(e);
                 // fill with e
                 this.entity = e;
                 storage.save('user', this.entity);
+
                 window.location = "profiel.html";
             } else {
                 if (code === 404) {
@@ -242,7 +252,7 @@ User = function () {
         }, 'application/x-www-form-urlencoded');
         return true;
     }
-    User.prototype.logout = function () {
+    this.logout = function () {
         call('POST', API_PATH + 'auth/logout', null, function (e, succ) {
             if (succ) {
                 // logout
