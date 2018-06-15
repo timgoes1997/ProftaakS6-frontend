@@ -13,6 +13,8 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     border: 0px;
     height: 100%;
+    max-height: 100vh;
+    overflow: auto;
 }
 
 .iframe-modal .modal {
@@ -76,15 +78,36 @@ a:hover {
 .modal .t-two-inline label {
     width:160px;
 }
-.modal .t-two-inline input {
+.modal .t-two-inline input,
+.modal .t-two-inline select {
     width:250px;
     border: 1px solid #b8b8b8;
     margin: 0;
+}
+.modal .map {
+    width:100%;
+    height:100%;
+    max-height: 300px;
+    padding: 20px;
+    position: relative;
+}
+.modal #map {
+    width: 100%;
+    height: 100%;
 }
 
 .modal .t-two-inline {
     width: initial;
     margin: auto;
+}
+
+.modal h2,
+.modal h3,
+.modal h4,
+.contents .modal h2,
+.contents .modal h3,
+.contents .modal h4 {
+        padding: 0 24px 5px;
 }
 
 .modal .btn {
@@ -129,11 +152,10 @@ a:hover {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
-.main > div > p {
-    display: block;
-}
-
-.main > div > h2 {
+.main > div > p,
+.main > div > h2,
+.main > div > h3,
+.main > div > h4 {
     display: block;
 }
 

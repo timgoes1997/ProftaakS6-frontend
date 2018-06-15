@@ -10,13 +10,15 @@
     <meta name="theme-color" content="#0163AE" />
 
     <link href='css/general.css' rel='stylesheet' type='text/css' />
+    <link href='css/modal.css' rel='stylesheet' type='text/css' />
     <link href='css/fa/css/font-awesome.min.css' rel='stylesheet' type='text/css' />
     <link href='css/management.css' rel='stylesheet' type='text/css' />
     <script type="text/javascript" src="js/universal.js"></script>
     <script type="text/javascript" src="js/modal.js"></script>
     <script type="text/javascript" src="js/notif.js"></script>
     <script type="text/javascript" src='js/tablesort.min.js'></script>
-    <title>Voertuigen</title>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXDHUmFWNLbhtoETt6ovondPYLG1HB7jE&amp;libraries=drawing"></script>
+    <title>Tarieven</title>
 </head>
 
 <body>
@@ -26,6 +28,9 @@
         <h3>Home</h3>
         <a href="profiel.html"><p class="fa fa-user"></p><p>Profiel</p></a>
         <a href="track.html"><p class="fa fa-map-pin"></p><p>Track</p></a>
+        <div class="divider"></div>
+        <h3>Beheer</h3>
+        <a onclick="openMenu(modals.region_add)"><p class="fa fa-compass"></p><p>Voeg regio toe</p></a>
         <div class="divider"></div>
         <h3>Administratie</h3>    
         <a href="voertuigen.html"><p class="fa fa-car"></p><p>Voertuigen</p></a>
@@ -119,13 +124,14 @@
             </table>
         </div>
         <div id="notif-holder"></div>
-        <div id="darkener" class="hidden darkener" onclick="closeMenu()"></div>
+        <div id="darkener" class="hidden darkener" onclick="closeMenu(event)"></div>
     </div>
     <script>
         var table = {};
         //table.URL = "vehicles/registered";
         table.search = $('search');
     </script>
+    <script async type="text/javascript" src="js/modal/region_add.js"></script>
     <script async defer type="text/javascript" src="js/table-generate.js"></script>
     <script async defer type="text/javascript" src='js/sorts/tablesort.number.min.js'></script>
 </body>

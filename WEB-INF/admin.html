@@ -66,10 +66,18 @@
                     </div>
                 </p>
             </div>
+            <div class="auto-box" onclick="openMenu(modals.region_add)">
+                <p>
+                    <div class="box-button">
+                        <span class="decorator fa fa-compass"></span>
+                        <h3>Voeg regio toe</h3>
+                    </div>
+                </p>
+            </div>
         </div>
     </div>
     <div id="notif-holder"></div>
-    <div id="darkener" class="hidden darkener" onclick="closeMenu()"></div>
+    <div id="darkener" class="hidden darkener" onclick="closeMenu(event)"></div>
     <script>
         window.roles = "GOVERNMENT_EMPLOYEE";
         //window.roles = "ALL";
@@ -77,6 +85,7 @@
     <script async type="text/javascript" src="js/modal.js"></script>
     <script async type="text/javascript" src="js/notif.js"></script>
     <script async type="text/javascript" src="js/modal/car_customer.js"></script>
+    <script async type="text/javascript" src="js/modal/region_add.js"></script>
     <script async type="text/javascript" src="js/modal/car_unknown.js"></script>
     <script async type="text/javascript" src="js/modal/registernew.js"></script>
 </body>

@@ -36,11 +36,14 @@ function closeMenu(e) {
 
 /// Modal generation
 Modal = function (name, form, id, starthidden) {
-    if (typeof(form) == typeof(true)) {
+    if (typeof (form) == typeof (true)) {
         this.formEnabled = form;
     } else {
         this.formEnabled = form == null ? false : true;
     }
+
+    this.formEnabled = false; // not supported by FireFox
+
     this.showOnStart = !!starthidden;
     this.keep = document.getElementById(id) != null;
 
@@ -196,6 +199,44 @@ Modal = function (name, form, id, starthidden) {
         d.appendChild(inp);
         this.form.appendChild(d);
         return inp;
+    }
+
+    Modal.prototype.addSelect = function(label, list, id) {
+        if (id == null) {
+            id = label;
+        }
+
+        // wrapper div
+        var d = document.createElement('div');
+        addClass(d, 't-two-inline');
+
+        // create select
+        var inp = document.createElement('select');
+        inp.setAttribute('name', id);
+        inp.id = id;
+        this.values.push(inp);
+        
+        // fill select
+        for (var i = 0; i < list.length; i++)
+        {
+            var el = list[i];
+            var option = document.createElement('option');
+            option.value = el.value || el.text;
+            option.text = el.text;
+            inp.appendChild(option);
+        }
+
+        // label
+        var lab = document.createElement('label');
+        lab.setAttribute('for', id);
+        lab.innerHTML = label;
+
+        // add
+        d.appendChild(lab);
+        d.appendChild(inp);
+        this.form.appendChild(d);
+        return inp;
+
     }
 
     // Get all values of the values on the modal
