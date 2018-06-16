@@ -17,6 +17,7 @@
     <script type="text/javascript" src="js/modal.js"></script>
     <script type="text/javascript" src="js/notif.js"></script>
     <script type="text/javascript" src='js/tablesort.min.js'></script>
+    <script type="text/javascript" src="js/table-generate.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXDHUmFWNLbhtoETt6ovondPYLG1HB7jE&amp;libraries=drawing"></script>
     <title>Tarieven</title>
 </head>
@@ -60,79 +61,29 @@
         </div>
         <div id="dynamic-table" class="small-contents">
             <!-- example content -->
-            <table id="table-generate">
+            <table id="all-rates">
                 <thead>
                     <tr>
-                      <th data-sort-default data-sort-method='number'>Tarief</th>
-                      <th>Regio</th>
-                      <th>Tariefcategorie</th>
-                      <th>Starttijd Tarief</th>
-                      <th>Eindtijd Tarief</th>
+                      <th id="kilometerPrice" data-sort-default data-sort-method='number'>Tarief</th>
+                      <th id="energyLabel">Tariefcategorie</th>
+                      <th id="startTime" dateformat="DAY - HH:mm">Starttijd Tarief</th>
+                      <th id="endTime" dateformat="DAY - HH:mm">Eindtijd Tarief</th>
                       <th>Acties</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>€ 1,-</td>
-                        <td>Berlijn</td>
-                        <td>A</td>
-                        <td>06:00</td>
-                        <td>20:00</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>€ 1,50</td>
-                        <td>Berlijn</td>
-                        <td>B</td>
-                        <td>06:00</td>
-                        <td>20:00</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>€ 1,75</td>
-                        <td>Berlijn</td>
-                        <td>C</td>
-                        <td>06:00</td>
-                        <td>20:00</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>€ 2,-</td>
-                        <td>Berlijn</td>
-                        <td>D</td>
-                        <td>06:00</td>
-                        <td>20:00</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>€ 2,50</td>
-                        <td>Berlijn</td>
-                        <td>E</td>
-                        <td>06:00</td>
-                        <td>20:00</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                    <tr>
-                        <td>€ 3,-</td>
-                        <td>Berlijn</td>
-                        <td>F</td>
-                        <td>06:00</td>
-                        <td>20:00</td>
-                        <td class="actions"><div class="btn">Bewerk</div></td>
-                    </tr>
-                </tbody>
             </table>
         </div>
         <div id="notif-holder"></div>
         <div id="darkener" class="hidden darkener" onclick="closeMenu(event)"></div>
     </div>
     <script>
-        var table = {};
-        //table.URL = "vehicles/registered";
-        table.search = $('search');
+        new TableLoader({
+            URL: "region/rates",
+            search: $('search'),
+            id: 'all-rates'
+        }).fetch();
     </script>
     <script async type="text/javascript" src="js/modal/region_add.js"></script>
-    <script async defer type="text/javascript" src="js/table-generate.js"></script>
     <script async defer type="text/javascript" src='js/sorts/tablesort.number.min.js'></script>
 </body>
 </html>

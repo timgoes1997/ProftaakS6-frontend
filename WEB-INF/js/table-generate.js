@@ -95,7 +95,7 @@ TableLoader = function (t, id) {
     }
 
     this.hideEmpty = function () {
-        addClass(hasempty, 'hidden');
+        addClass(this.hasEmpty, 'hidden');
     }
 
     this.showError = function () {
@@ -185,6 +185,12 @@ TableLoader = function (t, id) {
                             val = getMatchingValueAttribute(val, th) || def;
                             val = p + val + s;
 
+                            // parsers
+                            var dateformat = th.getAttribute('dateformat');
+                            if (dateformat) {
+                                val = parseDate(dateformat, val);
+                            }
+
                             td.innerHTML = val;
 
                         } else {
@@ -264,6 +270,18 @@ TableLoader = function (t, id) {
             }
         }
         return cur;
+    }
+
+    var days = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
+
+    function parseDate(format, val) {
+        var ret = format;
+        var date = new Date(val);
+        ret = ret.replace('DAY', days[date.getDay()]);
+        ret = ret.replace('HH', date.getHours());
+        ret = ret.replace('mm', date.getMinutes());
+
+        return ret;
     }
 
     function getActionFor(ele, obj) {
