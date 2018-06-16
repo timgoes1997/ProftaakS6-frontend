@@ -179,6 +179,10 @@ Modal = function (name, form, id, starthidden) {
         d.appendChild(lab);
         d.appendChild(inp);
         this.form.appendChild(d);
+
+        if (type === 'number')
+            inp.value = 0;
+
         return inp;
     }
 

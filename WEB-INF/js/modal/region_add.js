@@ -16,23 +16,24 @@ addEvent(window, 'load', function () {
     });
     m.addDivider();
 
+    var labels = [];
     m.addTitle(3, 'Energie labels')
     // input to add multiple energy labels. Checkbox?
-    m.addInput('checkbox', 'Klasse A', 'label_A', null, function (e) {
+    labels.push(m.addInput('checkbox', 'Klasse A', 'A', null, function (e) {
         return e.value != 0;
-    });
-    m.addInput('checkbox', 'Klasse B', 'label_B', null, function (e) {
+    }));
+    labels.push(m.addInput('checkbox', 'Klasse B', 'B', null, function (e) {
         return e.value != 0;
-    });
-    m.addInput('checkbox', 'Klasse C', 'label_C', null, function (e) {
+    }));
+    labels.push(m.addInput('checkbox', 'Klasse C', 'C', null, function (e) {
         return e.value != 0;
-    });
-    m.addInput('checkbox', 'Klasse D', 'label_D', null, function (e) {
+    }));
+    labels.push(m.addInput('checkbox', 'Klasse D', 'D', null, function (e) {
         return e.value != 0;
-    });
-    m.addInput('checkbox', 'Klasse E', 'label_E', null, function (e) {
+    }));
+    labels.push(m.addInput('checkbox', 'Klasse E', 'E', null, function (e) {
         return e.value != 0;
-    });
+    }));
 
     var dates = [{
         text: 'Maandag', value: 2
@@ -74,15 +75,18 @@ addEvent(window, 'load', function () {
     drawingManager.setMap(map);
     mapholder.appendChild(ele);
 
-    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(polygon) {
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', function (polygon) {
         coordinatesArray = coordinatesArray.concat(polygon.overlay.getPath().getArray());
     });
 
     m.addTitle(3, 'Regio(\'s)');
     m.addElement(mapholder);
     addClass(mapholder, 'map');
+    m.addInput('text', 'Naam', 'name', null, function (e) {
+        return e.value != 0;
+    });
     m.addDivider();
-    
+
     m.addTitle(3, 'Tijdscategorie');
     m.addTitle(4, 'Starttijd');
     m.addDivider();
@@ -111,19 +115,19 @@ addEvent(window, 'load', function () {
         'method': 'POST',
         'onsubmit': function (e) {
             if (m.verified()) {
-                var data = m.getData(0);
-                // use coordinatesArray
+                var data = m.getValues();
 
-                /*
-                notify('Bezig met registreren', 'info', notif.longTime);
-                call('POST', API_PATH + 'users/create/simple', data, function (e, succ) {
+                notify('Bezig met toevoegen nieuwe tarieven', 'info', notif.longTime);
+                // get the region
+                call('GET', API_PATH + 'region/name/' + data.name, null, function (e, succ) {
                     if (succ) {
-                        notify('Account aangemaakt!', 'info');
+                        // it exists, add rates
+                        addRates();
                     } else {
-                        notify('Kon niet registreren!', 'error', notif.longTime);
+                        // 500 = could not find. Please change this in the back-end
+                        createRegion(data.name, addRates);
                     }
-                }, 'application/x-www-form-urlencoded');
-                */
+                });
             } else {
                 notify('Vul de aangegeven waardes in!', 'warning', notif.longTime);
             }
@@ -135,4 +139,72 @@ addEvent(window, 'load', function () {
         m.clear();
     }, 'Sluit', 'uninterested');
     modals.region_add = m;
+
+    function addRates() {
+        var formdata = m.getValues();
+        var adata = [];
+        for (var i = 0; i < labels.length; i++) {
+            var label = labels[i];
+            if (label.checked) {
+                adata.push(addRate(label.id));
+            }
+        }
+        
+        call('POST', API_PATH + 'region/create/rates/' + formdata.name, JSON.stringify(adata), function (e, succ) {
+            if (succ) {
+                notify('Tarief voor klasse ' + label.id + ' aangemaakt', 'info', notif.longTime);
+
+            } else {
+                notify('Tarief voor klasse ' + label.id + ' kon niet worden aangemaakt', 'error', notif.longTime);
+            }
+        }, 'application/json');
+    }
+
+    function addRate(label) {
+        var formdata = m.getValues();
+        var data = {};
+        data.endTime = new Date();
+        data.endTime.setDay(formdata.eday);
+        data.endTime.setHours(formdata.ehours || 0);
+        data.endTime.setMinutes(formdata.eminutes || 0);
+        data.startTime = new Date();  
+        data.startTime.setDay(formdata.sday);
+        data.startTime.setHours(formdata.shours || 0);
+        data.startTime.setMinutes(formdata.sminutes || 0);
+        data.kilometerPrice = formdata.price / 10;
+
+        data.energyLabel = label.id;
+        return data;
+    }
+
+    function createRegion(name, callback) {
+        // use coordinatesArray
+        var data = {};
+        var borderPoints = [];
+        for (var i = 0; i < coordinatesArray.length; i++) {
+            var c = coordinatesArray[i];
+            borderPoints.push({
+                lat: c.lat(),
+                lon: c.lng(),
+                verticeId: i
+            });
+        }
+
+        data.borderPoints = borderPoints;
+        data.name = name;
+        data.rates = [];
+
+        call('POST', API_PATH + 'region/create', JSON.stringify(data), function (e, succ) {
+            if (succ) {
+                notify('Regio aangemaakt', 'info', notif.longTime);
+                if (callback) callback();
+            } else {
+                notify('Regio kon niet worden toegevoegd', 'error', notif.longTime);
+            }
+        }, 'application/json');
+    }
 });
+
+Date.prototype.setDay = function(dayOfWeek) {
+    this.setDate(this.getDate() - this.getDay() + dayOfWeek);
+};
