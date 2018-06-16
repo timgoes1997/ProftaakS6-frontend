@@ -42,18 +42,13 @@ Modal = function (name, form, id, starthidden) {
         this.formEnabled = form == null ? false : true;
     }
 
-    this.formEnabled = false; // not supported by FireFox
-
     this.showOnStart = !!starthidden;
     this.keep = document.getElementById(id) != null;
 
     // Create a basic holder element
-    if (this.formEnabled) {
-        this.basicElement = document.getElementById(id) || document.createElement('iframe');
-    } else {
-        this.basicElement = document.getElementById(id) || document.createElement('div');
-        this.form = this.basicElement;
-    }
+    this.basicElement = document.getElementById(id) || document.createElement('div');
+    this.form = this.basicElement;
+
 
     // Ensure that the user can style the modal
     addClass(this.basicElement, 'modal');
@@ -70,25 +65,11 @@ Modal = function (name, form, id, starthidden) {
     }
 
     if (this.formEnabled) {
-        var frame = this.basicElement.contentWindow.document;
-        addClass(frame.body.parentNode, 'iframe-modal');
+        var frame = this.basicElement;
 
         var f = document.createElement('form');
-        addClass(f, 'modal');
-        frame.body.appendChild(f);
+        frame.appendChild(f);
         this.form = f;
-
-        // append all styles
-        var styles = document.getElementsByTagName('LINK');
-        var otherhead = frame.getElementsByTagName("head")[0];
-        for (var i = 0; i < styles.length; i++) {
-            var href = styles[i].href;
-            var link = frame.createElement("link");
-            link.setAttribute("rel", "stylesheet");
-            link.setAttribute("type", "text/css");
-            link.setAttribute("href", href);
-            otherhead.appendChild(link);
-        }
     }
 
     // Remember the list of added inputs
@@ -201,7 +182,7 @@ Modal = function (name, form, id, starthidden) {
         return inp;
     }
 
-    Modal.prototype.addSelect = function(label, list, id) {
+    Modal.prototype.addSelect = function (label, list, id) {
         if (id == null) {
             id = label;
         }
@@ -215,10 +196,9 @@ Modal = function (name, form, id, starthidden) {
         inp.setAttribute('name', id);
         inp.id = id;
         this.values.push(inp);
-        
+
         // fill select
-        for (var i = 0; i < list.length; i++)
-        {
+        for (var i = 0; i < list.length; i++) {
             var el = list[i];
             var option = document.createElement('option');
             option.value = el.value || el.text;
