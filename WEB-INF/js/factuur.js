@@ -47,9 +47,8 @@ function init() {
         }
     });
 
-    table.URL = "bills/" + params.id;
+    table.URL = "bills/rates/" + params.id;
     table.id = 'trips';
-    table.root = 'trips';
 
     // Fill table with trips
     var tl = new TableLoader();

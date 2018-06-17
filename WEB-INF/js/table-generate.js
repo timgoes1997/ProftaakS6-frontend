@@ -277,9 +277,13 @@ TableLoader = function (t, id) {
     function parseDate(format, val) {
         var ret = format;
         var date = new Date(val);
+
+        var h = date.getHours() || "00";
+        var m = date.getMinutes() || "00";
+
         ret = ret.replace('DAY', days[date.getDay()]);
-        ret = ret.replace('HH', date.getHours());
-        ret = ret.replace('mm', date.getMinutes());
+        ret = ret.replace('HH', h);
+        ret = ret.replace('mm', m);
 
         return ret;
     }
