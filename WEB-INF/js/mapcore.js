@@ -112,7 +112,8 @@ function mapCar(c, f, rt) {
 
     remove.onclick = function () { removeCar(d.id) };
 
-    $('cars').appendChild(d);
+    var c = $('cars');
+    if (c) { c.appendChild(d); }
 }
 function funcOnArr(arr, callback) {
     if (arr instanceof Array) {
@@ -190,7 +191,7 @@ function updateCar(id) {
             } else {
                 var event = new CustomEvent("notify", {
                     detail:
-                        { message: "Kan locatie niet ophalen", life: notif.longTime, level: "error", type:"location_access_error" }
+                        { message: "Kan locatie niet ophalen", life: notif.longTime, level: "error", type: "location_access_error" }
                 });
                 notifElement.dispatchEvent(event);
             }
@@ -206,7 +207,7 @@ function updateCar(id) {
 ////////// LOCATION FUNCTIONS
 // sets the marker to a location
 function setMarker(id, pos) {
-    var latLng = new google.maps.LatLng(pos.x, pos.y)
+    var latLng = new google.maps.LatLng(pos.lat, pos.lon)
     var marker;
     for (var i = 0; i < markers.length; i++) {
         var m = markers[i];
@@ -220,7 +221,7 @@ function setMarker(id, pos) {
         marker = new Popup(latLng, id);
         if (id !== "") {
             // only update center if new marker
-            setCenter(pos.x, pos.y);
+            setCenter(pos.lat, pos.lon);
         }
     }
     marker.setMap(map);
@@ -235,9 +236,9 @@ function setMarker(id, pos) {
     return marker;
 }
 function drawBetweenPoints(pos1, pos2) {
-    var a = new google.maps.LatLng(pos1.x, pos1.y), b = new google.maps.LatLng(pos2.x, pos2.y)
+    var a = new google.maps.LatLng(pos1.lat, pos1.lon), b = new google.maps.LatLng(pos2.lat, pos2.lon)
 
-    if (getDistance(a, b) > 50000) return 0;
+    if (getDistance(a, b) > 250000) return 0;
 
     var line = new google.maps.Polyline({
         path: [a, b],
