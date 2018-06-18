@@ -251,7 +251,11 @@ TableLoader = function (t, id) {
                 notify('Kon tabel niet inladen', 'error', notif.longTime);
                 me.showError();
             } else {
-                notify('Geen data om in te laden', 'warning', notif.longTime);
+                var event = new CustomEvent("notify", {
+                    detail:
+                        { message: "Geen data om in te laden", life: notif.longTime, level: "warning", type:"no_access_warning", id:me.id }
+                });
+                notifElement.dispatchEvent(event);
             }
         }
     }

@@ -68,7 +68,7 @@
 
         var t = $(this.id);
         var th = document.createElement('th');
-        th.innerHTML="Available";
+        th.innerHTML = "Available";
         addClass(th, 'green');
         t.children[0].children[0].appendChild(th);
     };
@@ -79,6 +79,21 @@
     var t = new TableLoader(pot);
     var t2 = new TableLoader(pat);
     var t3 = new TableLoader(tt);
+
+    notifElement = $(notifID);
+    notifElement.addEventListener("notify", function (e) {
+        var b = e.detail;
+        if (b.type === "no_access_warning") {
+            //prevent default
+            b.notified = true;
+            // show unavailable
+            var t2 = $(b.id);
+            var th = document.createElement('th');
+            th.innerHTML = "Unavailable";
+            addClass(th, 'red');
+            t2.children[0].children[0].appendChild(th);
+        }
+    }, false);
 </script>
 
 </html>
