@@ -321,7 +321,7 @@ User = function () {
                 storage.remove('user');
 
                 // throw user to log in page
-                if ('login.html'.indexOf(location.href.split("/").slice(-1)[0]) === -1) {
+                if (location.href.split("/").slice(-1)[0].indexOf('login.html') === -1) {
                     window.location = "login.html";
                 }
             }
