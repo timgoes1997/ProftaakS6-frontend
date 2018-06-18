@@ -228,7 +228,7 @@ User = function () {
         // check if there's a transfer 
         var data = 'email=' + email + '&password=' + password;
         if (params.token) {
-            API_PATH + 'trade/login';
+            path = API_PATH + 'trade/login';
             data += '&token=' + params.token;
         }
 

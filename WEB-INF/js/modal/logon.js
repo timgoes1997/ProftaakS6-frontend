@@ -91,7 +91,7 @@ addEvent(window, 'load', function () {
 
                 // check if there's a transfer 
                 if (params.token) {
-                    API_PATH + 'trade/register';
+                    path = API_PATH + 'trade/register';
                     data += '&token=' + params.token;
                 }
 
