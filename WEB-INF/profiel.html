@@ -65,7 +65,7 @@
         </div>
         <div class="divider"></div>
         <div id="dynamic-table" class="small-contents">
-            <h3>Binnenkomende transfers</h3>
+            <h3>Uitgaande transfers</h3>
             <table id="trades-from">
                 <thead>
                     <tr>
@@ -89,7 +89,7 @@
         </div>
         <div class="divider"></div>
         <div id="dynamic-table" class="small-contents">
-            <h3>Uitgaande transfers</h3>
+            <h3>Binnenkomende transfers</h3>
             <table id="trades-to">
                 <thead>
                     <tr>
@@ -105,8 +105,8 @@
                             ConfirmedOwnership="Overschrijving bevestigd"
                             Completed="Voltooid"
                         >Status</th>
-                        <th id="actions_Accept" content="" visibleOn="checkStatus" class="hidden" action-class="fa fa-check" action="click" function="acceptRequest({0})" parameters="id, vehicleToTransfer.licensePlate"></th>
-                        <th id="actions_Deny" content="" visibleOn="checkStatus" action-class="fa fa-times" action="click" function="declineRequest({0})" parameters="id, vehicleToTransfer.licensePlate">Acties</th>
+                        <th id="actions_Accept" content="" class="hidden" action-class="fa fa-check" action="click" function="acceptRequest({0})" parameters="id, vehicleToTransfer.licensePlate"></th>
+                        <th id="actions_Deny" content="" action-class="fa fa-times" action="click" function="declineRequest({0})" parameters="id, vehicleToTransfer.licensePlate">Acties</th>
                     </tr>
                 </thead>
             </table>
