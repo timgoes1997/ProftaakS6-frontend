@@ -95,6 +95,7 @@ addEvent(window, 'load', function () {
                     data += '&token=' + params.token;
                 }
 
+                notify('Bezig met registreren', 'info', notif.longTime);
                 call('POST', path, data, function (e, succ) {
                     if (succ) {
                         if (modals.logon_callback) {
